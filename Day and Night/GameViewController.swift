@@ -1,8 +1,8 @@
 //
 //  GameViewController.swift
-//  Day&Night
+//  Day and Night
 //
-//  Created by Lisa on 7/23/17.
+//  Created by Lisa on 7/24/17.
 //  Copyright © 2017 Lisa Ye. All rights reserved.
 //
 

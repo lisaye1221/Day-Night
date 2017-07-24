@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4238FFC81F24667C007C11C6"
-               BuildableName = "Day&amp;Night.app"
-               BlueprintName = "Day&amp;Night"
-               ReferencedContainer = "container:Day&amp;Night.xcodeproj">
+               BlueprintIdentifier = "42F775991F26734200ECF8ED"
+               BuildableName = "Day and Night.app"
+               BlueprintName = "Day and Night"
+               ReferencedContainer = "container:Day and Night.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4238FFC81F24667C007C11C6"
-            BuildableName = "Day&amp;Night.app"
-            BlueprintName = "Day&amp;Night"
-            ReferencedContainer = "container:Day&amp;Night.xcodeproj">
+            BlueprintIdentifier = "42F775991F26734200ECF8ED"
+            BuildableName = "Day and Night.app"
+            BlueprintName = "Day and Night"
+            ReferencedContainer = "container:Day and Night.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4238FFC81F24667C007C11C6"
-            BuildableName = "Day&amp;Night.app"
-            BlueprintName = "Day&amp;Night"
-            ReferencedContainer = "container:Day&amp;Night.xcodeproj">
+            BlueprintIdentifier = "42F775991F26734200ECF8ED"
+            BuildableName = "Day and Night.app"
+            BlueprintName = "Day and Night"
+            ReferencedContainer = "container:Day and Night.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -74,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4238FFC81F24667C007C11C6"
-            BuildableName = "Day&amp;Night.app"
-            BlueprintName = "Day&amp;Night"
-            ReferencedContainer = "container:Day&amp;Night.xcodeproj">
+            BlueprintIdentifier = "42F775991F26734200ECF8ED"
+            BuildableName = "Day and Night.app"
+            BlueprintName = "Day and Night"
+            ReferencedContainer = "container:Day and Night.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

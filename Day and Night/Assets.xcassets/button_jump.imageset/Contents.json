@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "temporary night.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "button_jump.png",
       "scale" : "2x"
     },
     {
