@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4204E05A1F262B4C0035D26B /* egg.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4204E0591F262B4C0035D26B /* egg.sks */; };
+		421F85EA1F2662DC000624ED /* MSButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F85E91F2662DC000624ED /* MSButtonNode.swift */; };
 		4238FFCD1F24667C007C11C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4238FFCC1F24667C007C11C6 /* AppDelegate.swift */; };
 		4238FFCF1F24667C007C11C6 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4238FFCE1F24667C007C11C6 /* GameScene.sks */; };
 		4238FFD11F24667C007C11C6 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4238FFD01F24667C007C11C6 /* Actions.sks */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		4204E0591F262B4C0035D26B /* egg.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = egg.sks; sourceTree = "<group>"; };
+		421F85E91F2662DC000624ED /* MSButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSButtonNode.swift; sourceTree = "<group>"; };
 		4238FFC91F24667C007C11C6 /* Day&Night.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day&Night.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4238FFCC1F24667C007C11C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4238FFCE1F24667C007C11C6 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				4204E0591F262B4C0035D26B /* egg.sks */,
 				4238FFD01F24667C007C11C6 /* Actions.sks */,
 				4238FFD41F24667C007C11C6 /* GameViewController.swift */,
+				421F85E91F2662DC000624ED /* MSButtonNode.swift */,
 				4238FFD61F24667C007C11C6 /* Main.storyboard */,
 				4238FFD91F24667C007C11C6 /* Assets.xcassets */,
 				4238FFDB1F24667C007C11C6 /* LaunchScreen.storyboard */,
@@ -155,6 +158,7 @@
 				4238FFD31F24667C007C11C6 /* GameScene.swift in Sources */,
 				4238FFD51F24667C007C11C6 /* GameViewController.swift in Sources */,
 				4238FFCD1F24667C007C11C6 /* AppDelegate.swift in Sources */,
+				421F85EA1F2662DC000624ED /* MSButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

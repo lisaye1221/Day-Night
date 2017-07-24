@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene , SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var scoreLabel: SKLabelNode!
     
@@ -17,16 +17,17 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     
-
-    
+    var jumpButton: MSButtonNode!
     
     override func didMove(to view: SKView) {
         
-        scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+        
+        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
+        jumpButton = self.childNode(withName: "jumpButton") as! MSButtonNode
         
         physicsWorld.contactDelegate = self
         
-        
+        print("works")
         
         
     }
