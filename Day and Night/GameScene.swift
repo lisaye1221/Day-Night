@@ -102,7 +102,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if groundPosition.x <= -ground.size.width / 2 {
                 
                 /* Reposition ground sprite to the second starting position */
-                let newPosition = CGPoint(x: (self.size.width / 2) + ground.size.width - 20 , y: groundPosition.y)
+                let newPosition = CGPoint(x: (self.size.width / 2) + ground.size.width , y: groundPosition.y)
                 
                 /* Convert new node position back to scroll layer space */
                 ground.position = self.convert(newPosition, to: scrollLayer)
@@ -136,12 +136,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
-        
-        for placeValue in 1...8 { //shifts the label when it gets too large
-            if Int(scoreLabel.text!)! == power(base: 10, power: placeValue) {
-                scoreLabel.position.x += 3 / 60
-            }
-        }
         
         scrollWorld()
         
