@@ -14,15 +14,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     var score: CFTimeInterval = 0 //score of player
+    let scrollSpeed: CGFloat = 90
     
     var egg: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var jumpButton: MSButtonNode!
     var shootButton: MSButtonNode!
+    var scrollLayer: SKNode!
     
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
     
-//++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
         
@@ -30,6 +32,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         jumpButton = childNode(withName: "jumpButton") as! MSButtonNode
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
+        scrollLayer = childNode(withName: "scrollLayer")
+        
+       
         
         physicsWorld.contactDelegate = self //set up physics
         
@@ -38,9 +43,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         jumpButton.selectedHandler = {
             if self.playerOnGround {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 28))//apply vertical impulse as jumping
-              let eggPosition = self.egg.convert(self.egg.position, to: self)
+                let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
-                 print(eggPosition.y)
+                print(eggPosition.y)
                 
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
@@ -60,29 +65,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             eggBullet.position.x = eggPosition.x + 15
             eggBullet.position.y = eggPosition.y - 2
             
+            //ensure the player's y velocity doesn't affect the bullet's y velocity(so the bullet doesn't go diagonally up when playe jumps)
             if self.playerOnGround == false {
-               eggBullet.physicsBody?.velocity.dy = 0
+                eggBullet.physicsBody?.velocity.dy = 0
             }
             
-            
+            //limit the bullet height
             if eggBullet.position.y > 160 {
                 eggBullet.position.y = 160
             }
-            
-            print(eggPosition.y)
             
             //impluse vector, how fast the bullet goes
             let launchImpulse = CGVector(dx: 10, dy: 0)
             
             //Apply impulse to penguin
             eggBullet.physicsBody?.applyImpulse(launchImpulse)
-
+            
         }
         
         
         
     }//closing brackets for didMove function
     
+    
+    func scrollWorld() {
+        /* Scroll World */
+        scrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        
+        /* Loop through scroll layer nodes */
+        for ground in scrollLayer.children as! [SKSpriteNode] {
+            
+            /* Get ground node position, convert node position to scene space, ground is child of scrollLayer but not necess a child of scene so gotta convert */
+            let groundPosition = scrollLayer.convert(ground.position, to: self)
+            
+            /* Check if ground sprite has left the scene */
+            if groundPosition.x <= -ground.size.width / 2 {
+                
+                /* Reposition ground sprite to the second starting position */
+                let newPosition = CGPoint(x: (self.size.width / 2) + ground.size.width - 20 , y: groundPosition.y)
+                
+                /* Convert new node position back to scroll layer space */
+                ground.position = self.convert(newPosition, to: scrollLayer)
+            }
+        }
+        
+        
+    }
     
     
     
@@ -113,8 +141,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if Int(scoreLabel.text!)! == power(base: 10, power: placeValue) {
                 scoreLabel.position.x += 3 / 60
             }
-            
         }
+        
+        scrollWorld()
+        
         
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION
