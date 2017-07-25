@@ -10,6 +10,11 @@
 import SpriteKit
 import GameplayKit
 
+
+enum GameState {
+    case gameActive, gameOver
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
@@ -20,27 +25,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode!
     var jumpButton: MSButtonNode!
     var shootButton: MSButtonNode!
+    var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
+    
+    /* Game management */
+    var gameState: GameState = .gameActive
     
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
         
-        egg = childNode(withName: "//egg") as! SKSpriteNode
+        egg = self.childNode(withName: "//egg") as! SKSpriteNode
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         jumpButton = childNode(withName: "jumpButton") as! MSButtonNode
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
+        restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         
-       
+        
         
         physicsWorld.contactDelegate = self //set up physics
         
-        
+        /* Hide restart button */
+        restartButton.state = .MSButtonNodeStateHidden
         
         jumpButton.selectedHandler = {
+            
+            if self.gameState != .gameActive {return}
+            
             if self.playerOnGround {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 28))//apply vertical impulse as jumping
                 let eggPosition = self.egg.convert(self.egg.position, to: self)
@@ -49,9 +63,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
+            
         }
         
         shootButton.selectedHandler = {
+            
+            if self.gameState != .gameActive {return}
             
             //make a bullet when button is touched
             let eggBullet = Bullet()
@@ -83,6 +100,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        restartButton.selectedHandler = {
+            
+            /* Grab reference to our SpriteKit view */
+            let skView = self.view as SKView!
+            
+            /* Load Game scene */
+            let scene = GameScene(fileNamed:"GameScene") as GameScene!
+            
+            /* Ensure correct aspect mode */
+            scene?.scaleMode = .aspectFill
+            
+            /* Restart game scene */
+            skView?.presentScene(scene)
+            
+        }
         
         
     }//closing brackets for didMove function
@@ -130,19 +162,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playerOnGround = true // if egg touches ground, it's on the ground
         }
         
+        
+        //when player touches enemy
+        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 1 {
+            
+            if gameState != .gameActive { return }
+            
+            /* Change game state to game over */
+            gameState = .gameOver
+            
+            if gameState != .gameOver {return}
+            
+            /* Show restart button */
+            restartButton.state = .MSButtonNodeStateActive
+
+            
+            //loops through EVERYTHING in the scene
+            enumerateChildNodes(withName: "//*", using:
+                { (node, stop) -> Void in
+                    if let spriteNode = node as? SKSpriteNode {
+                        spriteNode.removeAllActions()
+                        spriteNode.physicsBody?.velocity.dx = 0
+                    }
+            })
+        }
+        
+        
         //when bullet hits enemy
         if contact.bodyA.categoryBitMask == 4 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 4 {
             contact.bodyA.node?.removeFromParent()
             contact.bodyB.node?.removeFromParent()
-            score += 50
+            score += 25
         }
-        
-    
         
     }//closing brackets for didBegin function
     
     
+    
     override func update(_ currentTime: TimeInterval) {
+        
+        if gameState != .gameActive { return }
         
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
