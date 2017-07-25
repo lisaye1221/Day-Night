@@ -20,8 +20,10 @@ class Bullet: SKSpriteNode {
         super.init(texture: texture, color: color, size: size)
         
         //set the physics properties
-        physicsBody?.affectedByGravity = false
-        physicsBody?.categoryBitMask = 4
+        physicsBody = SKPhysicsBody(rectangleOf: size) //set rectangular physics body
+        self.physicsBody?.affectedByGravity = false //no gravity so it doesn't fall down
+        self.physicsBody?.isDynamic = true //want the bullet to move
+        self.physicsBody?.categoryBitMask = 4
     }
     
     required init?(coder aDecoder: NSCoder) {
