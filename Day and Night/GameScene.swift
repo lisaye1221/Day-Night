@@ -122,14 +122,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
+        
+        //when player hits ground
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 ||
             contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1 {
             //contact.bodyB.node?.removeFromParent()  //removes the node that is bodyB
             playerOnGround = true // if egg touches ground, it's on the ground
-            
         }
         
-    }
+        //when bullet hits enemy
+        if contact.bodyA.categoryBitMask == 4 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 4 {
+            contact.bodyA.node?.removeFromParent()
+            contact.bodyB.node?.removeFromParent()
+            score += 50
+        }
+        
+    
+        
+    }//closing brackets for didBegin function
     
     
     override func update(_ currentTime: TimeInterval) {
