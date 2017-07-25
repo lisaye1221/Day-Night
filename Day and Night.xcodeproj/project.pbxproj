@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		421B5DE31F2789CD00815223 /* egg.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE21F2789CD00815223 /* egg.sks */; };
 		4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825D1F26FDBF0066875B /* Helper Function.swift */; };
 		422582601F27048F0066875B /* bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825F1F27048F0066875B /* bullets.swift */; };
 		42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7759D1F26734200ECF8ED /* AppDelegate.swift */; };
@@ -17,11 +18,11 @@
 		42F775A91F26734200ECF8ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F775A71F26734200ECF8ED /* Main.storyboard */; };
 		42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42F775AA1F26734200ECF8ED /* Assets.xcassets */; };
 		42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F775AC1F26734200ECF8ED /* LaunchScreen.storyboard */; };
-		42F775B61F26763500ECF8ED /* egg.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F775B51F26763500ECF8ED /* egg.sks */; };
 		42F775B81F2676EE00ECF8ED /* MSButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		421B5DE21F2789CD00815223 /* egg.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = egg.sks; path = ../egg.sks; sourceTree = "<group>"; };
 		4225825D1F26FDBF0066875B /* Helper Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Helper Function.swift"; sourceTree = "<group>"; };
 		4225825F1F27048F0066875B /* bullets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bullets.swift; sourceTree = "<group>"; };
 		42F7759A1F26734200ECF8ED /* Day and Night.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day and Night.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,7 +35,6 @@
 		42F775AA1F26734200ECF8ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		42F775AD1F26734200ECF8ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42F775AF1F26734200ECF8ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		42F775B51F26763500ECF8ED /* egg.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = egg.sks; sourceTree = "<group>"; };
 		42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSButtonNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,7 +71,7 @@
 				42F7759D1F26734200ECF8ED /* AppDelegate.swift */,
 				42F7759F1F26734200ECF8ED /* GameScene.sks */,
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
-				42F775B51F26763500ECF8ED /* egg.sks */,
+				421B5DE21F2789CD00815223 /* egg.sks */,
 				42F775A11F26734200ECF8ED /* Actions.sks */,
 				42F775A51F26734200ECF8ED /* GameViewController.swift */,
 				4225825F1F27048F0066875B /* bullets.swift */,
@@ -148,7 +148,7 @@
 				42F775A91F26734200ECF8ED /* Main.storyboard in Resources */,
 				42F775A01F26734200ECF8ED /* GameScene.sks in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
-				42F775B61F26763500ECF8ED /* egg.sks in Resources */,
+				421B5DE31F2789CD00815223 /* egg.sks in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
 				42F775A21F26734200ECF8ED /* Actions.sks in Resources */,
 			);
@@ -291,6 +291,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XCFQR8PVJ5;
 				INFOPLIST_FILE = "Day and Night/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Make-School.Day-and-Night";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -304,6 +305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XCFQR8PVJ5;
 				INFOPLIST_FILE = "Day and Night/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Make-School.Day-and-Night";
 				PRODUCT_NAME = "$(TARGET_NAME)";

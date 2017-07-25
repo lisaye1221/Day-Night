@@ -16,7 +16,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score: CFTimeInterval = 0 //score of player
     
     var egg: SKSpriteNode!
-    var eggReference: SKReferenceNode!
     var scoreLabel: SKLabelNode!
     var jumpButton: MSButtonNode!
     var shootButton: MSButtonNode!
@@ -28,7 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         egg = childNode(withName: "//egg") as! SKSpriteNode
-        eggReference = childNode(withName: "eggReference") as! SKReferenceNode
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         jumpButton = childNode(withName: "jumpButton") as! MSButtonNode
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
@@ -36,9 +34,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self //set up physics
         
         
+        
         jumpButton.selectedHandler = {
             if self.playerOnGround {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 28))//apply vertical impulse as jumping
+              let eggPosition = self.egg.convert(self.egg.position, to: self)
+                
+                 print(eggPosition.y)
+                
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
         }
@@ -51,9 +54,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //add the bullet to the screen
             self.addChild(eggBullet)
             
+            let eggPosition = self.egg.convert(self.egg.position, to: self)
+            
             //Move the bullet to in front of the egg
-            eggBullet.position.x = self.eggReference.position.x + 15
-            eggBullet.position.y = self.eggReference.position.y - 2
+            eggBullet.position.x = eggPosition.x + 15
+            eggBullet.position.y = eggPosition.y - 2
+            
+            if self.playerOnGround == false {
+               eggBullet.physicsBody?.velocity.dy = 0
+            }
+            
+            
+            if eggBullet.position.y > 160 {
+                eggBullet.position.y = 160
+            }
+            
+            print(eggPosition.y)
             
             //impluse vector, how fast the bullet goes
             let launchImpulse = CGVector(dx: 10, dy: 0)
@@ -82,6 +98,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1 {
             //contact.bodyB.node?.removeFromParent()  //removes the node that is bodyB
             playerOnGround = true // if egg touches ground, it's on the ground
+            
         }
         
     }
