@@ -31,8 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     
-    var watermelon: SKNode!
-    var enemyLayer: SKNode!
+    var enemiesArray: SKNode!
+    var enemyScrollLayer: SKNode!
     
     
     /* Game management */
@@ -48,8 +48,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
-        watermelon = childNode(withName: "watermelon")
-        enemyLayer = childNode(withName: "enemyLayer")
+        enemiesArray = childNode(withName: "enemiesArray")
+        enemyScrollLayer = childNode(withName: "enemyScrollLayer")
         
         
         
@@ -154,21 +154,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnEnemy() {
         
-        enemyLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        //maybe make this function spawnNPC, if it's just enemies, it might be weird when implementing the switching
+        //when it's time to bring in all the enemies, and want to spawn random species, use random number to generate a random index in the array
         
         
-        var density = 2.0
+        enemyScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        var enemyList = [SKNode]()
+        
+        for child in enemiesArray.children {
+            enemyList.append(child)
+        }
+        
+        
+        var density = 3.0 //time inbetween a new enemy
         
         if spawnTimer >= density {
 
             
-            let newEnemy = watermelon.copy() as! SKNode
+            let newEnemy = enemyList[0].copy() as! SKNode //newEnemy is the first child
             
-            enemyLayer.addChild(newEnemy)
+            enemyScrollLayer.addChild(newEnemy) //adds new enemy
             
             let eggPosition = self.egg.convert(self.egg.position, to: self)
-            let randomPosition = CGPoint(x: CGFloat.random(min: 600, max: 800), y: eggPosition.y)
-            newEnemy.position = self.convert(randomPosition, to: enemyLayer)
+            let randomPosition = CGPoint(x: CGFloat.random(min: 600, max: 1000), y: eggPosition.y)
+            newEnemy.position = self.convert(randomPosition, to: enemyScrollLayer)
             
             // Reset spawn timer
             spawnTimer = 0
@@ -186,6 +195,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
+        
+        //changing between friend and enemy by changing category bit mask
+        
         
         //when player hits ground
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 ||

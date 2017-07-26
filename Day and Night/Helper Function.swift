@@ -25,4 +25,8 @@ func power(base: Int, power: Int) -> Int {
     }
 }
 
+func randomInteger(min min: Int, max: Int) -> Int {
+    let randomNum = Int(arc4random_uniform(UInt32(max) - UInt32(min)) + UInt32(min))
+    return randomNum
+}
 
