@@ -19,7 +19,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     var score: CFTimeInterval = 0 //score of player
+    var spawnTimer: CFTimeInterval = 0
     let scrollSpeed: CGFloat = 90
+    
+    var playerOnGround: Bool = true //a variable that checks if player is on the ground
     
     var egg: SKSpriteNode!
     var scoreLabel: SKLabelNode!
@@ -28,7 +31,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     
-    var playerOnGround: Bool = true //a variable that checks if player is on the ground
+    var watermelon: SKNode!
+    var enemyLayer: SKNode!
+    
     
     /* Game management */
     var gameState: GameState = .gameActive
@@ -43,6 +48,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
+        watermelon = childNode(withName: "watermelon")
+        enemyLayer = childNode(withName: "enemyLayer")
         
         
         
@@ -145,6 +152,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
+    func spawnEnemy() {
+        
+        enemyLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        
+        
+        var density = 2.0
+        
+        if spawnTimer >= density {
+
+            
+            let newEnemy = watermelon.copy() as! SKNode
+            
+            enemyLayer.addChild(newEnemy)
+            
+            let eggPosition = self.egg.convert(self.egg.position, to: self)
+            let randomPosition = CGPoint(x: CGFloat.random(min: 600, max: 800), y: eggPosition.y)
+            newEnemy.position = self.convert(randomPosition, to: enemyLayer)
+            
+            // Reset spawn timer
+            spawnTimer = 0
+            
+        }
+    }
+    
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -205,8 +237,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
+        spawnTimer += fixedDelta
         
         scrollWorld()
+        spawnEnemy()
         
         
         
