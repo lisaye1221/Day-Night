@@ -25,6 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
+    var obstacleSpawnTimer: CFTimeInterval = 0
     let scrollSpeed: CGFloat = 90
     var obstacleTravelSpeed: CGFloat = 150
     var npcTravelSpeed: CGFloat = 300
@@ -44,6 +45,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyScrollLayer: SKNode!
     var obstacleScrollLayer: SKNode!
     
+    var obstacleSource: SKNode!
+    
     //states
     var gameState: GameState = .gameActive
     var worldState: WorldState = .day
@@ -61,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemiesArray = childNode(withName: "enemiesArray")
         enemyScrollLayer = childNode(withName: "enemyScrollLayer")
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
+        obstacleSource = childNode(withName: "obstacle")
         
         
         
@@ -77,7 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))//apply vertical impulse as jumping
                 let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
-                print(eggPosition.y)
                 
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
@@ -196,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
             newEnemy.position = self.convert(randomPosition, to: enemyScrollLayer)
-            print(newEnemy.position.y)
+        
             
             // Reset spawn timer
             spawnTimer = 0
@@ -207,6 +210,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func spawnObstacle() {
         
         obstacleScrollLayer.position.x -= obstacleTravelSpeed * CGFloat(fixedDelta)
+        
+//        /* Loop through obstacle layer nodes*/
+//        for obstacle in obstacleScrollLayer.children as! [SKNode] {
+//            
+//            /* Get obstacle node postion, convert node position to scene space */
+//            let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
+//            
+//            /* Check if obstacle has left the scene */
+//            if obstaclePosition.x <= -12.5 {
+//                // 26 is one half the width of an obstacle
+//                
+//                /* Remove obstacle node from obstacle layer */
+//                obstacle.removeFromParent()
+//            }
+//            
+//            
+//        }
+        
+        let density = 2.0
+        
+        if obstacleSpawnTimer > density {
+            
+            print("works")
+            
+            /* Create a new obstacle by copying the source obstacle*/
+            let newObstacle = obstacleSource.copy() as! SKNode
+            
+            obstacleScrollLayer.addChild(newObstacle)
+            
+            /* Generate new obstacle position, start just outside screen and with a random y value*/
+            let randomPosition = CGPoint(x: 900, y: 80)
+            
+            /* Convert new node position back to obstacle layer space */
+            newObstacle.position = self.convert(randomPosition, to: obstacleScrollLayer)
+            
+            print(newObstacle.position)
+            
+            // Reset spawn timer
+            obstacleSpawnTimer = 0
+            
+        }
+        
         
     }
     
@@ -293,7 +338,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     spriteNode.physicsBody?.velocity.dx = 0
                 }
         })
-        
     }
     
     
@@ -304,6 +348,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
         spawnTimer += fixedDelta
+        obstacleSpawnTimer += fixedDelta
         
         scrollWorld()
         spawnEnemy()
