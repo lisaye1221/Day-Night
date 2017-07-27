@@ -5,7 +5,7 @@
 //
 //  Created by Lisa on 7/24/17.
 //  Copyright © 2017 Lisa Ye. All rights reserved.
-//
+
 
 import SpriteKit
 import GameplayKit
@@ -15,12 +15,14 @@ enum GameState {
     case gameActive, gameOver
 }
 
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
     let scrollSpeed: CGFloat = 90
+    var npcTravelSpeed: CGFloat = 300
     
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
     
@@ -31,8 +33,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     
+    var bulletHitEnemy = false
+    
     var enemiesArray: SKNode!
     var enemyScrollLayer: SKNode!
+    var obstacleScrollLayer: SKNode!
     
     
     /* Game management */
@@ -50,6 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scrollLayer = childNode(withName: "scrollLayer")
         enemiesArray = childNode(withName: "enemiesArray")
         enemyScrollLayer = childNode(withName: "enemyScrollLayer")
+        obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
         
         
         
@@ -63,14 +69,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.gameState != .gameActive {return}
             
             if self.playerOnGround {
-                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 28))//apply vertical impulse as jumping
+                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))//apply vertical impulse as jumping
                 let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
                 print(eggPosition.y)
                 
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
-            
         }
         
         shootButton.selectedHandler = {
@@ -147,8 +152,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ground.position = self.convert(newPosition, to: scrollLayer)
             }
         }
-        
-        
     }
     
     
@@ -158,7 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //when it's time to bring in all the enemies, and want to spawn random species, use random number to generate a random index in the array
         
         
-        enemyScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        enemyScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         var enemyList = [SKNode]()
         
         for child in enemiesArray.children {
@@ -166,7 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        var density = 3.0 //time inbetween a new enemy
+        var density = 0.5 //time inbetween a new enemy(lower = more enemy)
         
         if spawnTimer >= density {
 
@@ -185,7 +188,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
+    func spawnObstacle() {
+        
+        obstacleScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -211,24 +218,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 1 {
             
             if gameState != .gameActive { return }
-            
-            /* Change game state to game over */
-            gameState = .gameOver
-            
-            if gameState != .gameOver {return}
-            
-            /* Show restart button */
-            restartButton.state = .MSButtonNodeStateActive
-
-            
-            //loops through EVERYTHING in the scene
-            enumerateChildNodes(withName: "//*", using:
-                { (node, stop) -> Void in
-                    if let spriteNode = node as? SKSpriteNode {
-                        spriteNode.removeAllActions()
-                        spriteNode.physicsBody?.velocity.dx = 0
-                    }
-            })
+          
+            gameOver()
         }
         
         
@@ -236,11 +227,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == 4 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 4 {
             contact.bodyA.node?.removeFromParent()
             contact.bodyB.node?.removeFromParent()
-            score += 25
+            
+            bulletHitEnemy = true
         }
+        
+        //when player hits an obstacle 
+        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 32 || contact.bodyA.categoryBitMask == 32 && contact.bodyB.categoryBitMask == 1 {
+            
+            if gameState != .gameActive { return }
+            
+            gameOver()
+        }
+        
         
     }//closing brackets for didBegin function
     
+    
+    func gameOver() {
+        
+        /* Change game state to game over */
+        gameState = .gameOver
+        
+        if gameState != .gameOver {return}
+        
+        /* Show restart button */
+        restartButton.state = .MSButtonNodeStateActive
+        
+        
+        //loops through EVERYTHING in the scene
+        enumerateChildNodes(withName: "//*", using:
+            { (node, stop) -> Void in
+                if let spriteNode = node as? SKSpriteNode {
+                    spriteNode.removeAllActions()
+                    spriteNode.physicsBody?.velocity.dx = 0
+                }
+        })
+        
+    }
     
     
     override func update(_ currentTime: TimeInterval) {
@@ -253,6 +276,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         scrollWorld()
         spawnEnemy()
+        spawnObstacle()
+        
+        if bulletHitEnemy {
+            score += 5
+            bulletHitEnemy = false
+        }
         
         
         
