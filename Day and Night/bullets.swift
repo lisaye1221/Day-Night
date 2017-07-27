@@ -24,7 +24,9 @@ class Bullet: SKSpriteNode {
         self.physicsBody?.affectedByGravity = false //no gravity so it doesn't fall down
         self.physicsBody?.isDynamic = true //want the bullet to move
         self.physicsBody?.categoryBitMask = 4
-        self.physicsBody?.contactTestBitMask = 24
+        self.physicsBody?.contactTestBitMask = 56
+        self.physicsBody?.collisionBitMask = 58
+        self.name = "bullet"
     }
     
     required init?(coder aDecoder: NSCoder) {

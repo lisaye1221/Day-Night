@@ -15,6 +15,10 @@ enum GameState {
     case gameActive, gameOver
 }
 
+enum WorldState {
+    case day, night
+}
+
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -22,6 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
     let scrollSpeed: CGFloat = 90
+    var obstacleTravelSpeed: CGFloat = 150
     var npcTravelSpeed: CGFloat = 300
     
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
@@ -39,9 +44,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyScrollLayer: SKNode!
     var obstacleScrollLayer: SKNode!
     
-    
-    /* Game management */
+    //states
     var gameState: GameState = .gameActive
+    var worldState: WorldState = .day
     
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
@@ -69,7 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.gameState != .gameActive {return}
             
             if self.playerOnGround {
-                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))//apply vertical impulse as jumping
+                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))//apply vertical impulse as jumping
                 let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
                 print(eggPosition.y)
@@ -160,9 +165,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //maybe make this function spawnNPC, if it's just enemies, it might be weird when implementing the switching
         //when it's time to bring in all the enemies, and want to spawn random species, use random number to generate a random index in the array
         
-        
+        //scroll enemylayer so it moves across
         enemyScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
+        enemyScrollLayer.position.y = 0
+        
         var enemyList = [SKNode]()
+        
+//        for childReference in enemiesArray.children {
+//            for childSKNode in childReference.children {
+//                for child in childSKNode.children {
+//            enemyList.append(child as! SKSpriteNode)
+//                }
+//            }
+//        }
         
         for child in enemiesArray.children {
             enemyList.append(child)
@@ -179,8 +194,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemyScrollLayer.addChild(newEnemy) //adds new enemy
             
             let eggPosition = self.egg.convert(self.egg.position, to: self)
-            let randomPosition = CGPoint(x: CGFloat.random(min: 600, max: 1000), y: eggPosition.y)
+            let randomPosition = CGPoint(x: 800 , y: 80)
             newEnemy.position = self.convert(randomPosition, to: enemyScrollLayer)
+            print(newEnemy.position.y)
             
             // Reset spawn timer
             spawnTimer = 0
@@ -190,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnObstacle() {
         
-        obstacleScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        obstacleScrollLayer.position.x -= obstacleTravelSpeed * CGFloat(fixedDelta)
         
     }
     
@@ -205,17 +221,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //changing between friend and enemy by changing category bit mask
         
+        let contactA = contact.bodyA
+        let contactB = contact.bodyB
+
         
         //when player hits ground
-        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 ||
-            contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1 {
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 2 ||
+            contactA.categoryBitMask == 2 && contactB.categoryBitMask == 1 {
             //contact.bodyB.node?.removeFromParent()  //removes the node that is bodyB
             playerOnGround = true // if egg touches ground, it's on the ground
         }
         
         
         //when player touches enemy
-        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 1 {
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 8 || contactA.categoryBitMask == 8 && contactB.categoryBitMask == 1 {
             
             if gameState != .gameActive { return }
           
@@ -224,7 +243,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //when bullet hits enemy
-        if contact.bodyA.categoryBitMask == 4 && contact.bodyB.categoryBitMask == 8 || contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 4 {
+        if contactA.categoryBitMask == 4 && contactB.categoryBitMask == 8 || contactA.categoryBitMask == 8 && contactB.categoryBitMask == 4 {
+            
             contact.bodyA.node?.removeFromParent()
             contact.bodyB.node?.removeFromParent()
             
@@ -232,11 +252,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //when player hits an obstacle 
-        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 32 || contact.bodyA.categoryBitMask == 32 && contact.bodyB.categoryBitMask == 1 {
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 32 || contactA.categoryBitMask == 32 && contactB.categoryBitMask == 1 {
             
             if gameState != .gameActive { return }
             
             gameOver()
+        }
+        
+        //when bullet hits an obstacle
+        if contactA.categoryBitMask == 4 && contactB.categoryBitMask == 32 {
+            
+            contactA.node?.removeFromParent()
+            contactB.node?.physicsBody?.velocity.dx = 0
+        }
+        else if contactA.categoryBitMask == 32 && contactB.categoryBitMask == 4 {
+            contactB.node?.removeFromParent()
+            contactA.node?.physicsBody?.velocity.dx = 0
         }
         
         
@@ -282,6 +313,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             score += 5
             bulletHitEnemy = false
         }
+        
+        enumerateChildNodes(withName: "//*", using:
+            { (node, stop) -> Void in
+                if let bullet = node as? SKSpriteNode {
+                    let bulletPosition = bullet.convert(bullet.position, to: self)
+                    if bullet.name == "bullet" && bulletPosition.x > 800{
+                    bullet.removeFromParent()
+                    }
+                }
+        })
         
         
         
