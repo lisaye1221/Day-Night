@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Day and Night/GameScene.swift"
-            timestampString = "522879251.060824"
+            timestampString = "522943004.882698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "update(_:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -26,9 +26,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
     var obstacleSpawnTimer: CFTimeInterval = 0
-    let scrollSpeed: CGFloat = 90
-    var obstacleTravelSpeed: CGFloat = 150
-    var npcTravelSpeed: CGFloat = 300
+    let scrollSpeed: CGFloat = 270
+    var obstacleTravelSpeed: CGFloat = 270
+    var npcTravelSpeed: CGFloat = 240
     
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
     
@@ -187,7 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        var density = 0.5 //time inbetween a new enemy(lower = more enemy)
+        var density = 3.4 //time inbetween a new enemy(lower = more enemy)
         
         if spawnTimer >= density {
 
@@ -211,22 +211,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         obstacleScrollLayer.position.x -= obstacleTravelSpeed * CGFloat(fixedDelta)
         
-//        /* Loop through obstacle layer nodes*/
-//        for obstacle in obstacleScrollLayer.children as! [SKNode] {
-//            
-//            /* Get obstacle node postion, convert node position to scene space */
-//            let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
-//            
-//            /* Check if obstacle has left the scene */
-//            if obstaclePosition.x <= -12.5 {
-//                // 26 is one half the width of an obstacle
-//                
-//                /* Remove obstacle node from obstacle layer */
-//                obstacle.removeFromParent()
-//            }
-//            
-//            
-//        }
+        /* Loop through obstacle layer nodes*/
+        for obstacle in obstacleScrollLayer.children as! [SKNode] {
+            
+            /* Get obstacle node postion, convert node position to scene space */
+            let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
+            
+            /* Check if obstacle has left the scene */
+            if obstaclePosition.x <= -12.5 {
+                // 26 is one half the width of an obstacle
+                
+                /* Remove obstacle node from obstacle layer */
+                obstacle.removeFromParent()
+                print("removed")
+            }
+            
+            
+        }
         
         let density = 2.0
         
@@ -237,13 +238,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             /* Create a new obstacle by copying the source obstacle*/
             let newObstacle = obstacleSource.copy() as! SKNode
             
+             let obstacleSourcePosition = obstacleScrollLayer.convert(obstacleSource.position, to: self)
+            
             obstacleScrollLayer.addChild(newObstacle)
             
             /* Generate new obstacle position, start just outside screen and with a random y value*/
-            let randomPosition = CGPoint(x: 900, y: 80)
+            let randomPosition = CGPoint(x: 750, y: obstacleSourcePosition.y)
             
             /* Convert new node position back to obstacle layer space */
             newObstacle.position = self.convert(randomPosition, to: obstacleScrollLayer)
+            newObstacle.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             
             print(newObstacle.position)
             
@@ -315,6 +319,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contactA.node?.physicsBody?.velocity.dx = 0
         }
         
+        //when enemy bumps into obstacle 
+        if contactA.categoryBitMask == 8 && contactB.categoryBitMask == 32 {
+            
+            contactB.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+
+            contactA.node?.physicsBody?.velocity.dx = 15
+        }
+        else if contactA.categoryBitMask == 32 && contactB.categoryBitMask == 8 {
+            
+            contactA.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            
+            contactB.node?.physicsBody?.velocity.dx = 15
+            
+        }
         
     }//closing brackets for didBegin function
     
