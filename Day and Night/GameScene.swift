@@ -41,8 +41,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var bulletHitEnemy = false
     
-    var enemiesArray: SKNode!
-    var enemyScrollLayer: SKNode!
+    var npcsArray: SKNode!
+    var npcScrollLayer: SKNode!
     var obstacleScrollLayer: SKNode!
     
     var obstacleSource: SKNode!
@@ -61,8 +61,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
-        enemiesArray = childNode(withName: "enemiesArray")
-        enemyScrollLayer = childNode(withName: "enemyScrollLayer")
+        npcsArray = childNode(withName: "npcsArray")
+        npcScrollLayer = childNode(withName: "npcScrollLayer")
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
         obstacleSource = childNode(withName: "obstacle")
         
@@ -169,12 +169,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //when it's time to bring in all the enemies, and want to spawn random species, use random number to generate a random index in the array
         
         //scroll enemylayer so it moves across
-        enemyScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
-        enemyScrollLayer.position.y = 0
+        npcScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
+        npcScrollLayer.position.y = 0
         
-        var enemyList = [SKNode]()
+        var npcList = [SKNode]()
         
-//        for childReference in enemiesArray.children {
+//        for childReference in npcsArray.children {
 //            for childSKNode in childReference.children {
 //                for child in childSKNode.children {
 //            enemyList.append(child as! SKSpriteNode)
@@ -182,23 +182,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            }
 //        }
         
-        for child in enemiesArray.children {
-            enemyList.append(child)
+        for child in npcsArray.children {
+            npcList.append(child)
         }
         
         
-        var density = 3.4 //time inbetween a new enemy(lower = more enemy)
+        var density = 2.4 //time inbetween a new enemy(lower = more enemy)
         
         if spawnTimer >= density {
 
             
-            let newEnemy = enemyList[0].copy() as! SKNode //newEnemy is the first child
+            let newEnemy = npcList[0].copy() as! SKNode //newEnemy is the first child
             
-            enemyScrollLayer.addChild(newEnemy) //adds new enemy
+            npcScrollLayer.addChild(newEnemy) //adds new enemy
             
             let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
-            newEnemy.position = self.convert(randomPosition, to: enemyScrollLayer)
+            newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
         
             
             // Reset spawn timer
@@ -229,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        let density = 2.0
+        let density = 1.8
         
         if obstacleSpawnTimer > density {
             
