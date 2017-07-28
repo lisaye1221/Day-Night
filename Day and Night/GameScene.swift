@@ -22,13 +22,38 @@ enum WorldState {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    //time related variable
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
     var obstacleSpawnTimer: CFTimeInterval = 0
     let scrollSpeed: CGFloat = 270
+    
     var obstacleTravelSpeed: CGFloat = 270
     var npcTravelSpeed: CGFloat = 240
+    var obstacleDensity = 1.5
+    var npcDensity = 2.2 //time inbetween a new enemy(lower = more enemy)
+    
+    var karmaBar: SKSpriteNode!
+    var karmaValue: CGFloat = 1.0 {
+        didSet{
+          
+            
+            
+            if karmaValue > 1.0 {
+                karmaValue = 1.0
+            }
+            else if karmaValue < 0 {
+                karmaValue = 0
+            }
+            else {
+                karmaBar.xScale = karmaValue * 3
+            }
+            
+        }
+    }
+    
+    
     
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
     
@@ -40,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scrollLayer: SKNode!
     
     var bulletHitEnemy = false
+    var bulletHitFriend = false
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
@@ -50,6 +76,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //states
     var gameState: GameState = .gameActive
     var worldState: WorldState = .day
+    
+    //temp
+    var cone: SKSpriteNode!
     
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
@@ -66,6 +95,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
         obstacleSource = childNode(withName: "obstacle")
         
+        karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
+        cone = childNode(withName: "//cone") as! SKSpriteNode
         
         
         physicsWorld.contactDelegate = self //set up physics
@@ -174,23 +205,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var npcList = [SKNode]()
         
-//        for childReference in npcsArray.children {
-//            for childSKNode in childReference.children {
-//                for child in childSKNode.children {
-//            enemyList.append(child as! SKSpriteNode)
-//                }
-//            }
-//        }
+        //        for childReference in npcsArray.children {
+        //            for childSKNode in childReference.children {
+        //                for child in childSKNode.children {
+        //            enemyList.append(child as! SKSpriteNode)
+        //                }
+        //            }
+        //        }
         
         for child in npcsArray.children {
             npcList.append(child)
         }
         
         
-        var density = 2.4 //time inbetween a new enemy(lower = more enemy)
         
-        if spawnTimer >= density {
-
+        if spawnTimer >= npcDensity {
+            
             
             let newEnemy = npcList[0].copy() as! SKNode //newEnemy is the first child
             
@@ -199,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
             newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
-        
+            
             
             // Reset spawn timer
             spawnTimer = 0
@@ -223,22 +253,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 /* Remove obstacle node from obstacle layer */
                 obstacle.removeFromParent()
-                print("removed")
+                
             }
             
             
         }
         
-        let density = 1.8
         
-        if obstacleSpawnTimer > density {
+        
+        if obstacleSpawnTimer > obstacleDensity {
             
-            print("works")
+     
             
             /* Create a new obstacle by copying the source obstacle*/
             let newObstacle = obstacleSource.copy() as! SKNode
             
-             let obstacleSourcePosition = obstacleScrollLayer.convert(obstacleSource.position, to: self)
+            let obstacleSourcePosition = obstacleScrollLayer.convert(obstacleSource.position, to: self)
             
             obstacleScrollLayer.addChild(newObstacle)
             
@@ -249,7 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             newObstacle.position = self.convert(randomPosition, to: obstacleScrollLayer)
             newObstacle.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             
-            print(newObstacle.position)
+           
             
             // Reset spawn timer
             obstacleSpawnTimer = 0
@@ -272,7 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let contactA = contact.bodyA
         let contactB = contact.bodyB
-
+        
         
         //when player hits ground
         if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 2 ||
@@ -286,7 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 8 || contactA.categoryBitMask == 8 && contactB.categoryBitMask == 1 {
             
             if gameState != .gameActive { return }
-          
+            
             gameOver()
         }
         
@@ -300,7 +330,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bulletHitEnemy = true
         }
         
-        //when player hits an obstacle 
+        //when player hits an obstacle
         if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 32 || contactA.categoryBitMask == 32 && contactB.categoryBitMask == 1 {
             
             if gameState != .gameActive { return }
@@ -319,11 +349,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contactA.node?.physicsBody?.velocity.dx = 0
         }
         
-        //when enemy bumps into obstacle 
+        //when enemy bumps into obstacle
         if contactA.categoryBitMask == 8 && contactB.categoryBitMask == 32 {
             
             contactB.node?.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-
+            
             contactA.node?.physicsBody?.velocity.dx = 15
         }
         else if contactA.categoryBitMask == 32 && contactB.categoryBitMask == 8 {
@@ -332,6 +362,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             contactB.node?.physicsBody?.velocity.dx = 15
             
+        }
+        
+        //when bullet hits friend
+        if contactA.categoryBitMask == 4 && contactB.categoryBitMask == 16 || contactA.categoryBitMask == 16 && contactB.categoryBitMask == 4 {
+            
+            contact.bodyA.node?.removeFromParent()
+            contact.bodyB.node?.removeFromParent()
+            print("hitFriend")
+            bulletHitFriend = true
         }
         
     }//closing brackets for didBegin function
@@ -377,12 +416,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bulletHitEnemy = false
         }
         
+        if bulletHitFriend {
+            karmaValue -= 0.3
+            karmaBar.run(SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 0.18)) {
+                self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
+            }
+            
+            print("karma down")
+            print(karmaValue)
+            bulletHitFriend = false
+        }
+        
         enumerateChildNodes(withName: "//*", using:
             { (node, stop) -> Void in
                 if let bullet = node as? SKSpriteNode {
                     let bulletPosition = bullet.convert(bullet.position, to: self)
                     if bullet.name == "bullet" && bulletPosition.x > 800{
-                    bullet.removeFromParent()
+                        bullet.removeFromParent()
                     }
                 }
         })
