@@ -30,9 +30,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let scrollSpeed: CGFloat = 270
     
     var obstacleTravelSpeed: CGFloat = 270
-    var npcTravelSpeed: CGFloat = 240
+    var npcTravelSpeed: CGFloat = 230
     var obstacleDensity = 1.5
-    var npcDensity = 2.2 //time inbetween a new enemy(lower = more enemy)
+    var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
     
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
@@ -421,9 +421,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             karmaBar.run(SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 0.18)) {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
-            
-            print("karma down")
-            print(karmaValue)
             bulletHitFriend = false
         }
         
