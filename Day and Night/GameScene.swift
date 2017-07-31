@@ -109,7 +109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.gameState != .gameActive {return}
             
             if self.playerOnGround {
-                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))//apply vertical impulse as jumping
+                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
                 let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
                 

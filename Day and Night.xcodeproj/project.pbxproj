@@ -22,6 +22,7 @@
 		42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42F775AA1F26734200ECF8ED /* Assets.xcassets */; };
 		42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42F775AC1F26734200ECF8ED /* LaunchScreen.storyboard */; };
 		42F775B81F2676EE00ECF8ED /* MSButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */; };
+		42FB87F91F2F223B0045DB79 /* bunny.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42FB87F81F2F223B0045DB79 /* bunny.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		42F775AD1F26734200ECF8ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42F775AF1F26734200ECF8ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSButtonNode.swift; sourceTree = "<group>"; };
+		42FB87F81F2F223B0045DB79 /* bunny.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = bunny.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
 				421B5DE41F27B4FE00815223 /* watermelon.sks */,
 				422B0D731F2B80200084A781 /* Cone.sks */,
+				42FB87F81F2F223B0045DB79 /* bunny.sks */,
 				421B5DE21F2789CD00815223 /* egg.sks */,
 				42F775A11F26734200ECF8ED /* Actions.sks */,
 				42F775A51F26734200ECF8ED /* GameViewController.swift */,
@@ -156,6 +159,7 @@
 			files = (
 				42F775A91F26734200ECF8ED /* Main.storyboard in Resources */,
 				42F775A01F26734200ECF8ED /* GameScene.sks in Resources */,
+				42FB87F91F2F223B0045DB79 /* bunny.sks in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
