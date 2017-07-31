@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		421B5DE31F2789CD00815223 /* egg.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE21F2789CD00815223 /* egg.sks */; };
 		421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE41F27B4FE00815223 /* watermelon.sks */; };
+		4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4224ACF81F2FC4FD0087ABF3 /* fire.sks */; };
 		4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825D1F26FDBF0066875B /* Helper Function.swift */; };
 		422582601F27048F0066875B /* bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825F1F27048F0066875B /* bullets.swift */; };
 		4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		421B5DE21F2789CD00815223 /* egg.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = egg.sks; path = ../egg.sks; sourceTree = "<group>"; };
 		421B5DE41F27B4FE00815223 /* watermelon.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = watermelon.sks; sourceTree = "<group>"; };
+		4224ACF81F2FC4FD0087ABF3 /* fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fire.sks; sourceTree = "<group>"; };
 		4225825D1F26FDBF0066875B /* Helper Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Helper Function.swift"; sourceTree = "<group>"; };
 		4225825F1F27048F0066875B /* bullets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bullets.swift; sourceTree = "<group>"; };
 		4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
@@ -57,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4224ACFA1F2FC5EA0087ABF3 /* npcs */ = {
+			isa = PBXGroup;
+			children = (
+				421B5DE41F27B4FE00815223 /* watermelon.sks */,
+				422B0D731F2B80200084A781 /* Cone.sks */,
+				42FB87F81F2F223B0045DB79 /* bunny.sks */,
+			);
+			name = npcs;
+			sourceTree = "<group>";
+		};
 		42F775911F26734200ECF8ED = {
 			isa = PBXGroup;
 			children = (
@@ -76,19 +88,18 @@
 		42F7759C1F26734200ECF8ED /* Day and Night */ = {
 			isa = PBXGroup;
 			children = (
+				42F775A11F26734200ECF8ED /* Actions.sks */,
 				42F7759D1F26734200ECF8ED /* AppDelegate.swift */,
 				42F7759F1F26734200ECF8ED /* GameScene.sks */,
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
-				421B5DE41F27B4FE00815223 /* watermelon.sks */,
-				422B0D731F2B80200084A781 /* Cone.sks */,
-				42FB87F81F2F223B0045DB79 /* bunny.sks */,
+				4224ACFA1F2FC5EA0087ABF3 /* npcs */,
+				4224ACF81F2FC4FD0087ABF3 /* fire.sks */,
 				421B5DE21F2789CD00815223 /* egg.sks */,
-				42F775A11F26734200ECF8ED /* Actions.sks */,
-				42F775A51F26734200ECF8ED /* GameViewController.swift */,
 				4225825F1F27048F0066875B /* bullets.swift */,
 				42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */,
 				4225825D1F26FDBF0066875B /* Helper Function.swift */,
 				4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */,
+				42F775A51F26734200ECF8ED /* GameViewController.swift */,
 				42F775A71F26734200ECF8ED /* Main.storyboard */,
 				42F775AA1F26734200ECF8ED /* Assets.xcassets */,
 				42F775AC1F26734200ECF8ED /* LaunchScreen.storyboard */,
@@ -164,6 +175,7 @@
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
 				421B5DE31F2789CD00815223 /* egg.sks in Resources */,
+				4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
 				42F775A21F26734200ECF8ED /* Actions.sks in Resources */,
 			);
