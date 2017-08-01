@@ -27,18 +27,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
     var obstacleSpawnTimer: CFTimeInterval = 0
-    let scrollSpeed: CGFloat = 400
+    let scrollSpeed: CGFloat = 250
     
-    var obstacleTravelSpeed: CGFloat = 400
-    var npcTravelSpeed: CGFloat = 230
-    var obstacleDensity = 1.5
+    var obstacleTravelSpeed: CGFloat = 250
+    var npcTravelSpeed: CGFloat = 280
+    var obstacleDensity = 1.4
     var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
     
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
         didSet{
-          
-            
             
             if karmaValue > 1.0 {
                 karmaValue = 1.0
@@ -182,10 +180,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let groundPosition = scrollLayer.convert(ground.position, to: self)
             
             /* Check if ground sprite has left the scene */
-            if groundPosition.x <= -ground.size.width / 2 {
+            if groundPosition.x <= (-ground.size.width + 5)  {
                 
                 /* Reposition ground sprite to the second starting position */
-                let newPosition = CGPoint(x: (self.size.width / 2) + ground.size.width , y: groundPosition.y)
+                let newPosition = CGPoint(x: (self.size.width * 2)  , y: groundPosition.y)
                 
                 /* Convert new node position back to scroll layer space */
                 ground.position = self.convert(newPosition, to: scrollLayer)
