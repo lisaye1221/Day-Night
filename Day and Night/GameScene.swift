@@ -52,7 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
     
     var egg: SKSpriteNode!
@@ -254,7 +253,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 /* Remove obstacle node from obstacle layer */
                 npc.removeFromParent()
-                print("removednpc")
             }
         }
         
