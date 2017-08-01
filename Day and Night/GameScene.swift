@@ -258,8 +258,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if spawnTimer >= npcDensity {
             
+            let randomNpcIndex = randomInteger(min: 0, max: npcList.count) 
             
-            let newEnemy = npcList[0].copy() as! SKSpriteNode //newEnemy is the first child
+            let newEnemy = npcList[randomNpcIndex].copy() as! SKSpriteNode //newEnemy is the first child
             
             npcScrollLayer.addChild(newEnemy) //adds new enemy
             
@@ -267,6 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let randomPosition = CGPoint(x: 800 , y: 80)
             newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
             
+            print("\(npcList.count)")
             
             // Reset spawn timer
             spawnTimer = 0
