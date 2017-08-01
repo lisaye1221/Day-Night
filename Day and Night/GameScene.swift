@@ -27,9 +27,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score: CFTimeInterval = 0 //score of player
     var spawnTimer: CFTimeInterval = 0
     var obstacleSpawnTimer: CFTimeInterval = 0
-    let scrollSpeed: CGFloat = 270
+    let scrollSpeed: CGFloat = 400
     
-    var obstacleTravelSpeed: CGFloat = 270
+    var obstacleTravelSpeed: CGFloat = 400
     var npcTravelSpeed: CGFloat = 230
     var obstacleDensity = 1.5
     var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
