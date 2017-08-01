@@ -64,10 +64,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var bulletHitEnemy = false
     var bulletHitFriend = false
+    var playerTouchFriend = false
+    var npcjump = false
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
     var obstacleScrollLayer: SKNode!
+    var cloudScrollLayer: SKNode!
     
     var obstacleSource: SKNode!
     
@@ -92,6 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         npcScrollLayer = childNode(withName: "npcScrollLayer")
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
         obstacleSource = childNode(withName: "obstacle")
+        cloudScrollLayer = childNode(withName: "cloudScrollLayer")
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         cone = childNode(withName: "//cone") as! SKSpriteNode
@@ -110,7 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
                 let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
-                
+                self.npcjump = true
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
         }
@@ -191,36 +195,71 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func scrollBackground() {
+        cloudScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        
+        /* Loop through scroll layer nodes */
+        for cloud in cloudScrollLayer.children as! [SKSpriteNode] {
+            
+            /* Get ground node position, convert node position to scene space, ground is child of scrollLayer but not necess a child of scene so gotta convert */
+            let cloudPosition = cloudScrollLayer.convert(cloud.position, to: self)
+            
+            /* Check if ground sprite has left the scene */
+            if cloudPosition.x <= (-cloud.size.width + 5)  {
+                
+                /* Reposition ground sprite to the second starting position */
+                let newPosition = CGPoint(x: (self.size.width * 5)  , y: cloudPosition.y)
+                
+                /* Convert new node position back to scroll layer space */
+                cloud.position = self.convert(newPosition, to: cloudScrollLayer)
+            }
+        }
+        
+    }
     
-    func spawnEnemy() {
+    
+    func spawnNpc() {
         
         //maybe make this function spawnNPC, if it's just enemies, it might be weird when implementing the switching
         //when it's time to bring in all the enemies, and want to spawn random species, use random number to generate a random index in the array
         
-        //scroll enemylayer so it moves across
+        //scroll npcLayer so it moves across
         npcScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         npcScrollLayer.position.y = 0
         
-        var npcList = [SKNode]()
+        var npcList = [SKSpriteNode]()
         
-        //        for childReference in npcsArray.children {
-        //            for childSKNode in childReference.children {
-        //                for child in childSKNode.children {
-        //            enemyList.append(child as! SKSpriteNode)
-        //                }
-        //            }
-        //        }
+                for childReference in npcsArray.children {
+                    for childSKNode in childReference.children {
+                        for child in childSKNode.children {
+                    npcList.append(child as! SKSpriteNode)
+                        }
+                    }
+                }
         
-        for child in npcsArray.children {
-            npcList.append(child)
+//        for child in npcsArray.children {
+//            npcList.append(child)
+//        }
+        
+        /* Loop through obstacle layer nodes*/
+        for npc in npcScrollLayer.children as! [SKNode]{
+            
+            /* Get obstacle node postion, convert node position to scene space */
+            let npcPosition = npcScrollLayer.convert(npc.position, to: self)
+            
+            /* Check if obstacle has left the scene */
+            if npcPosition.x <= -100 {
+                
+                /* Remove obstacle node from obstacle layer */
+                npc.removeFromParent()
+                print("removednpc")
+            }
         }
-        
-        
         
         if spawnTimer >= npcDensity {
             
             
-            let newEnemy = npcList[0].copy() as! SKNode //newEnemy is the first child
+            let newEnemy = npcList[0].copy() as! SKSpriteNode //newEnemy is the first child
             
             npcScrollLayer.addChild(newEnemy) //adds new enemy
             
@@ -251,6 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 /* Remove obstacle node from obstacle layer */
                 obstacle.removeFromParent()
+                
                 
             }
             
@@ -367,8 +407,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             contact.bodyA.node?.removeFromParent()
             contact.bodyB.node?.removeFromParent()
-            print("hitFriend")
             bulletHitFriend = true
+        }
+        
+        //when player contacts enemy
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 16 {
+            
+            contact.bodyB.node?.removeFromParent()
+            playerTouchFriend = true
+        }
+        else if contactA.categoryBitMask == 16 && contactB.categoryBitMask == 1 {
+            
+            contact.bodyA.node?.removeFromParent()
+            playerTouchFriend = true
+            
         }
         
     }//closing brackets for didBegin function
@@ -406,7 +458,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleSpawnTimer += fixedDelta
         
         scrollWorld()
-        spawnEnemy()
+        scrollBackground()
+        spawnNpc()
         spawnObstacle()
         
         if bulletHitEnemy {
@@ -422,6 +475,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bulletHitFriend = false
         }
         
+        if playerTouchFriend {
+            karmaValue += 0.05
+            karmaBar.run(SKAction.colorize(with: UIColor.green, colorBlendFactor: 1, duration: 0.18)) {
+                self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
+            }
+            playerTouchFriend = false
+        }
+        
+        if npcjump { //makes npc jumps at a random height if player jumps
+            let randomJumpHeight = randomInteger(min: 6, max: 18)
+            for npc in self.npcScrollLayer.children {
+                npc.physicsBody?.applyImpulse(CGVector(dx: 0, dy: randomJumpHeight))
+            }
+            npcjump = false
+        }
+        
         enumerateChildNodes(withName: "//*", using:
             { (node, stop) -> Void in
                 if let bullet = node as? SKSpriteNode {
@@ -431,8 +500,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
         })
-        
-        
+ 
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION
     
