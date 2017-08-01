@@ -72,6 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleScrollLayer: SKNode!
     var cloudScrollLayer: SKNode!
     
+    var obstacleArray: SKNode!
     var obstacleSource: SKNode!
     
     //states
@@ -94,6 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         npcsArray = childNode(withName: "npcsArray")
         npcScrollLayer = childNode(withName: "npcScrollLayer")
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
+        obstacleArray = childNode(withName: "obstacleArray")
         obstacleSource = childNode(withName: "obstacle")
         cloudScrollLayer = childNode(withName: "cloudScrollLayer")
         
@@ -106,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Hide restart button */
         restartButton.state = .MSButtonNodeStateHidden
         
-        jumpButton.selectedHandler = {
+        jumpButton.selectedHandler = { [unowned self] in
             
             if self.gameState != .gameActive {return}
             
@@ -119,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        shootButton.selectedHandler = {
+        shootButton.selectedHandler = { [unowned self] in
             
             if self.gameState != .gameActive {return}
             
@@ -153,7 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        restartButton.selectedHandler = {
+        restartButton.selectedHandler = { [unowned self] in
             
             /* Grab reference to our SpriteKit view */
             let skView = self.view as SKView!
@@ -264,11 +266,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             npcScrollLayer.addChild(newEnemy) //adds new enemy
             
-            let eggPosition = self.egg.convert(self.egg.position, to: self)
+//            let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
             newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
             
-            print("\(npcList.count)")
             
             // Reset spawn timer
             spawnTimer = 0
@@ -287,7 +288,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
             
             /* Check if obstacle has left the scene */
-            if obstaclePosition.x <= -12.5 {
+            if obstaclePosition.x <= -100 {
                 // 26 is one half the width of an obstacle
                 
                 /* Remove obstacle node from obstacle layer */
@@ -299,25 +300,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        var obstacleList = [SKNode]()
         
+        for obstacle in obstacleArray.children {
+                obstacleList.append(obstacle)
+        }
         
         if obstacleSpawnTimer > obstacleDensity {
             
-     
+     let randomObstacleIndex = randomInteger(min: 0, max: obstacleList.count)
             
             /* Create a new obstacle by copying the source obstacle*/
-            let newObstacle = obstacleSource.copy() as! SKNode
             
-            let obstacleSourcePosition = obstacleScrollLayer.convert(obstacleSource.position, to: self)
+            let newObstacle = obstacleList[randomObstacleIndex].copy() as! SKNode
+            
+           let obstaclePosition = obstacleScrollLayer.convert(newObstacle.position, to: self)
             
             obstacleScrollLayer.addChild(newObstacle)
             
             /* Generate new obstacle position, start just outside screen and with a random y value*/
-            let randomPosition = CGPoint(x: 750, y: obstacleSourcePosition.y)
+            let randomPosition = CGPoint(x: 750, y: obstaclePosition.y)
             
             /* Convert new node position back to obstacle layer space */
             newObstacle.position = self.convert(randomPosition, to: obstacleScrollLayer)
-            newObstacle.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             
            
             
