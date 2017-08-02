@@ -30,10 +30,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let scrollSpeed: CGFloat = 250
     
     var switchTimer: CFTimeInterval = 0
+    var worldTimer: CFTimeInterval = 0
     
     var obstacleTravelSpeed: CGFloat = 250
     var npcTravelSpeed: CGFloat = 280
-    var obstacleDensity = 1.4
+    var obstacleDensity = 2.0
     var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
     
     var karmaBar: SKSpriteNode!
@@ -454,7 +455,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func switchWorld() {
         
-        let randomTime = randomInteger(min: 20, max: 40)
+        let randomTime = randomInteger(min: 15, max: 25)
         
         if switchTimer >= CFTimeInterval(randomTime) {
             
@@ -485,6 +486,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnTimer += fixedDelta
         obstacleSpawnTimer += fixedDelta
         switchTimer += fixedDelta
+        worldTimer += fixedDelta
         
         scrollWorld()
         scrollBackground()
@@ -530,6 +532,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
         })
+        
+        if worldState == .night {
+            let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
+            cloudScrollLayer.run(fadeOut)
+        }
+        else {
+            let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.75)
+            cloudScrollLayer.run(fadeIn)
+        }
  
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION
