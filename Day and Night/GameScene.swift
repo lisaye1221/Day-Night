@@ -29,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleSpawnTimer: CFTimeInterval = 0
     let scrollSpeed: CGFloat = 250
     
+    var switchTimer: CFTimeInterval = 0
+    
     var obstacleTravelSpeed: CGFloat = 250
     var npcTravelSpeed: CGFloat = 280
     var obstacleDensity = 1.4
@@ -51,9 +53,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
-    var playerOnGround: Bool = true //a variable that checks if player is on the ground
-    
     var egg: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var jumpButton: MSButtonNode!
@@ -61,6 +60,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     
+    //booleans for game management
+    var playerOnGround: Bool = true //a variable that checks if player is on the ground
     var bulletHitEnemy = false
     var bulletHitFriend = false
     var playerTouchFriend = false
@@ -69,17 +70,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
     var obstacleScrollLayer: SKNode!
-    var cloudScrollLayer: SKNode!
-    
     var obstacleArray: SKNode!
     var obstacleSource: SKNode!
+    
+    var cloudScrollLayer: SKNode!
+    var backgroundLayer: SKNode!
     
     //states
     var gameState: GameState = .gameActive
     var worldState: WorldState = .day
-    
-    //temp
-    var cone: SKSpriteNode!
     
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
@@ -97,9 +96,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleArray = childNode(withName: "obstacleArray")
         obstacleSource = childNode(withName: "obstacle")
         cloudScrollLayer = childNode(withName: "cloudScrollLayer")
+        backgroundLayer = childNode(withName: "backgroundLayer")
+        
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
-        cone = childNode(withName: "//cone") as! SKSpriteNode
         
         
         physicsWorld.contactDelegate = self //set up physics
@@ -452,6 +452,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    func switchWorld() {
+        
+        let randomTime = randomInteger(min: 20, max: 40)
+        
+        if switchTimer >= CFTimeInterval(randomTime) {
+            
+            if worldState == .day {
+            worldState = .night
+            }
+            else {
+                worldState = .day
+            }
+            
+            switchTimer = 0
+          
+            let backgroundSwitch = SKAction(named: "backgroundSwitch")!
+            backgroundLayer.run(backgroundSwitch)
+            
+        }
+        
+        
+        
+    }
     
     override func update(_ currentTime: TimeInterval) {
         
@@ -461,11 +484,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
         spawnTimer += fixedDelta
         obstacleSpawnTimer += fixedDelta
+        switchTimer += fixedDelta
         
         scrollWorld()
         scrollBackground()
         spawnNpc()
         spawnObstacle()
+        switchWorld()
         
         if bulletHitEnemy {
             score += 5
