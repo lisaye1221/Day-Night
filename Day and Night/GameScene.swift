@@ -60,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shootButton: MSButtonNode!
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
+    var scrollLayerNight: SKNode!
     
     //booleans for game management
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
@@ -74,6 +75,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleArray: SKNode!
     var obstacleSource: SKNode!
     
+    //graphics nodes
     var cloudScrollLayer: SKNode!
     var backgroundLayer: SKNode!
     
@@ -81,6 +83,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameState: GameState = .gameActive
     var worldState: WorldState = .day
     
+    //actions 
+    let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
+    let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
@@ -91,6 +96,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shootButton = childNode(withName: "shootButton") as! MSButtonNode
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
+        scrollLayerNight = childNode(withName: "scrollLayerNight")
         npcsArray = childNode(withName: "npcsArray")
         npcScrollLayer = childNode(withName: "npcScrollLayer")
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
@@ -193,6 +199,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 /* Convert new node position back to scroll layer space */
                 ground.position = self.convert(newPosition, to: scrollLayer)
+            }
+        }
+    }
+    
+    func scrollNightWorld() {
+        /* Scroll World */
+        scrollLayerNight.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        
+        /* Loop through scroll layer nodes */
+        for ground in scrollLayerNight.children as! [SKSpriteNode] {
+            
+            /* Get ground node position, convert node position to scene space, ground is child of scrollLayer but not necess a child of scene so gotta convert */
+            let groundPosition = scrollLayerNight.convert(ground.position, to: self)
+            
+            /* Check if ground sprite has left the scene */
+            if groundPosition.x <= (-ground.size.width + 5)  {
+                
+                /* Reposition ground sprite to the second starting position */
+                let newPosition = CGPoint(x: (self.size.width * 2)  , y: groundPosition.y)
+                
+                /* Convert new node position back to scroll layer space */
+                ground.position = self.convert(newPosition, to: scrollLayerNight)
             }
         }
     }
@@ -470,11 +498,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
           
             let backgroundSwitch = SKAction(named: "backgroundSwitch")!
             backgroundLayer.run(backgroundSwitch)
-            
         }
-        
-        
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -489,6 +513,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldTimer += fixedDelta
         
         scrollWorld()
+        scrollNightWorld()
         scrollBackground()
         spawnNpc()
         spawnObstacle()
@@ -515,7 +540,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playerTouchFriend = false
         }
         
-        if npcjump { //makes npc jumps at a random height if player jumps
+        //makes npc jumps at a random height if player jumps
+        if npcjump {
             let randomJumpHeight = randomInteger(min: 6, max: 18)
             for npc in self.npcScrollLayer.children {
                 npc.physicsBody?.applyImpulse(CGVector(dx: 0, dy: randomJumpHeight))
@@ -523,6 +549,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             npcjump = false
         }
         
+        //limit bullet range
         enumerateChildNodes(withName: "//*", using:
             { (node, stop) -> Void in
                 if let bullet = node as? SKSpriteNode {
@@ -533,13 +560,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
         })
         
+        //deals with cloud behavior
         if worldState == .night {
-            let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
             cloudScrollLayer.run(fadeOut)
         }
         else {
-            let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.75)
             cloudScrollLayer.run(fadeIn)
+        }
+        //deals with ground behavior
+        if worldState == .night {
+            scrollLayer.run(SKAction.fadeAlpha(to: 0, duration: 0.8))
+            scrollLayerNight.alpha = 1
+        }
+        else {
+            scrollLayer.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
+            scrollLayerNight.alpha = 0
         }
  
         
