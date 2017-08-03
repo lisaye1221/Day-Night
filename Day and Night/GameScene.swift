@@ -19,6 +19,7 @@ enum WorldState {
     case day, night
 }
 
+public var highScore = 0
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -36,6 +37,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcTravelSpeed: CGFloat = 280
     var obstacleDensity = 2.0
     var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
+    var npcsOnScreen = 2
+    var totalNpc: Int = 0
+
     
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
@@ -86,6 +90,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //actions 
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
     let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
+    
+    //temp
+    var highScoreLabel: SKLabelNode!
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
@@ -105,6 +112,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cloudScrollLayer = childNode(withName: "cloudScrollLayer")
         backgroundLayer = childNode(withName: "backgroundLayer")
         
+        highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
+        highScoreLabel.alpha = 0
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
@@ -182,6 +191,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func scrollWorld() {
+        
+        if worldState != .day {return}
+        
         /* Scroll World */
         scrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
         
@@ -204,6 +216,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func scrollNightWorld() {
+        
+        if worldState != .night {return}
+        
         /* Scroll World */
         scrollLayerNight.position.x -= scrollSpeed * CGFloat(fixedDelta)
         
@@ -226,6 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func scrollBackground() {
+        if worldState != .day {return}
         cloudScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
         
         /* Loop through scroll layer nodes */
@@ -250,9 +266,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnNpc() {
         
-        //maybe make this function spawnNPC, if it's just enemies, it might be weird when implementing the switching
-        //when it's time to bring in all the enemies, and want to spawn random species, use random number to generate a random index in the array
-        
         //scroll npcLayer so it moves across
         npcScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         npcScrollLayer.position.y = 0
@@ -266,6 +279,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 }
+        
+        totalNpc = npcList.count
         
 //        for child in npcsArray.children {
 //            npcList.append(child)
@@ -287,7 +302,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if spawnTimer >= npcDensity {
             
-            let randomNpcIndex = randomInteger(min: 0, max: npcList.count) 
+            //change max number to npcList.count for ALL sprites at once, change it to npcOnScreen for incremental increase of sprites
+            let randomNpcIndex = randomInteger(min: 0, max: npcsOnScreen)
             
             let newEnemy = npcList[randomNpcIndex].copy() as! SKSpriteNode //newEnemy is the first child
             
@@ -295,6 +311,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
 //            let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
+            
             newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
             
             
@@ -479,6 +496,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     spriteNode.physicsBody?.velocity.dx = 0
                 }
         })
+        
+        highScoreLabel.alpha = 1
+        
+        
     }
     
     func switchWorld() {
@@ -501,6 +522,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func updateNpcOnScreen() {
+        for multiples in 1...(totalNpc - 2) {
+            //adds a new npc at multiples of 50
+            if Int(score) > 50 * multiples && Int(score) < (50 * multiples) + 10 {
+               npcsOnScreen = 2 + multiples
+                print(npcsOnScreen)
+            }
+        }
+        if npcsOnScreen > totalNpc {
+            npcsOnScreen = totalNpc
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         
         if gameState != .gameActive { return }
@@ -518,6 +552,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnNpc()
         spawnObstacle()
         switchWorld()
+        updateNpcOnScreen() //turns on incremental increase of npcs according to score
+        
         
         if bulletHitEnemy {
             score += 5
@@ -550,11 +586,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //limit bullet range
-        enumerateChildNodes(withName: "//*", using:
+        enumerateChildNodes(withName: "bullet*", using:
             { (node, stop) -> Void in
                 if let bullet = node as? SKSpriteNode {
                     let bulletPosition = bullet.convert(bullet.position, to: self)
-                    if bullet.name == "bullet" && bulletPosition.x > 800{
+                    if bulletPosition.x > 800{
                         bullet.removeFromParent()
                     }
                 }
@@ -569,12 +605,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         //deals with ground behavior
         if worldState == .night {
-            scrollLayer.run(SKAction.fadeAlpha(to: 0, duration: 0.8))
+            scrollLayer.run(SKAction.fadeAlpha(to: 0, duration: 0.5))
             scrollLayerNight.alpha = 1
         }
         else {
-            scrollLayer.run(SKAction.fadeAlpha(to: 1, duration: 0.8))
+            scrollLayer.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
             scrollLayerNight.alpha = 0
+        }
+        
+        if Int(score) > highScore {
+            highScore = Int(score)
+            highScoreLabel.text = String(highScore)
         }
  
         
