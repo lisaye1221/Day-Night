@@ -123,52 +123,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Hide restart button */
         restartButton.state = .MSButtonNodeStateHidden
         
-        jumpButton.selectedHandler = { [unowned self] in
-            
-            if self.gameState != .gameActive {return}
-            
-            if self.playerOnGround {
-                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
-                let eggPosition = self.egg.convert(self.egg.position, to: self)
-                
-                self.npcjump = true
-                self.playerOnGround = false //deactivate this button until contact sets this to true
-            }
-        }
+//        jumpButton.selectedHandler = { [unowned self] in
+//            
+//            if self.gameState != .gameActive {return}
+//            
+//            if self.playerOnGround {
+//                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
+//                let eggPosition = self.egg.convert(self.egg.position, to: self)
+//                
+//                self.npcjump = true
+//                self.playerOnGround = false //deactivate this button until contact sets this to true
+//            }
+//        }
         
-        shootButton.selectedHandler = { [unowned self] in
-            
-            if self.gameState != .gameActive {return}
-            
-            //make a bullet when button is touched
-            let eggBullet = Bullet()
-            
-            //add the bullet to the screen
-            self.addChild(eggBullet)
-            
-            let eggPosition = self.egg.convert(self.egg.position, to: self)
-            
-            //Move the bullet to in front of the egg
-            eggBullet.position.x = eggPosition.x + 15
-            eggBullet.position.y = eggPosition.y - 2
-            
-            //ensure the player's y velocity doesn't affect the bullet's y velocity(so the bullet doesn't go diagonally up when playe jumps)
-            if self.playerOnGround == false {
-                eggBullet.physicsBody?.velocity.dy = 0
-            }
-            
-            //limit the bullet height
-            if eggBullet.position.y > 160 {
-                eggBullet.position.y = 160
-            }
-            
-            //impluse vector, how fast the bullet goes
-            let launchImpulse = CGVector(dx: 10, dy: 0)
-            
-            //Apply impulse to penguin
-            eggBullet.physicsBody?.applyImpulse(launchImpulse)
-            
-        }
+//        shootButton.selectedHandler = { [unowned self] in
+//            
+//            if self.gameState != .gameActive {return}
+//            
+//            //make a bullet when button is touched
+//            let eggBullet = Bullet()
+//            
+//            //add the bullet to the screen
+//            self.addChild(eggBullet)
+//            
+//            let eggPosition = self.egg.convert(self.egg.position, to: self)
+//            
+//            //Move the bullet to in front of the egg
+//            eggBullet.position.x = eggPosition.x + 15
+//            eggBullet.position.y = eggPosition.y - 2
+//            
+//            //ensure the player's y velocity doesn't affect the bullet's y velocity(so the bullet doesn't go diagonally up when playe jumps)
+//            if self.playerOnGround == false {
+//                eggBullet.physicsBody?.velocity.dy = 0
+//            }
+//            
+//            //limit the bullet height
+//            if eggBullet.position.y > 160 {
+//                eggBullet.position.y = 160
+//            }
+//            
+//            //impluse vector, how fast the bullet goes
+//            let launchImpulse = CGVector(dx: 10, dy: 0)
+//            
+//            //Apply impulse to penguin
+//            eggBullet.physicsBody?.applyImpulse(launchImpulse)
+//            
+//        }
         
         restartButton.selectedHandler = { [unowned self] in
             
@@ -260,7 +260,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 cloud.position = self.convert(newPosition, to: cloudScrollLayer)
             }
         }
-        
     }
     
     
@@ -338,7 +337,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 /* Remove obstacle node from obstacle layer */
                 obstacle.removeFromParent()
                 
-                
             }
             
             
@@ -380,6 +378,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        
+        //only need one single touch here
+        let touch = touches.first!
+        
+        //get touch position in scene
+        let location = touch.location(in: self)
+        
+        //figure out which side of the screen was touched
+        if location.x > size.width / 2 { // right
+           print("touched right")
+            
+            if self.gameState != .gameActive {return}
+            
+            if self.playerOnGround {
+                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
+                let eggPosition = self.egg.convert(self.egg.position, to: self)
+                
+                self.npcjump = true
+                self.playerOnGround = false //deactivate this button until contact sets this to true
+            }
+            
+        }
+        else { //left
+            print("touched left")
+
+            if self.gameState != .gameActive {return}
+            
+            //make a bullet when button is touched
+            let eggBullet = Bullet()
+            
+            //add the bullet to the screen
+            self.addChild(eggBullet)
+            
+            let eggPosition = self.egg.convert(self.egg.position, to: self)
+            
+            //Move the bullet to in front of the egg
+            eggBullet.position.x = eggPosition.x + 15
+            eggBullet.position.y = eggPosition.y - 2
+            
+            //ensure the player's y velocity doesn't affect the bullet's y velocity(so the bullet doesn't go diagonally up when playe jumps)
+            if self.playerOnGround == false {
+                eggBullet.physicsBody?.velocity.dy = 0
+            }
+            
+            //limit the bullet height
+            if eggBullet.position.y > 160 {
+                eggBullet.position.y = 160
+            }
+            
+            //impluse vector, how fast the bullet goes
+            let launchImpulse = CGVector(dx: 10, dy: 0)
+            
+            //Apply impulse to penguin
+            eggBullet.physicsBody?.applyImpulse(launchImpulse)
+            
+            
+        }
         
     }
     
