@@ -19,7 +19,8 @@ enum WorldState {
     case day, night
 }
 
-public var highScore = 0
+public var dayTime = true
+public var nightTime = false
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -60,8 +61,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var egg: SKSpriteNode!
     var scoreLabel: SKLabelNode!
-    var jumpButton: MSButtonNode!
-    var shootButton: MSButtonNode!
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     var scrollLayerNight: SKNode!
@@ -99,8 +98,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         egg = self.childNode(withName: "//egg") as! SKSpriteNode
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
-        jumpButton = childNode(withName: "jumpButton") as! MSButtonNode
-        shootButton = childNode(withName: "shootButton") as! MSButtonNode
+
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
@@ -122,53 +120,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         /* Hide restart button */
         restartButton.state = .MSButtonNodeStateHidden
-        
-//        jumpButton.selectedHandler = { [unowned self] in
-//            
-//            if self.gameState != .gameActive {return}
-//            
-//            if self.playerOnGround {
-//                self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
-//                let eggPosition = self.egg.convert(self.egg.position, to: self)
-//                
-//                self.npcjump = true
-//                self.playerOnGround = false //deactivate this button until contact sets this to true
-//            }
-//        }
-        
-//        shootButton.selectedHandler = { [unowned self] in
-//            
-//            if self.gameState != .gameActive {return}
-//            
-//            //make a bullet when button is touched
-//            let eggBullet = Bullet()
-//            
-//            //add the bullet to the screen
-//            self.addChild(eggBullet)
-//            
-//            let eggPosition = self.egg.convert(self.egg.position, to: self)
-//            
-//            //Move the bullet to in front of the egg
-//            eggBullet.position.x = eggPosition.x + 15
-//            eggBullet.position.y = eggPosition.y - 2
-//            
-//            //ensure the player's y velocity doesn't affect the bullet's y velocity(so the bullet doesn't go diagonally up when playe jumps)
-//            if self.playerOnGround == false {
-//                eggBullet.physicsBody?.velocity.dy = 0
-//            }
-//            
-//            //limit the bullet height
-//            if eggBullet.position.y > 160 {
-//                eggBullet.position.y = 160
-//            }
-//            
-//            //impluse vector, how fast the bullet goes
-//            let launchImpulse = CGVector(dx: 10, dy: 0)
-//            
-//            //Apply impulse to penguin
-//            eggBullet.physicsBody?.applyImpulse(launchImpulse)
-//            
-//        }
         
         restartButton.selectedHandler = { [unowned self] in
             
@@ -241,6 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func scrollBackground() {
+        
         if worldState != .day {return}
         cloudScrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
         
@@ -286,7 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        }
         
         /* Loop through obstacle layer nodes*/
-        for npc in npcScrollLayer.children as! [SKNode]{
+        for npc in npcScrollLayer.children {
             
             /* Get obstacle node postion, convert node position to scene space */
             let npcPosition = npcScrollLayer.convert(npc.position, to: self)
@@ -325,7 +277,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleScrollLayer.position.x -= obstacleTravelSpeed * CGFloat(fixedDelta)
         
         /* Loop through obstacle layer nodes*/
-        for obstacle in obstacleScrollLayer.children as! [SKNode] {
+        for obstacle in obstacleScrollLayer.children  {
             
             /* Get obstacle node postion, convert node position to scene space */
             let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
@@ -366,8 +318,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             /* Convert new node position back to obstacle layer space */
             newObstacle.position = self.convert(randomPosition, to: obstacleScrollLayer)
             
-           
-            
             // Reset spawn timer
             obstacleSpawnTimer = 0
             
@@ -386,22 +336,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let location = touch.location(in: self)
         
         //figure out which side of the screen was touched
-        if location.x > size.width / 2 { // right
-           print("touched right")
+        if location.x > size.width / 2 {
             
+            // right(jumping)
+          
             if self.gameState != .gameActive {return}
             
             if self.playerOnGround {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
-                let eggPosition = self.egg.convert(self.egg.position, to: self)
                 
                 self.npcjump = true
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
             
         }
-        else { //left
-            print("touched left")
+        else {
+            //left(shooting)
 
             if self.gameState != .gameActive {return}
             
@@ -433,11 +383,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Apply impulse to penguin
             eggBullet.physicsBody?.applyImpulse(launchImpulse)
             
-            
+            print("day" + "\(dayTime)")
+            print("night" + "\(nightTime)")
         }
         
     }
-    
     
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -582,7 +532,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //adds a new npc at multiples of 50
             if Int(score) > 50 * multiples && Int(score) < (50 * multiples) + 10 {
                npcsOnScreen = 2 + multiples
-                print(npcsOnScreen)
             }
         }
         if npcsOnScreen > totalNpc {
@@ -631,6 +580,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playerTouchFriend = false
         }
         
+        if karmaValue == 0 {
+            gameOver()
+        }
+        
         //makes npc jumps at a random height if player jumps
         if npcjump {
             let randomJumpHeight = randomInteger(min: 6, max: 18)
@@ -668,10 +621,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scrollLayerNight.alpha = 0
         }
         
-        if Int(score) > highScore {
-            highScore = Int(score)
-            highScoreLabel.text = String(highScore)
+        if worldState == .day {
+            dayTime = true
+            nightTime = false
         }
+        else {
+            dayTime = false
+            nightTime = true
+        }
+        
+        
+        
  
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION

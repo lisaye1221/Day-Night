@@ -17,6 +17,8 @@
 		4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */; };
 		422AAFD21F33C31400F7E988 /* fish.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422AAFD11F33C31400F7E988 /* fish.sks */; };
 		422B0D741F2B80200084A781 /* Cone.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422B0D731F2B80200084A781 /* Cone.sks */; };
+		422B8B1D1F34C94300CB1819 /* DayEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B8B1C1F34C94300CB1819 /* DayEnemy.swift */; };
+		422B8B1F1F34CA4200CB1819 /* NightEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B8B1E1F34CA4200CB1819 /* NightEnemy.swift */; };
 		42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7759D1F26734200ECF8ED /* AppDelegate.swift */; };
 		42F775A01F26734200ECF8ED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F7759F1F26734200ECF8ED /* GameScene.sks */; };
 		42F775A21F26734200ECF8ED /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F775A11F26734200ECF8ED /* Actions.sks */; };
@@ -40,6 +42,8 @@
 		4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		422AAFD11F33C31400F7E988 /* fish.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fish.sks; sourceTree = "<group>"; };
 		422B0D731F2B80200084A781 /* Cone.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Cone.sks; path = ../Cone.sks; sourceTree = "<group>"; };
+		422B8B1C1F34C94300CB1819 /* DayEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayEnemy.swift; sourceTree = "<group>"; };
+		422B8B1E1F34CA4200CB1819 /* NightEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NightEnemy.swift; path = ../NightEnemy.swift; sourceTree = "<group>"; };
 		42F7759A1F26734200ECF8ED /* Day and Night.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day and Night.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F7759D1F26734200ECF8ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42F7759F1F26734200ECF8ED /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				4224ACFA1F2FC5EA0087ABF3 /* npcs */,
 				4224ACF81F2FC4FD0087ABF3 /* fire.sks */,
 				421B5DE21F2789CD00815223 /* egg.sks */,
+				422B8B1C1F34C94300CB1819 /* DayEnemy.swift */,
+				422B8B1E1F34CA4200CB1819 /* NightEnemy.swift */,
 				4225825F1F27048F0066875B /* bullets.swift */,
 				42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */,
 				4225825D1F26FDBF0066875B /* Helper Function.swift */,
@@ -204,9 +210,11 @@
 				42F775A61F26734200ECF8ED /* GameViewController.swift in Sources */,
 				4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */,
 				42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */,
+				422B8B1D1F34C94300CB1819 /* DayEnemy.swift in Sources */,
 				422582601F27048F0066875B /* bullets.swift in Sources */,
 				4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */,
 				42F775B81F2676EE00ECF8ED /* MSButtonNode.swift in Sources */,
+				422B8B1F1F34CA4200CB1819 /* NightEnemy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
