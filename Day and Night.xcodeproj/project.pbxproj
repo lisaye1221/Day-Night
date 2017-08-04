@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		421B5DE31F2789CD00815223 /* egg.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE21F2789CD00815223 /* egg.sks */; };
 		421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE41F27B4FE00815223 /* watermelon.sks */; };
+		422392661F34B4DA002BA141 /* leaf.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422392651F34B4DA002BA141 /* leaf.sks */; };
+		422392681F34B8CB002BA141 /* mushroom.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422392671F34B8CB002BA141 /* mushroom.sks */; };
 		4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4224ACF81F2FC4FD0087ABF3 /* fire.sks */; };
 		4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825D1F26FDBF0066875B /* Helper Function.swift */; };
 		422582601F27048F0066875B /* bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825F1F27048F0066875B /* bullets.swift */; };
 		4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */; };
+		422AAFD21F33C31400F7E988 /* fish.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422AAFD11F33C31400F7E988 /* fish.sks */; };
 		422B0D741F2B80200084A781 /* Cone.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422B0D731F2B80200084A781 /* Cone.sks */; };
 		42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7759D1F26734200ECF8ED /* AppDelegate.swift */; };
 		42F775A01F26734200ECF8ED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F7759F1F26734200ECF8ED /* GameScene.sks */; };
@@ -29,10 +32,13 @@
 /* Begin PBXFileReference section */
 		421B5DE21F2789CD00815223 /* egg.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = egg.sks; path = ../egg.sks; sourceTree = "<group>"; };
 		421B5DE41F27B4FE00815223 /* watermelon.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = watermelon.sks; sourceTree = "<group>"; };
+		422392651F34B4DA002BA141 /* leaf.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = leaf.sks; sourceTree = "<group>"; };
+		422392671F34B8CB002BA141 /* mushroom.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = mushroom.sks; sourceTree = "<group>"; };
 		4224ACF81F2FC4FD0087ABF3 /* fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fire.sks; sourceTree = "<group>"; };
 		4225825D1F26FDBF0066875B /* Helper Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Helper Function.swift"; sourceTree = "<group>"; };
 		4225825F1F27048F0066875B /* bullets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bullets.swift; sourceTree = "<group>"; };
 		4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
+		422AAFD11F33C31400F7E988 /* fish.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fish.sks; sourceTree = "<group>"; };
 		422B0D731F2B80200084A781 /* Cone.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Cone.sks; path = ../Cone.sks; sourceTree = "<group>"; };
 		42F7759A1F26734200ECF8ED /* Day and Night.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day and Night.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F7759D1F26734200ECF8ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,8 +69,11 @@
 			isa = PBXGroup;
 			children = (
 				421B5DE41F27B4FE00815223 /* watermelon.sks */,
-				422B0D731F2B80200084A781 /* Cone.sks */,
 				42FB87F81F2F223B0045DB79 /* bunny.sks */,
+				422B0D731F2B80200084A781 /* Cone.sks */,
+				422392671F34B8CB002BA141 /* mushroom.sks */,
+				422392651F34B4DA002BA141 /* leaf.sks */,
+				422AAFD11F33C31400F7E988 /* fish.sks */,
 			);
 			name = npcs;
 			sourceTree = "<group>";
@@ -171,6 +180,8 @@
 				42F775A91F26734200ECF8ED /* Main.storyboard in Resources */,
 				42F775A01F26734200ECF8ED /* GameScene.sks in Resources */,
 				42FB87F91F2F223B0045DB79 /* bunny.sks in Resources */,
+				422AAFD21F33C31400F7E988 /* fish.sks in Resources */,
+				422392681F34B8CB002BA141 /* mushroom.sks in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
@@ -178,6 +189,7 @@
 				4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
 				42F775A21F26734200ECF8ED /* Actions.sks in Resources */,
+				422392661F34B4DA002BA141 /* leaf.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
