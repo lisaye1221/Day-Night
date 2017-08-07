@@ -15,11 +15,11 @@ class NightEnemy: SKSpriteNode {
         
         
         if dayTime {
-            //daytime = enemy
+            //daytime = friend
             self.physicsBody?.categoryBitMask = 16
         }
         else {
-            //night time = friend
+            //night time = enemy
             self.physicsBody?.categoryBitMask = 8
         }
         

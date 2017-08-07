@@ -84,7 +84,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //states
     var gameState: GameState = .gameActive
-    var worldState: WorldState = .day
+    var worldState: WorldState = .day {
+        didSet {
+            for npc in npcScrollLayer.children as! [SKSpriteNode] {
+                if npc.physicsBody?.categoryBitMask == 8 {
+                    npc.physicsBody?.categoryBitMask = 16
+                }
+                else if npc.physicsBody?.categoryBitMask == 16 {
+                    npc.physicsBody?.categoryBitMask = 8
+                }
+            }
+            for childReference in npcsArray.children {
+                for childSKNode in childReference.children {
+                    for child in childSKNode.children {
+                        if child.physicsBody?.categoryBitMask == 8 {
+                            child.physicsBody?.categoryBitMask = 16
+                        }
+                        else if child.physicsBody?.categoryBitMask == 16 {
+                            child.physicsBody?.categoryBitMask = 8
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
     
     //actions 
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
@@ -92,6 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //temp
     var highScoreLabel: SKLabelNode!
+
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
@@ -539,6 +565,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func switchNpc() {
+        //temporary 
+        for npc in npcScrollLayer.children as! [SKSpriteNode] {
+            
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         
         if gameState != .gameActive { return }
@@ -630,6 +663,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nightTime = true
         }
         
+        //I don't like this code but it works, switches friends and enemies
         
         
  
