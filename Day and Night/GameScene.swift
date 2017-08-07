@@ -39,7 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
     var npcsOnScreen = 2
     var totalNpc: Int = 0
-
+    
     
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
@@ -111,20 +111,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-    //actions 
+    //actions
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
     let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
     
     //temp
     var highScoreLabel: SKLabelNode!
-
+    
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
         
         egg = self.childNode(withName: "//egg") as! SKSpriteNode
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
-
+        
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
@@ -160,7 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             /* Restart game scene */
             skView?.presentScene(scene)
-        }        
+        }
         
     }//closing brackets for didMove function
     
@@ -247,19 +247,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var npcList = [SKSpriteNode]()
         
-                for childReference in npcsArray.children {
-                    for childSKNode in childReference.children {
-                        for child in childSKNode.children {
+        for childReference in npcsArray.children {
+            for childSKNode in childReference.children {
+                for child in childSKNode.children {
                     npcList.append(child as! SKSpriteNode)
-                        }
-                    }
                 }
+            }
+        }
         
         totalNpc = npcList.count
         
-//        for child in npcsArray.children {
-//            npcList.append(child)
-//        }
+        //        for child in npcsArray.children {
+        //            npcList.append(child)
+        //        }
         
         /* Loop through obstacle layer nodes*/
         for npc in npcScrollLayer.children {
@@ -284,7 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             npcScrollLayer.addChild(newEnemy) //adds new enemy
             
-//            let eggPosition = self.egg.convert(self.egg.position, to: self)
+            //            let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
             
             newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
@@ -321,18 +321,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var obstacleList = [SKNode]()
         
         for obstacle in obstacleArray.children {
-                obstacleList.append(obstacle)
+            obstacleList.append(obstacle)
         }
         
         if obstacleSpawnTimer > obstacleDensity {
             
-     let randomObstacleIndex = randomInteger(min: 0, max: obstacleList.count)
+            let randomObstacleIndex = randomInteger(min: 0, max: obstacleList.count)
             
             /* Create a new obstacle by copying the source obstacle*/
             
             let newObstacle = obstacleList[randomObstacleIndex].copy() as! SKNode
             
-           let obstaclePosition = obstacleScrollLayer.convert(newObstacle.position, to: self)
+            let obstaclePosition = obstacleScrollLayer.convert(newObstacle.position, to: self)
             
             obstacleScrollLayer.addChild(newObstacle)
             
@@ -360,7 +360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if location.x > size.width / 2 {
             
             // right(jumping)
-          
+            
             if self.gameState != .gameActive {return}
             
             if self.playerOnGround {
@@ -373,7 +373,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         else {
             //left(shooting)
-
+            
             if self.gameState != .gameActive {return}
             
             //make a bullet when button is touched
@@ -533,17 +533,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if switchTimer >= CFTimeInterval(randomTime) {
             
-            if worldState == .day {
-            worldState = .night
-            }
-            else {
-                worldState = .day
+            //worldState changes after animation is completed
+            let backgroundSwitch = SKAction(named: "backgroundSwitch")!
+            backgroundLayer.run(backgroundSwitch){
+                
+                if self.worldState == .day {
+                    self.worldState = .night
+                }
+                else {
+                    self.worldState = .day
+                }
+                
             }
             
             switchTimer = 0
-          
-            let backgroundSwitch = SKAction(named: "backgroundSwitch")!
-            backgroundLayer.run(backgroundSwitch)
+            
+            
         }
     }
     
@@ -551,18 +556,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for multiples in 1...(totalNpc - 2) {
             //adds a new npc at multiples of 50
             if Int(score) > 50 * multiples && Int(score) < (50 * multiples) + 10 {
-               npcsOnScreen = 2 + multiples
+                npcsOnScreen = 2 + multiples
             }
         }
         if npcsOnScreen > totalNpc {
             npcsOnScreen = totalNpc
-        }
-    }
-    
-    func switchNpc() {
-        //temporary 
-        for npc in npcScrollLayer.children as! [SKSpriteNode] {
-            
         }
     }
     
@@ -656,14 +654,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //public boolean values for day and night
-//        if worldState == .day {
-//            dayTime = true
-//            nightTime = false
-//        }
-//        else {
-//            dayTime = false
-//            nightTime = true
-//        }
+        //        if worldState == .day {
+        //            dayTime = true
+        //            nightTime = false
+        //        }
+        //        else {
+        //            dayTime = false
+        //            nightTime = true
+        //        }
         
         //limits character's jump height
         if egg.position.y > 117 {
