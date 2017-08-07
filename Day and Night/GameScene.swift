@@ -1,5 +1,4 @@
 
-//
 //  GameScene.swift
 //  Day and Night
 //
@@ -51,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             else if karmaValue < 0 {
                 karmaValue = 0
+                karmaBar.xScale = karmaValue
             }
             else {
                 karmaBar.xScale = karmaValue * 3
@@ -160,9 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             /* Restart game scene */
             skView?.presentScene(scene)
-            
-        }
-        
+        }        
         
     }//closing brackets for didMove function
     
@@ -348,12 +346,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             obstacleSpawnTimer = 0
             
         }
-        
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         
         //only need one single touch here
         let touch = touches.first!
@@ -371,10 +366,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.playerOnGround {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
                 
+                
                 self.npcjump = true
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
-            
         }
         else {
             //left(shooting)
@@ -412,7 +407,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("day" + "\(dayTime)")
             print("night" + "\(nightTime)")
         }
-        
     }
     
     
@@ -574,6 +568,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
+        //deals with cloud behavior
+        if worldState == .night {
+            cloudScrollLayer.run(fadeOut)
+        }
+        else {
+            cloudScrollLayer.run(fadeIn)
+        }
+        
+        
         if gameState != .gameActive { return }
         
         score += fixedDelta //adds 1 to score every second
@@ -591,12 +594,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switchWorld()
         updateNpcOnScreen() //turns on incremental increase of npcs according to score
         
-        
+        //reward 5 points for each enemy shot, boolean exist to work around multiple contacts
         if bulletHitEnemy {
             score += 5
             bulletHitEnemy = false
         }
         
+        //decrease karmaValue when you shoot a friend, boolean exists to work around multiple contacts
         if bulletHitFriend {
             karmaValue -= 0.3
             karmaBar.run(SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 0.18)) {
@@ -605,6 +609,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bulletHitFriend = false
         }
         
+        //player games karmaValue when contact a friend, boolean exist to work around multiple contacts
         if playerTouchFriend {
             karmaValue += 0.05
             karmaBar.run(SKAction.colorize(with: UIColor.green, colorBlendFactor: 1, duration: 0.18)) {
@@ -613,6 +618,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             playerTouchFriend = false
         }
         
+        //ends game if karmaValue is 0
         if karmaValue == 0 {
             gameOver()
         }
@@ -637,13 +643,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
         })
         
-        //deals with cloud behavior
-        if worldState == .night {
-            cloudScrollLayer.run(fadeOut)
-        }
-        else {
-            cloudScrollLayer.run(fadeIn)
-        }
+        
         //deals with ground behavior
         if worldState == .night {
             scrollLayer.run(SKAction.fadeAlpha(to: 0, duration: 0.5))
@@ -654,19 +654,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scrollLayerNight.alpha = 0
         }
         
-        if worldState == .day {
-            dayTime = true
-            nightTime = false
+        
+        //public boolean values for day and night
+//        if worldState == .day {
+//            dayTime = true
+//            nightTime = false
+//        }
+//        else {
+//            dayTime = false
+//            nightTime = true
+//        }
+        
+        //limits character's jump height
+        if egg.position.y > 117 {
+            egg.position.y = 115
         }
-        else {
-            dayTime = false
-            nightTime = true
-        }
-        
-        //I don't like this code but it works, switches friends and enemies
         
         
- 
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION
     

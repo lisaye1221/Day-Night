@@ -8,27 +8,27 @@
 
 import SpriteKit
 
-class NightEnemy: SKSpriteNode {
-    
-    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-        super.init(texture: texture, color: color, size:size)
-        
-        
-        if dayTime {
-            //daytime = friend
-            self.physicsBody?.categoryBitMask = 16
-        }
-        else {
-            //night time = enemy
-            self.physicsBody?.categoryBitMask = 8
-        }
-        
-    }
-    
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
+//class NightEnemy: SKSpriteNode {
+//    
+//    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+//        super.init(texture: texture, color: color, size:size)
+//        
+//        
+//        if dayTime {
+//            //daytime = friend
+//            self.physicsBody?.categoryBitMask = 16
+//        }
+//        else {
+//            //night time = enemy
+//            self.physicsBody?.categoryBitMask = 8
+//        }
+//        
+//    }
+//    
+//    
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//    
+//}
