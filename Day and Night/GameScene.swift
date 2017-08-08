@@ -256,10 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         totalNpc = npcList.count
-        
-        //        for child in npcsArray.children {
-        //            npcList.append(child)
-        //        }
+
         
         /* Loop through obstacle layer nodes*/
         for npc in npcScrollLayer.children {
@@ -514,16 +511,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //loops through EVERYTHING in the scene
-        enumerateChildNodes(withName: "//*", using:
-            { (node, stop) -> Void in
-                if let spriteNode = node as? SKSpriteNode {
-                    spriteNode.removeAllActions()
-                    spriteNode.physicsBody?.velocity.dx = 0
-                }
-        })
+//        enumerateChildNodes(withName: "//*", using:
+//            { (node, stop) -> Void in
+//                if let spriteNode = node as? SKSpriteNode {
+//                    spriteNode.removeAllActions()
+//                    spriteNode.physicsBody?.velocity.dx = 0
+//                }
+//        })
+        
+        for npc in npcScrollLayer.children as! [SKSpriteNode] {
+            if let spriteNode = npc as? SKSpriteNode {
+                spriteNode.removeAllActions()
+                spriteNode.physicsBody?.velocity.dx = 0
+            }
+        }
+        
+        egg.run(SKAction(named: "eggDeath")!) {
+           self.egg.removeAllActions()
+        }
         
         highScoreLabel.alpha = 1
-        
         
     }
     
@@ -543,12 +550,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 else {
                     self.worldState = .day
                 }
-                
             }
-            
             switchTimer = 0
-            
-            
         }
     }
     
@@ -574,6 +577,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cloudScrollLayer.run(fadeIn)
         }
         
+//        if gameState == .gameOver {
+//            egg.run(SKAction(named: "eggDeath")!)
+//        }
         
         if gameState != .gameActive { return }
         
