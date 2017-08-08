@@ -526,7 +526,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        egg.run(SKAction(named: "eggDeath")!) {
+        egg.run(SKAction(named: "eggDeath", duration: 0.2)!) {
            self.egg.removeAllActions()
         }
         
