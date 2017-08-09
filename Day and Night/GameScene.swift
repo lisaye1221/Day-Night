@@ -23,6 +23,10 @@ public var nightTime = false
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    //stored values
+    var highScore = UserDefaults.standard.integer(forKey: "HIGHSCORE")
+    var eggshellTotal = UserDefaults.standard.integer(forKey: "EGGSHELL")
+    
     //time related variable
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
     var score: CFTimeInterval = 0 //score of player
@@ -81,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //graphics nodes
     var cloudScrollLayer: SKNode!
     var backgroundLayer: SKNode!
+    var heartSource: SKSpriteNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -109,8 +114,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
-    
     //actions
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
     let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
@@ -135,6 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         obstacleSource = childNode(withName: "obstacle")
         cloudScrollLayer = childNode(withName: "cloudScrollLayer")
         backgroundLayer = childNode(withName: "backgroundLayer")
+        heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         
         highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
         highScoreLabel.alpha = 0
@@ -506,6 +510,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if gameState != .gameOver {return}
         
+        if Int(score) > highScore {
+            saveHighScore()
+        }
+        
+        addEggshell()
+        
         /* Show restart button */
         restartButton.state = .MSButtonNodeStateActive
         
@@ -567,6 +577,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func spawnHeart() {
+        let newHeart = heartSource.copy() as! SKSpriteNode
+        self.addChild(newHeart)
+        let eggPosition = self.egg.convert(self.egg.position, to: self)
+        newHeart.position.x = eggPosition.x
+        newHeart.position.y = eggPosition.y + 25
+        newHeart.run(SKAction(named: "spawnHeart", duration: 0.15)!) {
+            newHeart.removeFromParent()
+        }
+    }
+    
+    func saveHighScore() {
+        UserDefaults().set(score, forKey: "HIGHSCORE")
+    }
+    
+    func addEggshell() {
+//        eggshellTotal += eggshell
+//        UserDefaults().set(eggshellTotal, forKey: "EGGSHELL")
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         
         //deals with cloud behavior
@@ -577,9 +607,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cloudScrollLayer.run(fadeIn)
         }
         
-//        if gameState == .gameOver {
-//            egg.run(SKAction(named: "eggDeath")!)
-//        }
+        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
         
         if gameState != .gameActive { return }
         
@@ -619,6 +647,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             karmaBar.run(SKAction.colorize(with: UIColor.green, colorBlendFactor: 1, duration: 0.18)) {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
+            spawnHeart()
             playerTouchFriend = false
         }
         
@@ -647,7 +676,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
         })
         
-        
         //deals with ground behavior
         if worldState == .night {
             scrollLayer.run(SKAction.fadeAlpha(to: 0, duration: 0.5))
@@ -659,22 +687,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        //public boolean values for day and night
-        //        if worldState == .day {
-        //            dayTime = true
-        //            nightTime = false
-        //        }
-        //        else {
-        //            dayTime = false
-        //            nightTime = true
-        //        }
-        
         //limits character's jump height
         if egg.position.y > 117 {
             egg.position.y = 115
         }
-        
-        
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION
     
