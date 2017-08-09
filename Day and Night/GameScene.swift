@@ -171,8 +171,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func scrollWorld() {
         
-        if worldState != .day {return}
-        
         /* Scroll World */
         scrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
         
@@ -181,6 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             /* Get ground node position, convert node position to scene space, ground is child of scrollLayer but not necess a child of scene so gotta convert */
             let groundPosition = scrollLayer.convert(ground.position, to: self)
+            
             
             /* Check if ground sprite has left the scene */
             if groundPosition.x <= (-ground.size.width + 5)  {
@@ -193,32 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
-    func scrollNightWorld() {
-        
-        if worldState != .night {return}
-        
-        /* Scroll World */
-        scrollLayerNight.position.x -= scrollSpeed * CGFloat(fixedDelta)
-        
-        /* Loop through scroll layer nodes */
-        for ground in scrollLayerNight.children as! [SKSpriteNode] {
-            
-            /* Get ground node position, convert node position to scene space, ground is child of scrollLayer but not necess a child of scene so gotta convert */
-            let groundPosition = scrollLayerNight.convert(ground.position, to: self)
-            
-            /* Check if ground sprite has left the scene */
-            if groundPosition.x <= (-ground.size.width + 5)  {
-                
-                /* Reposition ground sprite to the second starting position */
-                let newPosition = CGPoint(x: (self.size.width * 2)  , y: groundPosition.y)
-                
-                /* Convert new node position back to scroll layer space */
-                ground.position = self.convert(newPosition, to: scrollLayerNight)
-            }
-        }
-    }
-    
+
     func scrollBackground() {
         
         if worldState != .day {return}
@@ -556,9 +530,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if self.worldState == .day {
                     self.worldState = .night
+                    //darken the ground
+                    for ground in self.scrollLayer.children {
+                        ground.run(SKAction.colorize(with: UIColor.black, colorBlendFactor: 0.5, duration: 0.4))
+                    }
                 }
                 else {
                     self.worldState = .day
+                    //change ground color to normal
+                    for ground in self.scrollLayer.children {
+                        ground.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
+                    }
                 }
             }
             switchTimer = 0
@@ -619,7 +601,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldTimer += fixedDelta
         
         scrollWorld()
-        scrollNightWorld()
         scrollBackground()
         spawnNpc()
         spawnObstacle()
@@ -675,16 +656,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
         })
-        
-        //deals with ground behavior
-        if worldState == .night {
-            scrollLayer.run(SKAction.fadeAlpha(to: 0, duration: 0.5))
-            scrollLayerNight.alpha = 1
-        }
-        else {
-            scrollLayer.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
-            scrollLayerNight.alpha = 0
-        }
         
         
         //limits character's jump height
