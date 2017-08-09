@@ -44,7 +44,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcsOnScreen = 2
     var totalNpc: Int = 0
     
-    
+    var dayCount: Int = 0 {
+        didSet{
+            if dayCount % 2 == 0 {
+                npcsOnScreen += 1
+            }
+            if npcsOnScreen > totalNpc {
+                npcsOnScreen = totalNpc
+            }
+        }
+    }
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
         didSet{
@@ -65,6 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var egg: SKSpriteNode!
     var scoreLabel: SKLabelNode!
+    var dayCountLabel: SKLabelNode!
     var restartButton: MSButtonNode!
     var scrollLayer: SKNode!
     var scrollLayerNight: SKNode!
@@ -81,6 +91,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleScrollLayer: SKNode!
     var obstacleArray: SKNode!
     var obstacleSource: SKNode!
+    
+    //npc Sources
+    var watermelonSource: SKSpriteNode!
+    var bunnySource: SKSpriteNode!
+    var coneSource: SKSpriteNode!
+    var fishSource: SKSpriteNode!
+    
+    var npcList: [SKSpriteNode]!
     
     //graphics nodes
     var cloudScrollLayer: SKNode!
@@ -120,13 +138,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //temp
     var highScoreLabel: SKLabelNode!
-    
+
+   
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
         
         egg = self.childNode(withName: "//egg") as! SKSpriteNode
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+        dayCountLabel = childNode(withName: "dayCountLabel") as! SKLabelNode
         
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
@@ -145,8 +165,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
+        //npc Souce Connection
+        watermelonSource = childNode(withName: "//watermelon") as! SKSpriteNode
+        bunnySource = childNode(withName: "//bunny") as! SKSpriteNode
+        coneSource = childNode(withName: "//cone") as! SKSpriteNode
+        fishSource = childNode(withName: "//fish") as! SKSpriteNode
+        
+        npcList = [watermelonSource, bunnySource, coneSource, fishSource]
+        totalNpc = npcList.count
         
         physicsWorld.contactDelegate = self //set up physics
+        
+    //////Button Related Code below
         
         /* Hide restart button */
         restartButton.state = .MSButtonNodeStateHidden
@@ -223,19 +253,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         npcScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         npcScrollLayer.position.y = 0
         
-        var npcList = [SKSpriteNode]()
-        
-        for childReference in npcsArray.children {
-            for childSKNode in childReference.children {
-                for child in childSKNode.children {
-                    npcList.append(child as! SKSpriteNode)
-                }
-            }
-        }
-        
-        totalNpc = npcList.count
+//        for childReference in npcsArray.children {
+//            for childSKNode in childReference.children {
+//                for child in childSKNode.children {
+//                    npcList.append(child as! SKSpriteNode)
+//                }
+//            }
+//        }
 
-        
         /* Loop through obstacle layer nodes*/
         for npc in npcScrollLayer.children {
             
@@ -243,7 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let npcPosition = npcScrollLayer.convert(npc.position, to: self)
             
             /* Check if obstacle has left the scene */
-            if npcPosition.x <= -100 {
+            if npcPosition.x <= -40 {
                 
                 /* Remove obstacle node from obstacle layer */
                 npc.removeFromParent()
@@ -282,7 +307,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
             
             /* Check if obstacle has left the scene */
-            if obstaclePosition.x <= -100 {
+            if obstaclePosition.x <= -30 {
                 // 26 is one half the width of an obstacle
                 
                 /* Remove obstacle node from obstacle layer */
@@ -532,8 +557,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.worldState = .night
                     //darken the ground
                     for ground in self.scrollLayer.children {
-                        ground.run(SKAction.colorize(with: UIColor.black, colorBlendFactor: 0.5, duration: 0.4))
+                        ground.run(SKAction.colorize(with: UIColor.black, colorBlendFactor: 0.5, duration: 0.3))
                     }
+                    self.cloudScrollLayer.run(self.fadeOut)
                 }
                 else {
                     self.worldState = .day
@@ -541,6 +567,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     for ground in self.scrollLayer.children {
                         ground.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
                     }
+                    self.cloudScrollLayer.run(self.fadeIn)
+                    self.dayCount += 1
+                    self.dayCountLabel.text = String(self.dayCount)
                 }
             }
             switchTimer = 0
@@ -554,6 +583,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 npcsOnScreen = 2 + multiples
             }
         }
+
         if npcsOnScreen > totalNpc {
             npcsOnScreen = totalNpc
         }
@@ -579,15 +609,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        UserDefaults().set(eggshellTotal, forKey: "EGGSHELL")
     }
     
+/////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
+    
     override func update(_ currentTime: TimeInterval) {
         
-        //deals with cloud behavior
-        if worldState == .night {
-            cloudScrollLayer.run(fadeOut)
-        }
-        else {
-            cloudScrollLayer.run(fadeIn)
-        }
         
         highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
         
@@ -605,7 +630,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnNpc()
         spawnObstacle()
         switchWorld()
-        updateNpcOnScreen() //turns on incremental increase of npcs according to score
+        //updateNpcOnScreen() //turns on incremental increase of npcs according to score
         
         //reward 5 points for each enemy shot, boolean exist to work around multiple contacts
         if bulletHitEnemy {
