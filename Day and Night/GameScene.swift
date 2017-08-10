@@ -104,6 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var cloudScrollLayer: SKNode!
     var backgroundLayer: SKNode!
     var heartSource: SKSpriteNode!
+    var heartbreakSource: SKSpriteNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -159,6 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cloudScrollLayer = childNode(withName: "cloudScrollLayer")
         backgroundLayer = childNode(withName: "backgroundLayer")
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
+        heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
         
         highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
         highScoreLabel.alpha = 0
@@ -595,8 +597,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let eggPosition = self.egg.convert(self.egg.position, to: self)
         newHeart.position.x = eggPosition.x
         newHeart.position.y = eggPosition.y + 25
-        newHeart.run(SKAction(named: "spawnHeart", duration: 0.15)!) {
+        newHeart.run(SKAction(named: "spawnHeart", duration: 0.3)!) {
             newHeart.removeFromParent()
+        }
+    }
+    
+    func spawnHeartBreak() {
+        let newHeartbreak = heartbreakSource.copy() as! SKSpriteNode
+        self.addChild(newHeartbreak)
+        let eggPosition = self.egg.convert(self.egg.position, to: self)
+        newHeartbreak.position.x = eggPosition.x
+        newHeartbreak.position.y = eggPosition.y + 25
+        newHeartbreak.run(SKAction(named: "spawnHeartBreak", duration: 0.3)!) {
+            newHeartbreak.removeFromParent()
         }
     }
     
@@ -644,6 +657,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             karmaBar.run(SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 0.18)) {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
+            spawnHeartBreak()
             bulletHitFriend = false
         }
         
