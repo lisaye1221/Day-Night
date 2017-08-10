@@ -66,7 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 karmaBar.xScale = karmaValue
             }
             else {
-                karmaBar.xScale = karmaValue * 3
+                karmaBar.xScale = karmaValue
             }
             
         }
@@ -653,7 +653,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //decrease karmaValue when you shoot a friend, boolean exists to work around multiple contacts
         if bulletHitFriend {
-            karmaValue -= 0.3
+            karmaValue -= 0.25
             karmaBar.run(SKAction.colorize(with: UIColor.red, colorBlendFactor: 1, duration: 0.18)) {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
