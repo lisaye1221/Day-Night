@@ -15,6 +15,10 @@
 		4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4224ACF81F2FC4FD0087ABF3 /* fire.sks */; };
 		4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825D1F26FDBF0066875B /* Helper Function.swift */; };
 		422582601F27048F0066875B /* bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825F1F27048F0066875B /* bullets.swift */; };
+		4227CE621F415A32006193EC /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4227CE611F415A32006193EC /* MainMenu.swift */; };
+		42299F1C1F3E01E6000D5E18 /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42299F1B1F3E01E6000D5E18 /* Tutorial.sks */; };
+		42299F1E1F3E2006000D5E18 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42299F1D1F3E2006000D5E18 /* Tutorial.swift */; };
+		42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42299F1F1F3E3C65000D5E18 /* Main Menu.sks */; };
 		4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */; };
 		422AAFD21F33C31400F7E988 /* fish.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422AAFD11F33C31400F7E988 /* fish.sks */; };
 		422B0D741F2B80200084A781 /* Cone.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422B0D731F2B80200084A781 /* Cone.sks */; };
@@ -41,6 +45,10 @@
 		4224ACF81F2FC4FD0087ABF3 /* fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fire.sks; sourceTree = "<group>"; };
 		4225825D1F26FDBF0066875B /* Helper Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Helper Function.swift"; sourceTree = "<group>"; };
 		4225825F1F27048F0066875B /* bullets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bullets.swift; sourceTree = "<group>"; };
+		4227CE611F415A32006193EC /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		42299F1B1F3E01E6000D5E18 /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
+		42299F1D1F3E2006000D5E18 /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
+		42299F1F1F3E3C65000D5E18 /* Main Menu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "Main Menu.sks"; sourceTree = "<group>"; };
 		4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		422AAFD11F33C31400F7E988 /* fish.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fish.sks; sourceTree = "<group>"; };
 		422B0D731F2B80200084A781 /* Cone.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Cone.sks; path = ../Cone.sks; sourceTree = "<group>"; };
@@ -108,6 +116,10 @@
 				42F7759D1F26734200ECF8ED /* AppDelegate.swift */,
 				42F7759F1F26734200ECF8ED /* GameScene.sks */,
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
+				42299F1B1F3E01E6000D5E18 /* Tutorial.sks */,
+				42299F1D1F3E2006000D5E18 /* Tutorial.swift */,
+				42299F1F1F3E3C65000D5E18 /* Main Menu.sks */,
+				4227CE611F415A32006193EC /* MainMenu.swift */,
 				4224ACFA1F2FC5EA0087ABF3 /* npcs */,
 				4224ACF81F2FC4FD0087ABF3 /* fire.sks */,
 				421B5DE21F2789CD00815223 /* egg.sks */,
@@ -186,11 +198,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42299F1C1F3E01E6000D5E18 /* Tutorial.sks in Resources */,
 				42F775A91F26734200ECF8ED /* Main.storyboard in Resources */,
 				42F775A01F26734200ECF8ED /* GameScene.sks in Resources */,
 				42FB87F91F2F223B0045DB79 /* bunny.sks in Resources */,
 				422AAFD21F33C31400F7E988 /* fish.sks in Resources */,
 				422392681F34B8CB002BA141 /* mushroom.sks in Resources */,
+				42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */,
 				421936721F3A14210007B742 /* test.sks in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
@@ -210,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4227CE621F415A32006193EC /* MainMenu.swift in Sources */,
 				42F775A41F26734200ECF8ED /* GameScene.swift in Sources */,
 				42F775A61F26734200ECF8ED /* GameViewController.swift in Sources */,
 				4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */,
@@ -219,6 +234,7 @@
 				4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */,
 				42F775B81F2676EE00ECF8ED /* MSButtonNode.swift in Sources */,
 				422B8B1F1F34CA4200CB1819 /* NightEnemy.swift in Sources */,
+				42299F1E1F3E2006000D5E18 /* Tutorial.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

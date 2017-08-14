@@ -10,22 +10,8 @@ import SpriteKit
 import GameplayKit
 
 
-enum GameState {
-    case gameActive, gameOver
-}
-
-enum WorldState {
-    case day, night
-}
-
-public var dayTime = true
-public var nightTime = false
-
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class Tutorial: SKScene, SKPhysicsContactDelegate {
     
-    //stored values
-    var highScore = UserDefaults.standard.integer(forKey: "HIGHSCORE")
-    var eggshellTotal = UserDefaults.standard.integer(forKey: "EGGSHELL")
     
     //time related variable
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
@@ -38,22 +24,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var worldTimer: CFTimeInterval = 0
     
     var obstacleTravelSpeed: CGFloat = 250
-    var npcTravelSpeed: CGFloat = 280
+    var npcTravelSpeed: CGFloat = 285
     var obstacleDensity = 2.0
     var npcDensity = 1.8 //time inbetween a new enemy(lower = more enemy)
     var npcsOnScreen = 2
     var totalNpc: Int = 0
     
-    var dayCount: Int = 0 {
-        didSet{
-            if dayCount % 2 == 0 {
-                npcsOnScreen += 1
-            }
-            if npcsOnScreen > totalNpc {
-                npcsOnScreen = totalNpc
-            }
-        }
-    }
+    var dayCount: Int = 0
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
         didSet{
@@ -75,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var egg: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var dayCountLabel: SKLabelNode!
-    var restartButton: MSButtonNode!
+    var playAgainButton: MSButtonNode!
     var scrollLayer: SKNode!
     var scrollLayerNight: SKNode!
     
@@ -85,18 +62,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bulletHitFriend = false
     var playerTouchFriend = false
     var npcjump = false
+    var shouldSwitch = false
+    var halt = false
     
-    var npcsArray: SKNode!
+
     var npcScrollLayer: SKNode!
+    var npcArray: SKNode!
     var obstacleScrollLayer: SKNode!
     var obstacleArray: SKNode!
     var obstacleSource: SKNode!
     
-    //npc Sources
-    var watermelonSource: SKSpriteNode!
-    var bunnySource: SKSpriteNode!
-    var coneSource: SKSpriteNode!
-    var fishSource: SKSpriteNode!
     
     var npcList: [SKSpriteNode]!
     
@@ -110,15 +85,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameState: GameState = .gameActive
     var worldState: WorldState = .day {
         didSet {
-            for npc in npcScrollLayer.children as! [SKSpriteNode] {
-                if npc.physicsBody?.categoryBitMask == 8 {
-                    npc.physicsBody?.categoryBitMask = 16
-                }
-                else if npc.physicsBody?.categoryBitMask == 16 {
-                    npc.physicsBody?.categoryBitMask = 8
-                }
-            }
-            for childReference in npcsArray.children {
+//            for npc in npcScrollLayer.children as! [SKSpriteNode] {
+//                if npc.physicsBody?.categoryBitMask == 8 {
+//                    npc.physicsBody?.categoryBitMask = 16
+//                }
+//                else if npc.physicsBody?.categoryBitMask == 16 {
+//                    npc.physicsBody?.categoryBitMask = 8
+//                }
+//            }
+            for childReference in npcScrollLayer.children {
                 for childSKNode in childReference.children {
                     for child in childSKNode.children {
                         if child.physicsBody?.categoryBitMask == 8 {
@@ -130,15 +105,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-        }
+    }
     }
     
     //actions
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
     let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
-    
-    //temp
-    var highScoreLabel: SKLabelNode!
 
    
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
@@ -149,11 +121,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         dayCountLabel = childNode(withName: "dayCountLabel") as! SKLabelNode
         
-        restartButton = childNode(withName: "restartButton") as! MSButtonNode
+        playAgainButton = childNode(withName: "playAgainButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
-        npcsArray = childNode(withName: "npcsArray")
         npcScrollLayer = childNode(withName: "npcScrollLayer")
+        npcArray = childNode(withName: "npcsArray")
         obstacleScrollLayer = childNode(withName: "obstacleScrollLayer")
         obstacleArray = childNode(withName: "obstacleArray")
         obstacleSource = childNode(withName: "obstacle")
@@ -162,28 +134,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
         
-        highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
-        highScoreLabel.alpha = 0
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
-        //npc Souce Connection
-        watermelonSource = childNode(withName: "//watermelon") as! SKSpriteNode
-        bunnySource = childNode(withName: "//bunny") as! SKSpriteNode
-        coneSource = childNode(withName: "//cone") as! SKSpriteNode
-        fishSource = childNode(withName: "//fish") as! SKSpriteNode
-        
-        npcList = [watermelonSource, bunnySource, coneSource, fishSource]
-        totalNpc = npcList.count
         
         physicsWorld.contactDelegate = self //set up physics
         
     //////Button Related Code below
         
         /* Hide restart button */
-        restartButton.state = .MSButtonNodeStateHidden
+        playAgainButton.state = .MSButtonNodeStateHidden
         
-        restartButton.selectedHandler = { [unowned self] in
+        playAgainButton.selectedHandler = { [unowned self] in
             
             /* Grab reference to our SpriteKit view */
             let skView = self.view as SKView!
@@ -198,6 +160,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             skView?.presentScene(scene)
         }
         
+        egg.physicsBody?.contactTestBitMask = 59
+        
     }//closing brackets for didMove function
     
     
@@ -206,23 +170,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Scroll World */
         scrollLayer.position.x -= scrollSpeed * CGFloat(fixedDelta)
         
-        /* Loop through scroll layer nodes */
-        for ground in scrollLayer.children as! [SKSpriteNode] {
-            
-            /* Get ground node position, convert node position to scene space, ground is child of scrollLayer but not necess a child of scene so gotta convert */
-            let groundPosition = scrollLayer.convert(ground.position, to: self)
-            
-            
-            /* Check if ground sprite has left the scene */
-            if groundPosition.x <= (-ground.size.width + 5)  {
-                
-                /* Reposition ground sprite to the second starting position */
-                let newPosition = CGPoint(x: (self.size.width * 2)  , y: groundPosition.y)
-                
-                /* Convert new node position back to scroll layer space */
-                ground.position = self.convert(newPosition, to: scrollLayer)
-            }
-        }
     }
 
     func scrollBackground() {
@@ -254,101 +201,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //scroll npcLayer so it moves across
         npcScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         npcScrollLayer.position.y = 0
+            
         
-//        for childReference in npcsArray.children {
-//            for childSKNode in childReference.children {
-//                for child in childSKNode.children {
-//                    npcList.append(child as! SKSpriteNode)
-//                }
-//            }
-//        }
-
-        /* Loop through obstacle layer nodes*/
-        for npc in npcScrollLayer.children {
-            
-            /* Get obstacle node postion, convert node position to scene space */
-            let npcPosition = npcScrollLayer.convert(npc.position, to: self)
-            
-            /* Check if obstacle has left the scene */
-            if npcPosition.x <= -40 {
-                
-                /* Remove obstacle node from obstacle layer */
-                npc.removeFromParent()
-            }
-        }
-        
-        if spawnTimer >= npcDensity {
-            
-            //change max number to npcList.count for ALL sprites at once, change it to npcOnScreen for incremental increase of sprites
-            let randomNpcIndex = randomInteger(min: 0, max: npcsOnScreen)
-            
-            let newEnemy = npcList[randomNpcIndex].copy() as! SKSpriteNode //newEnemy is the first child
-            
-            npcScrollLayer.addChild(newEnemy) //adds new enemy
-            
-            //            let eggPosition = self.egg.convert(self.egg.position, to: self)
-            let randomPosition = CGPoint(x: 800 , y: 80)
-            
-            newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)
-            
-            
-            // Reset spawn timer
-            spawnTimer = 0
-            
-        }
     }
     
     func spawnObstacle() {
         
         obstacleScrollLayer.position.x -= obstacleTravelSpeed * CGFloat(fixedDelta)
         
-        /* Loop through obstacle layer nodes*/
-        for obstacle in obstacleScrollLayer.children  {
-            
-            /* Get obstacle node postion, convert node position to scene space */
-            let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
-            
-            /* Check if obstacle has left the scene */
-            if obstaclePosition.x <= -30 {
-                // 26 is one half the width of an obstacle
-                
-                /* Remove obstacle node from obstacle layer */
-                obstacle.removeFromParent()
-                
-            }
-            
-            
-        }
-        
-        var obstacleList = [SKNode]()
-        
-        for obstacle in obstacleArray.children {
-            obstacleList.append(obstacle)
-        }
-        
-        if obstacleSpawnTimer > obstacleDensity {
-            
-            let randomObstacleIndex = randomInteger(min: 0, max: obstacleList.count)
-            
-            /* Create a new obstacle by copying the source obstacle*/
-            
-            let newObstacle = obstacleList[randomObstacleIndex].copy() as! SKNode
-            
-            let obstaclePosition = obstacleScrollLayer.convert(newObstacle.position, to: self)
-            
-            obstacleScrollLayer.addChild(newObstacle)
-            
-            /* Generate new obstacle position, start just outside screen and with a random y value*/
-            let randomPosition = CGPoint(x: 750, y: obstaclePosition.y)
-            
-            /* Convert new node position back to obstacle layer space */
-            newObstacle.position = self.convert(randomPosition, to: obstacleScrollLayer)
-            
-            // Reset spawn timer
-            obstacleSpawnTimer = 0
-            
-        }
-    }
+           }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -406,8 +267,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Apply impulse to penguin
             eggBullet.physicsBody?.applyImpulse(launchImpulse)
             
-            print("day" + "\(dayTime)")
-            print("night" + "\(nightTime)")
         }
     }
     
@@ -489,17 +348,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //when player contacts enemy
-        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 16 {
+        if contactA.categoryBitMask == 1 && contactA.node?.name == "egg" && contactB.categoryBitMask == 16 {
             
             contact.bodyB.node?.removeFromParent()
-            playerTouchFriend = true
+            self.playerTouchFriend = true
         }
-        else if contactA.categoryBitMask == 16 && contactB.categoryBitMask == 1 {
+        else if contactA.categoryBitMask == 16 && contactB.categoryBitMask == 1 && contactB.node?.name == "egg" {
             
             contact.bodyA.node?.removeFromParent()
-            playerTouchFriend = true
+            self.playerTouchFriend = true
             
         }
+        
+        //when player contacts trigger 1
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 1 && contactB.node?.name == "trigger1" || contactA.categoryBitMask == 1 && contactA.node?.name == "trigger1" && contactB.categoryBitMask == 1 {
+            
+            shouldSwitch = true
+        }
+        
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 1 && contactB.node?.name == "trigger2" || contactA.categoryBitMask == 1 && contactA.node?.name == "trigger2" && contactB.categoryBitMask == 1 {
+            
+            halt = true
+        }
+        
+        
         
     }//closing brackets for didBegin function
     
@@ -511,26 +383,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if gameState != .gameOver {return}
         
-        if Int(score) > highScore {
-            saveHighScore()
-        }
-        
-        addEggshell()
-        
         /* Show restart button */
-        restartButton.state = .MSButtonNodeStateActive
+        playAgainButton.state = .MSButtonNodeStateActive
         
-        
-        //loops through EVERYTHING in the scene
-//        enumerateChildNodes(withName: "//*", using:
-//            { (node, stop) -> Void in
-//                if let spriteNode = node as? SKSpriteNode {
-//                    spriteNode.removeAllActions()
-//                    spriteNode.physicsBody?.velocity.dx = 0
-//                }
-//        })
-        
-        for npc in npcScrollLayer.children as! [SKSpriteNode] {
+        for npc in npcScrollLayer.children {
             if let spriteNode = npc as? SKSpriteNode {
                 spriteNode.removeAllActions()
                 spriteNode.physicsBody?.velocity.dx = 0
@@ -540,16 +396,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         egg.run(SKAction(named: "eggDeath", duration: 0.2)!) {
            self.egg.removeAllActions()
         }
-        
-        highScoreLabel.alpha = 1
+
         
     }
     
     func switchWorld() {
         
-        let randomTime = randomInteger(min: 15, max: 25)
-        
-        if switchTimer >= CFTimeInterval(randomTime) {
+        if worldTimer >= CFTimeInterval(13) {
             
             //worldState changes after animation is completed
             let backgroundSwitch = SKAction(named: "backgroundSwitch")!
@@ -574,72 +427,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.dayCountLabel.text = String(self.dayCount)
                 }
             }
-            switchTimer = 0
+            worldTimer = 0
         }
     }
     
-    func updateNpcOnScreen() {
-        for multiples in 1...(totalNpc - 2) {
-            //adds a new npc at multiples of 50
-            if Int(score) > 50 * multiples && Int(score) < (50 * multiples) + 10 {
-                npcsOnScreen = 2 + multiples
-            }
-        }
-
-        if npcsOnScreen > totalNpc {
-            npcsOnScreen = totalNpc
-        }
-    }
     
     func spawnHeart() {
         let newHeart = heartSource.copy() as! SKSpriteNode
-        egg.addChild(newHeart)
-        //let eggPosition = self.egg.convert(self.egg.position, to: self)
-        newHeart.position.x = egg.position.x
-        newHeart.position.y = egg.position.y
+        self.addChild(newHeart)
+        let eggPosition = self.egg.convert(self.egg.position, to: self)
+        newHeart.position.x = eggPosition.x
+        newHeart.position.y = eggPosition.y + 25
         newHeart.run(SKAction(named: "spawnHeart", duration: 0.3)!) {
             newHeart.removeFromParent()
-        }
-        if newHeart.position.y > 170 {
-            newHeart.position.y = 170
         }
     }
     
     func spawnHeartBreak() {
         let newHeartbreak = heartbreakSource.copy() as! SKSpriteNode
-        egg.addChild(newHeartbreak)
-        //let eggPosition = self.egg.convert(self.egg.position, to: self)
-        newHeartbreak.position.x = egg.position.x
-        newHeartbreak.position.y = egg.position.y
+        self.addChild(newHeartbreak)
+        let eggPosition = self.egg.convert(self.egg.position, to: self)
+        newHeartbreak.position.x = eggPosition.x
+        newHeartbreak.position.y = eggPosition.y + 25
         newHeartbreak.run(SKAction(named: "spawnHeartBreak", duration: 0.3)!) {
             newHeartbreak.removeFromParent()
         }
-        if newHeartbreak.position.y > 170 {
-            newHeartbreak.position.y = 170
-        }
     }
     
-    func saveHighScore() {
-        UserDefaults().set(score, forKey: "HIGHSCORE")
-    }
-    
-    func addEggshell() {
-//        eggshellTotal += eggshell
-//        UserDefaults().set(eggshellTotal, forKey: "EGGSHELL")
-    }
     
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
     
     override func update(_ currentTime: TimeInterval) {
         
-        
-        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
-        
         if gameState != .gameActive { return }
+        
+        if halt {
+            egg.removeAllActions()
+            return
+        }
         
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
-        spawnTimer += fixedDelta
         obstacleSpawnTimer += fixedDelta
         switchTimer += fixedDelta
         worldTimer += fixedDelta
@@ -649,7 +477,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnNpc()
         spawnObstacle()
         switchWorld()
-        //updateNpcOnScreen() //turns on incremental increase of npcs according to score
+       
+
         
         //reward 5 points for each enemy shot, boolean exist to work around multiple contacts
         if bulletHitEnemy {
@@ -702,17 +531,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
         })
         
+        
         //limits character's jump height
         if egg.position.y > 117 {
             egg.position.y = 115
-        }
-        
-        //prevent heart animation from going too high up
-        if egg.children.isEmpty == false {
-            let heart = egg.children[0] as! SKSpriteNode
-            if heart.position.y > 60 {
-                heart.position.y = 60
-            }
         }
         
     }//CLOSING BRACKETS FOR UPDATE FUNCTION
