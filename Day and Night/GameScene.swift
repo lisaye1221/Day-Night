@@ -44,11 +44,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcsOnScreen = 2
     var totalNpc: Int = 0
     
+    //everytime day change(increase by 1), a new sprite comes in
     var dayCount: Int = 0 {
         didSet{
-            if dayCount % 2 == 0 {
                 npcsOnScreen += 1
-            }
+            
             if npcsOnScreen > totalNpc {
                 npcsOnScreen = totalNpc
             }
@@ -76,8 +76,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode!
     var dayCountLabel: SKLabelNode!
     var restartButton: MSButtonNode!
+    var mainMenuButton: MSButtonNode!
     var scrollLayer: SKNode!
     var scrollLayerNight: SKNode!
+    var eggshellSource: SKSpriteNode!
+    var eggshellLabel: SKLabelNode!
+    var eggshell = 0
     
     //booleans for game management
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
@@ -85,6 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bulletHitFriend = false
     var playerTouchFriend = false
     var npcjump = false
+    var getEggshell = false
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
@@ -139,6 +144,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //temp
     var highScoreLabel: SKLabelNode!
+    var eggIcon: SKSpriteNode!
+    var totalEggshellLabel: SKLabelNode!
 
    
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
@@ -150,6 +157,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         dayCountLabel = childNode(withName: "dayCountLabel") as! SKLabelNode
         
         restartButton = childNode(withName: "restartButton") as! MSButtonNode
+        mainMenuButton = childNode(withName: "mainMenuButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
         npcsArray = childNode(withName: "npcsArray")
@@ -162,8 +170,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
         
+        eggshellSource = childNode(withName: "eggshellSource") as! SKSpriteNode
+        eggshellLabel = childNode(withName: "eggshellLabel") as! SKLabelNode
         highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
         highScoreLabel.alpha = 0
+        eggIcon = childNode(withName: "eggIcon") as! SKSpriteNode
+        totalEggshellLabel = childNode(withName: "totalEggshellLabel") as! SKLabelNode
+        eggIcon.alpha = 0
+        totalEggshellLabel.alpha = 0
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
@@ -182,6 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         /* Hide restart button */
         restartButton.state = .MSButtonNodeStateHidden
+        mainMenuButton.state = .MSButtonNodeStateHidden
         
         restartButton.selectedHandler = { [unowned self] in
             
@@ -196,6 +211,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             /* Restart game scene */
             skView?.presentScene(scene)
+        }
+        
+        mainMenuButton.selectedHandler = { [unowned self] in
+            
+            // 1) Grab reference to our SpriteKit view
+            guard let skView = self.view as SKView! else {
+                print("Could not get SKview")
+                return
+            }
+            
+            // 2) Load Game scene
+            guard let scene = MainMenu(fileNamed:"Main Menu") else {
+                print("Could not make MainMenu, check the name is spelled correctly")
+                return
+            }
+            
+            // 3) Ensure correct aspect mode
+            scene.scaleMode = .aspectFill
+            
+            //Show debug
+            skView.showsDrawCount = true
+            skView.showsFPS = true
+            
+            // 4) Start game scene
+            skView.presentScene(scene)
         }
         
     }//closing brackets for didMove function
@@ -406,8 +446,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Apply impulse to penguin
             eggBullet.physicsBody?.applyImpulse(launchImpulse)
             
-            print("day" + "\(dayTime)")
-            print("night" + "\(nightTime)")
         }
     }
     
@@ -501,6 +539,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        //when bullet hits box 
+        if contactA.categoryBitMask == 4 && contactB.categoryBitMask == 32 && contactB.node?.name == "box" {
+            
+            contactA.node?.removeFromParent()
+            
+            if let box = contactB.node {
+                print("box" + "\(box.position)")
+                print("works")
+                let eggshell = eggshellSource.copy() as! SKSpriteNode
+                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
+                self.addChild(eggshell)
+                eggshell.position = CGPoint(x:300, y:150)                //eggshell.position.x = box.position.x
+//                eggshell.position.y = box.position.y
+           
+                print("box" + "\(box.position)")
+                print("egg" + "\(eggshell.position)")
+                box.removeFromParent()
+                
+            }
+            
+        }
+       else if contactA.categoryBitMask == 32 && contactA.node?.name == "box" && contactB.categoryBitMask == 4 {
+            
+            contactB.node?.removeFromParent()
+            
+            if let box = contactA.node {
+                print("works")
+                let eggshell = eggshellSource.copy() as! SKNode
+                //let boxPosition = box.convert(box.position, to: obstacleScrollLayer)
+                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
+                self.addChild(eggshell)
+                eggshell.position = CGPoint(x:300, y:150)
+
+//                obstacleScrollLayer.addChild(eggshell)
+//                eggshell.position.x = box.position.x
+//                eggshell.position.y = box.position.y
+                
+                print("box" + "\(box.position)")
+                print("egg" + "\(eggshell.position)")
+                box.removeFromParent()
+                
+            }
+            
+        }
+        
+        //when player hits eggshell
+        if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 64 {
+            
+            contactB.node?.removeFromParent()
+            getEggshell = true
+        }
+        else if contactA.categoryBitMask == 64 && contactB.categoryBitMask == 1 {
+            
+            contactA.node?.removeFromParent()
+            getEggshell = true
+        }
+        
+        
     }//closing brackets for didBegin function
     
     
@@ -519,6 +615,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         /* Show restart button */
         restartButton.state = .MSButtonNodeStateActive
+        mainMenuButton.state = .MSButtonNodeStateActive
         
         
         //loops through EVERYTHING in the scene
@@ -541,7 +638,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
            self.egg.removeAllActions()
         }
         
+        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
+        totalEggshellLabel.text = "\(UserDefaults().integer(forKey: "EGGSHELL"))"
+        
         highScoreLabel.alpha = 1
+        eggIcon.alpha = 1
+        totalEggshellLabel.alpha = 1
         
     }
     
@@ -594,7 +696,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func spawnHeart() {
         let newHeart = heartSource.copy() as! SKSpriteNode
         egg.addChild(newHeart)
-        //let eggPosition = self.egg.convert(self.egg.position, to: self)
         newHeart.position.x = egg.position.x
         newHeart.position.y = egg.position.y
         newHeart.run(SKAction(named: "spawnHeart", duration: 0.3)!) {
@@ -608,7 +709,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func spawnHeartBreak() {
         let newHeartbreak = heartbreakSource.copy() as! SKSpriteNode
         egg.addChild(newHeartbreak)
-        //let eggPosition = self.egg.convert(self.egg.position, to: self)
         newHeartbreak.position.x = egg.position.x
         newHeartbreak.position.y = egg.position.y
         newHeartbreak.run(SKAction(named: "spawnHeartBreak", duration: 0.3)!) {
@@ -624,8 +724,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addEggshell() {
-//        eggshellTotal += eggshell
-//        UserDefaults().set(eggshellTotal, forKey: "EGGSHELL")
+        eggshellTotal += eggshell
+        UserDefaults().set(eggshellTotal, forKey: "EGGSHELL")
     }
     
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
@@ -633,16 +733,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         
-        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
+//        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
+//        totalEggshellLabel.text = "\(UserDefaults().integer(forKey: "EGGSHELL"))"
         
         if gameState != .gameActive { return }
         
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
+        eggshellLabel.text = String(eggshell)
         spawnTimer += fixedDelta
         obstacleSpawnTimer += fixedDelta
         switchTimer += fixedDelta
         worldTimer += fixedDelta
+        
+        eggshellSource.position = CGPoint(x:170, y:150)
         
         scrollWorld()
         scrollBackground()
@@ -675,6 +779,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             spawnHeart()
             playerTouchFriend = false
+        }
+        
+        if getEggshell {
+            eggshell += 1
+            getEggshell = false
         }
         
         //ends game if karmaValue is 0

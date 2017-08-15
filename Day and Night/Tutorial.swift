@@ -53,6 +53,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode!
     var dayCountLabel: SKLabelNode!
     var playAgainButton: MSButtonNode!
+    var mainMenuButton: MSButtonNode!
     var scrollLayer: SKNode!
     var scrollLayerNight: SKNode!
     
@@ -80,6 +81,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var backgroundLayer: SKNode!
     var heartSource: SKSpriteNode!
     var heartbreakSource: SKSpriteNode!
+    var textLayer: SKNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -122,6 +124,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         dayCountLabel = childNode(withName: "dayCountLabel") as! SKLabelNode
         
         playAgainButton = childNode(withName: "playAgainButton") as! MSButtonNode
+        mainMenuButton = childNode(withName: "mainMenuButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
         npcScrollLayer = childNode(withName: "npcScrollLayer")
@@ -133,7 +136,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         backgroundLayer = childNode(withName: "backgroundLayer")
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
-        
+        textLayer = childNode(withName: "textLayer")
+      
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
@@ -144,6 +148,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         /* Hide restart button */
         playAgainButton.state = .MSButtonNodeStateHidden
+        mainMenuButton.state = .MSButtonNodeStateHidden
         
         playAgainButton.selectedHandler = { [unowned self] in
             
@@ -151,13 +156,38 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             let skView = self.view as SKView!
             
             /* Load Game scene */
-            let scene = GameScene(fileNamed:"GameScene") as GameScene!
+            let scene = Tutorial(fileNamed:"Tutorial") as Tutorial!
             
             /* Ensure correct aspect mode */
             scene?.scaleMode = .aspectFill
             
             /* Restart game scene */
             skView?.presentScene(scene)
+        }
+        
+        mainMenuButton.selectedHandler = { [unowned self] in
+            
+            // 1) Grab reference to our SpriteKit view
+            guard let skView = self.view as SKView! else {
+                print("Could not get SKview")
+                return
+            }
+            
+            // 2) Load Game scene
+            guard let scene = MainMenu(fileNamed:"Main Menu") else {
+                print("Could not make MainMenu, check the name is spelled correctly")
+                return
+            }
+            
+            // 3) Ensure correct aspect mode
+            scene.scaleMode = .aspectFill
+            
+            //Show debug
+            skView.showsDrawCount = true
+            skView.showsFPS = true
+            
+            // 4) Start game scene
+            skView.presentScene(scene)
         }
         
         egg.physicsBody?.contactTestBitMask = 59
@@ -369,6 +399,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 1 && contactB.node?.name == "trigger2" || contactA.categoryBitMask == 1 && contactA.node?.name == "trigger2" && contactB.categoryBitMask == 1 {
             
             halt = true
+            playAgainButton.state = .MSButtonNodeStateActive
+            mainMenuButton.state = .MSButtonNodeStateActive
         }
         
         
@@ -385,12 +417,11 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         /* Show restart button */
         playAgainButton.state = .MSButtonNodeStateActive
+        mainMenuButton.state = .MSButtonNodeStateActive
         
         for npc in npcScrollLayer.children {
-            if let spriteNode = npc as? SKSpriteNode {
-                spriteNode.removeAllActions()
-                spriteNode.physicsBody?.velocity.dx = 0
-            }
+            npc.removeAllActions()
+            npc.physicsBody?.velocity.dx = 0
         }
         
         egg.run(SKAction(named: "eggDeath", duration: 0.2)!) {
@@ -402,7 +433,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     
     func switchWorld() {
         
-        if worldTimer >= CFTimeInterval(13) {
+        if worldTimer >= CFTimeInterval(10) {
             
             //worldState changes after animation is completed
             let backgroundSwitch = SKAction(named: "backgroundSwitch")!
@@ -454,6 +485,16 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func text() {
+        textLayer.position.x -= (scrollSpeed + 30 ) * CGFloat(fixedDelta)
+        
+        for text in textLayer.children {
+            let textPosition = self.textLayer.convert(text.position, to: self)
+            
+        
+        }
+    }
+    
     
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
     
@@ -468,6 +509,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
+        
         obstacleSpawnTimer += fixedDelta
         switchTimer += fixedDelta
         worldTimer += fixedDelta
@@ -477,7 +519,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         spawnNpc()
         spawnObstacle()
         switchWorld()
-       
+       text()
 
         
         //reward 5 points for each enemy shot, boolean exist to work around multiple contacts

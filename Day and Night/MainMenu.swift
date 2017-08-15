@@ -11,18 +11,28 @@ import SpriteKit
 class MainMenu: SKScene {
     
     //UI Connection
-    var beginButton: MSButtonNode!
+    var startButton: MSButtonNode!
+    var tutorialButton: MSButtonNode!
+    var highscoreButton: MSButtonNode!
     
     override func didMove(to view: SKView) {
         //set up scene here
         
-//        //UI connection
-//        beginButton = self.childNode(withName: "beginButton") as! MSButtonNode
-//        
-//        //Allow the button to run when tapped
-//        beginButton.selectedHandler = {
-//            self.loadGame()
-//        }
+        //UI connection
+        startButton = self.childNode(withName: "startButton") as! MSButtonNode
+        tutorialButton = self.childNode(withName: "tutorialButton") as! MSButtonNode
+        highscoreButton = self.childNode(withName: "highscoreButton") as! MSButtonNode
+        
+        //Allow the button to run when tapped
+        startButton.selectedHandler = { [unowned self] in
+            self.loadGame()
+        }
+        
+        tutorialButton.selectedHandler = { [unowned self] in
+            self.startTutorial()
+        }
+        
+        
     }
     
     

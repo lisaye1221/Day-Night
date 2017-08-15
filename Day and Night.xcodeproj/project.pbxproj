@@ -24,6 +24,8 @@
 		422B0D741F2B80200084A781 /* Cone.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422B0D731F2B80200084A781 /* Cone.sks */; };
 		422B8B1D1F34C94300CB1819 /* DayEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B8B1C1F34C94300CB1819 /* DayEnemy.swift */; };
 		422B8B1F1F34CA4200CB1819 /* NightEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422B8B1E1F34CA4200CB1819 /* NightEnemy.swift */; };
+		422C87EF1F42B4A90053676B /* Particle3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422C87EE1F42B4A90053676B /* Particle3.sks */; };
+		422C87F11F42B4C10053676B /* Particle4.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422C87F01F42B4C10053676B /* Particle4.sks */; };
 		42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7759D1F26734200ECF8ED /* AppDelegate.swift */; };
 		42F775A01F26734200ECF8ED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F7759F1F26734200ECF8ED /* GameScene.sks */; };
 		42F775A21F26734200ECF8ED /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F775A11F26734200ECF8ED /* Actions.sks */; };
@@ -54,6 +56,8 @@
 		422B0D731F2B80200084A781 /* Cone.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Cone.sks; path = ../Cone.sks; sourceTree = "<group>"; };
 		422B8B1C1F34C94300CB1819 /* DayEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayEnemy.swift; sourceTree = "<group>"; };
 		422B8B1E1F34CA4200CB1819 /* NightEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NightEnemy.swift; path = ../NightEnemy.swift; sourceTree = "<group>"; };
+		422C87EE1F42B4A90053676B /* Particle3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Particle3.sks; sourceTree = "<group>"; };
+		422C87F01F42B4C10053676B /* Particle4.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Particle4.sks; sourceTree = "<group>"; };
 		42F7759A1F26734200ECF8ED /* Day and Night.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day and Night.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F7759D1F26734200ECF8ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42F7759F1F26734200ECF8ED /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 				42299F1B1F3E01E6000D5E18 /* Tutorial.sks */,
 				42299F1D1F3E2006000D5E18 /* Tutorial.swift */,
 				42299F1F1F3E3C65000D5E18 /* Main Menu.sks */,
+				422C87EE1F42B4A90053676B /* Particle3.sks */,
+				422C87F01F42B4C10053676B /* Particle4.sks */,
 				4227CE611F415A32006193EC /* MainMenu.swift */,
 				4224ACFA1F2FC5EA0087ABF3 /* npcs */,
 				4224ACF81F2FC4FD0087ABF3 /* fire.sks */,
@@ -206,11 +212,13 @@
 				422392681F34B8CB002BA141 /* mushroom.sks in Resources */,
 				42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */,
 				421936721F3A14210007B742 /* test.sks in Resources */,
+				422C87F11F42B4C10053676B /* Particle4.sks in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
 				421B5DE31F2789CD00815223 /* egg.sks in Resources */,
 				4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */,
+				422C87EF1F42B4A90053676B /* Particle3.sks in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
 				42F775A21F26734200ECF8ED /* Actions.sks in Resources */,
 				422392661F34B4DA002BA141 /* leaf.sks in Resources */,
