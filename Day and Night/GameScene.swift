@@ -82,6 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var eggshellSource: SKSpriteNode!
     var eggshellLabel: SKLabelNode!
     var eggshell = 0
+    var eggshellSpawnPosition: CGPoint!
     
     //booleans for game management
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
@@ -90,6 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerTouchFriend = false
     var npcjump = false
     var getEggshell = false
+    var shouldSpawnEggshell = false
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
@@ -545,18 +547,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contactA.node?.removeFromParent()
             
             if let box = contactB.node {
-                print("box" + "\(box.position)")
-                print("works")
-                let eggshell = eggshellSource.copy() as! SKSpriteNode
-                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
-                self.addChild(eggshell)
-                eggshell.position = CGPoint(x:300, y:150)                //eggshell.position.x = box.position.x
-//                eggshell.position.y = box.position.y
-           
-                print("box" + "\(box.position)")
-                print("egg" + "\(eggshell.position)")
+//                print("box" + "\(box.position)")
+//                print("works")
+//                let newEggshell = eggshellSource.copy() as! SKSpriteNode
+//                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
+//                self.addChild(newEggshell)
+//                newEggshell.position = CGPoint(x:400, y:150)
+//                //eggshell.position.x = box.position.x
+////                eggshell.position.y = box.position.y
+//           
+//                print("box" + "\(box.position)")
+//                print("egg" + "\(newEggshell.position)")
+                if randomInteger(min: 0, max: 99) < 15 {
+                    print("works")
+                    shouldSpawnEggshell = true
+                    eggshellSpawnPosition = box.position
+                }
                 box.removeFromParent()
-                
             }
             
         }
@@ -566,18 +573,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if let box = contactA.node {
                 print("works")
-                let eggshell = eggshellSource.copy() as! SKNode
-                //let boxPosition = box.convert(box.position, to: obstacleScrollLayer)
-                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
-                self.addChild(eggshell)
-                eggshell.position = CGPoint(x:300, y:150)
-
-//                obstacleScrollLayer.addChild(eggshell)
-//                eggshell.position.x = box.position.x
-//                eggshell.position.y = box.position.y
-                
-                print("box" + "\(box.position)")
-                print("egg" + "\(eggshell.position)")
+//                let newEggshell = eggshellSource.copy() as! SKNode
+//                //let boxPosition = box.convert(box.position, to: obstacleScrollLayer)
+//                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
+//                self.addChild(newEggshell)
+//                newEggshell.position = CGPoint(x:400, y:150)
+//
+////                obstacleScrollLayer.addChild(eggshell)
+////                eggshell.position.x = box.position.x
+////                eggshell.position.y = box.position.y
+//                
+//                print("box" + "\(box.position)")
+//                print("egg" + "\(newEggshell.position)")
+                if randomInteger(min: 0, max: 99) < 15 {
+                    print("works")
+                shouldSpawnEggshell = true
+                eggshellSpawnPosition = box.position
+                }
                 box.removeFromParent()
                 
             }
@@ -746,7 +758,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switchTimer += fixedDelta
         worldTimer += fixedDelta
         
-        eggshellSource.position = CGPoint(x:170, y:150)
         
         scrollWorld()
         scrollBackground()
@@ -784,6 +795,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if getEggshell {
             eggshell += 1
             getEggshell = false
+        }
+        
+        if shouldSpawnEggshell {
+            print("runs")
+            let newEggshell = eggshellSource.copy() as! SKSpriteNode
+            obstacleScrollLayer.addChild(newEggshell)
+            newEggshell.position.x = eggshellSpawnPosition.x
+            newEggshell.position.y = eggshellSpawnPosition.y + 10
+            shouldSpawnEggshell = false
         }
         
         //ends game if karmaValue is 0
