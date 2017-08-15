@@ -22,6 +22,8 @@ class MainMenu: SKScene {
         startButton = self.childNode(withName: "startButton") as! MSButtonNode
         tutorialButton = self.childNode(withName: "tutorialButton") as! MSButtonNode
         highscoreButton = self.childNode(withName: "highscoreButton") as! MSButtonNode
+        let backgroundSound = SKAudioNode(fileNamed: "main menu music")
+        self.addChild(backgroundSound)
         
         //Allow the button to run when tapped
         startButton.selectedHandler = { [unowned self] in
