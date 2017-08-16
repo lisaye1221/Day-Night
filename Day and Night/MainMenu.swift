@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 class MainMenu: SKScene {
     
@@ -14,6 +15,8 @@ class MainMenu: SKScene {
     var startButton: MSButtonNode!
     var tutorialButton: MSButtonNode!
     var highscoreButton: MSButtonNode!
+    
+     var buttonClickSound = SKAction(named: "ButtonClick")!
     
     override func didMove(to view: SKView) {
         //set up scene here
@@ -25,16 +28,18 @@ class MainMenu: SKScene {
         let backgroundSound = SKAudioNode(fileNamed: "main menu music")
         self.addChild(backgroundSound)
         
+       
+        
         //Allow the button to run when tapped
         startButton.selectedHandler = { [unowned self] in
+            self.run(self.buttonClickSound)
             self.loadGame()
         }
         
         tutorialButton.selectedHandler = { [unowned self] in
+            self.run(self.buttonClickSound)
             self.startTutorial()
         }
-        
-        
     }
     
     
@@ -65,7 +70,6 @@ class MainMenu: SKScene {
     }
     
     func startTutorial() {
-        
         // 1) Grab reference to our SpriteKit view
         guard let skView = self.view as SKView! else {
             print("Could not get SKview")

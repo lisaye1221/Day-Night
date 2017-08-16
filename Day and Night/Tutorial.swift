@@ -65,7 +65,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var npcjump = false
     var shouldSwitch = false
     var halt = false
-    
+    var trigger2: SKSpriteNode!
 
     var npcScrollLayer: SKNode!
     var npcArray: SKNode!
@@ -73,6 +73,16 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var obstacleArray: SKNode!
     var obstacleSource: SKNode!
     
+    //hearts
+    var heartScrollLayer: SKNode!
+    var heart1: SKSpriteNode!
+    var heart2: SKSpriteNode!
+    var heartbreak1: SKSpriteNode!
+    var heartbreak2: SKSpriteNode!
+    var bunny1: SKReferenceNode!
+    var bunny2: SKReferenceNode!
+    var watermelon1: SKReferenceNode!
+    var watermelon2: SKReferenceNode!
     
     var npcList: [SKSpriteNode]!
     
@@ -82,6 +92,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var heartSource: SKSpriteNode!
     var heartbreakSource: SKSpriteNode!
     var textLayer: SKNode!
+    var completedNoticeLabel: SKLabelNode!
+    var jump:SKLabelNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -137,9 +149,18 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
         textLayer = childNode(withName: "textLayer")
-      
+        completedNoticeLabel = childNode(withName: "completedNoticeLabel") as! SKLabelNode
+        trigger2 = childNode(withName: "trigger2") as! SKSpriteNode
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
+        
+        heartScrollLayer = childNode(withName: "heartScrollLayer")
+        heart1 = childNode(withName: "//heart1") as! SKSpriteNode
+        heart2 = childNode(withName: "//heart2") as! SKSpriteNode
+        heartbreak1 = childNode(withName: "//heartbreak1") as! SKSpriteNode
+        heartbreak2 = childNode(withName: "//heartbreak2") as! SKSpriteNode
+        
+        jump = childNode(withName: "jump") as! SKLabelNode
         
         
         physicsWorld.contactDelegate = self //set up physics
@@ -190,6 +211,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             skView.presentScene(scene)
         }
         
+        completedNoticeLabel.alpha = 0
         egg.physicsBody?.contactTestBitMask = 59
         
     }//closing brackets for didMove function
@@ -239,6 +261,25 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         obstacleScrollLayer.position.x -= obstacleTravelSpeed * CGFloat(fixedDelta)
         
+        /* Loop through obstacle layer nodes*/
+        for obstacle in obstacleScrollLayer.children  {
+            
+            /* Get obstacle node postion, convert node position to scene space */
+            let obstaclePosition = obstacleScrollLayer.convert(obstacle.position, to: self)
+            
+            /* Check if obstacle has left the scene */
+            if obstaclePosition.x <= -30 {
+                // 26 is one half the width of an obstacle
+                
+                /* Remove obstacle node from obstacle layer */
+                obstacle.removeFromParent()
+             jump.alpha = 0
+            }
+            
+            
+        }
+        
+        
            }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -251,6 +292,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         //figure out which side of the screen was touched
         if location.x > size.width / 2 {
+            
+            if obstacleScrollLayer.children.isEmpty {return}
             
             // right(jumping)
             
@@ -399,6 +442,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         if contactA.categoryBitMask == 1 && contactB.categoryBitMask == 1 && contactB.node?.name == "trigger2" || contactA.categoryBitMask == 1 && contactA.node?.name == "trigger2" && contactB.categoryBitMask == 1 {
             
             halt = true
+            completedNoticeLabel.alpha = 1
+            jump.alpha = 1
             playAgainButton.state = .MSButtonNodeStateActive
             mainMenuButton.state = .MSButtonNodeStateActive
         }
@@ -506,9 +551,12 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             egg.removeAllActions()
             return
         }
-        
+        completedNoticeLabel.position.x -= scrollSpeed * CGFloat(fixedDelta)
+        heartScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
+        trigger2.position.x -= scrollSpeed * CGFloat(fixedDelta)
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
+        
         
         obstacleSpawnTimer += fixedDelta
         switchTimer += fixedDelta
@@ -525,7 +573,15 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         //reward 5 points for each enemy shot, boolean exist to work around multiple contacts
         if bulletHitEnemy {
             score += 5
+            for heart in heartScrollLayer.children {
+                let heartPosition = heartScrollLayer.convert(heart.position, to: self)
+                if heartPosition.x < 568 {
+                    heart.removeFromParent()
+                }
+            }
+            
             bulletHitEnemy = false
+            
         }
         
         //decrease karmaValue when you shoot a friend, boolean exists to work around multiple contacts
@@ -535,6 +591,12 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
             spawnHeartBreak()
+            for heart in heartScrollLayer.children {
+                let heartPosition = heartScrollLayer.convert(heart.position, to: self)
+                if heartPosition.x < 568 {
+                    heart.removeFromParent()
+                }
+            }
             bulletHitFriend = false
         }
         
@@ -545,6 +607,13 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
             spawnHeart()
+            egg.run(SKAction(named: "contactFriend")!)
+            for heart in heartScrollLayer.children {
+                let heartPosition = heartScrollLayer.convert(heart.position, to: self)
+                if heartPosition.x < 568 {
+                    heart.removeFromParent()
+                }
+            }
             playerTouchFriend = false
         }
         
@@ -556,8 +625,13 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         //makes npc jumps at a random height if player jumps
         if npcjump {
             let randomJumpHeight = randomInteger(min: 6, max: 18)
-            for npc in self.npcScrollLayer.children {
-                npc.physicsBody?.applyImpulse(CGVector(dx: 0, dy: randomJumpHeight))
+
+            for childReference in npcScrollLayer.children {
+                for childSKNode in childReference.children {
+                    for child in childSKNode.children {
+                       child.physicsBody?.applyImpulse(CGVector(dx: 0, dy: randomJumpHeight))
+                    }
+                }
             }
             npcjump = false
         }

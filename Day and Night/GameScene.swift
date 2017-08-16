@@ -104,6 +104,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bunnySource: SKSpriteNode!
     var coneSource: SKSpriteNode!
     var fishSource: SKSpriteNode!
+    var mushroomSource: SKSpriteNode!
+    var leafSource: SKSpriteNode!
     
     var npcList: [SKSpriteNode]!
     
@@ -112,6 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var backgroundLayer: SKNode!
     var heartSource: SKSpriteNode!
     var heartbreakSource: SKSpriteNode!
+    var gameOverNode: SKNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -158,8 +161,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         dayCountLabel = childNode(withName: "dayCountLabel") as! SKLabelNode
         
-        restartButton = childNode(withName: "restartButton") as! MSButtonNode
-        mainMenuButton = childNode(withName: "mainMenuButton") as! MSButtonNode
+        restartButton = childNode(withName: "//restartButton") as! MSButtonNode
+        mainMenuButton = childNode(withName: "//mainMenuButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
         npcsArray = childNode(withName: "npcsArray")
@@ -174,13 +177,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         eggshellSource = childNode(withName: "eggshellSource") as! SKSpriteNode
         eggshellLabel = childNode(withName: "eggshellLabel") as! SKLabelNode
-        highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
-        highScoreLabel.alpha = 0
-        eggIcon = childNode(withName: "eggIcon") as! SKSpriteNode
-        totalEggshellLabel = childNode(withName: "totalEggshellLabel") as! SKLabelNode
-        eggIcon.alpha = 0
-        totalEggshellLabel.alpha = 0
+        highScoreLabel = childNode(withName: "//highScore") as! SKLabelNode
+//        highScoreLabel.alpha = 0
+//        eggIcon = childNode(withName: "eggIcon") as! SKSpriteNode
+        totalEggshellLabel = childNode(withName: "//totalEggshellLabel") as! SKLabelNode
+//        eggIcon.alpha = 0
+//        totalEggshellLabel.alpha = 0
         
+       
+        gameOverNode = childNode(withName: "gameOver")
+        gameOverNode.alpha = 0
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
         //npc Souce Connection
@@ -188,8 +194,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bunnySource = childNode(withName: "//bunny") as! SKSpriteNode
         coneSource = childNode(withName: "//cone") as! SKSpriteNode
         fishSource = childNode(withName: "//fish") as! SKSpriteNode
+        mushroomSource = childNode(withName: "//mushroom") as! SKSpriteNode
+        leafSource = childNode(withName: "//leaf") as! SKSpriteNode
         
-        npcList = [watermelonSource, bunnySource, coneSource, fishSource]
+        
+        npcList = [watermelonSource, bunnySource, coneSource, mushroomSource, leafSource, fishSource]
         totalNpc = npcList.count
         
         physicsWorld.contactDelegate = self //set up physics
@@ -420,6 +429,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if self.gameState != .gameActive {return}
             
+            egg.run(SKAction(named: "shootYolk")!)
+            
             //make a bullet when button is touched
             let eggBullet = Bullet()
             
@@ -547,22 +558,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contactA.node?.removeFromParent()
             
             if let box = contactB.node {
-//                print("box" + "\(box.position)")
-//                print("works")
-//                let newEggshell = eggshellSource.copy() as! SKSpriteNode
-//                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
-//                self.addChild(newEggshell)
-//                newEggshell.position = CGPoint(x:400, y:150)
-//                //eggshell.position.x = box.position.x
-////                eggshell.position.y = box.position.y
-//           
-//                print("box" + "\(box.position)")
-//                print("egg" + "\(newEggshell.position)")
+                print("works")
+                
                 if randomInteger(min: 0, max: 99) < 15 {
-                    print("works")
                     shouldSpawnEggshell = true
                     eggshellSpawnPosition = box.position
                 }
+                
                 box.removeFromParent()
             }
             
@@ -573,23 +575,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if let box = contactA.node {
                 print("works")
-//                let newEggshell = eggshellSource.copy() as! SKNode
-//                //let boxPosition = box.convert(box.position, to: obstacleScrollLayer)
-//                let boxPosition = CGPoint(x:0, y:0)//self.convert(box.position, to: obstacleScrollLayer)
-//                self.addChild(newEggshell)
-//                newEggshell.position = CGPoint(x:400, y:150)
-//
-////                obstacleScrollLayer.addChild(eggshell)
-////                eggshell.position.x = box.position.x
-////                eggshell.position.y = box.position.y
-//                
-//                print("box" + "\(box.position)")
-//                print("egg" + "\(newEggshell.position)")
+                
                 if randomInteger(min: 0, max: 99) < 15 {
-                    print("works")
                 shouldSpawnEggshell = true
                 eggshellSpawnPosition = box.position
                 }
+                
                 box.removeFromParent()
                 
             }
@@ -653,9 +644,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
         totalEggshellLabel.text = "\(UserDefaults().integer(forKey: "EGGSHELL"))"
         
-        highScoreLabel.alpha = 1
-        eggIcon.alpha = 1
-        totalEggshellLabel.alpha = 1
+        gameOverNode.alpha = 1
         
     }
     
@@ -789,6 +778,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.karmaBar.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
             }
             spawnHeart()
+            egg.run(SKAction(named: "contactFriend")!)
             playerTouchFriend = false
         }
         
