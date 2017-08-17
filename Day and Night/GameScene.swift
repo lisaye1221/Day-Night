@@ -47,8 +47,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //everytime day change(increase by 1), a new sprite comes in
     var dayCount: Int = 0 {
         didSet{
+            if dayCount % 2 == 0 {
                 npcsOnScreen += 1
-            
+            }
             if npcsOnScreen > totalNpc {
                 npcsOnScreen = totalNpc
             }
@@ -77,6 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var dayCountLabel: SKLabelNode!
     var restartButton: MSButtonNode!
     var mainMenuButton: MSButtonNode!
+    var pauseButton: MSButtonNode!
     var scrollLayer: SKNode!
     var scrollLayerNight: SKNode!
     var eggshellSource: SKSpriteNode!
@@ -92,6 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcjump = false
     var getEggshell = false
     var shouldSpawnEggshell = false
+    var pause = false
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
@@ -115,6 +118,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var heartSource: SKSpriteNode!
     var heartbreakSource: SKSpriteNode!
     var gameOverNode: SKNode!
+    var pauseScreen: SKNode!
+    var resumeButton: MSButtonNode!
+    var homeButton: MSButtonNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -152,7 +158,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var eggIcon: SKSpriteNode!
     var totalEggshellLabel: SKLabelNode!
 
-   
+    //soundEffects
+    let eggCrack = SKAction(named: "eggCrack")!
+    let collectedEggShell = SKAction(named: "collectedEggShell")!
+    let boxBreak = SKAction(named: "boxBreak")!
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
@@ -163,6 +172,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         restartButton = childNode(withName: "//restartButton") as! MSButtonNode
         mainMenuButton = childNode(withName: "//mainMenuButton") as! MSButtonNode
+        pauseButton = childNode(withName: "pauseButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
         npcsArray = childNode(withName: "npcsArray")
@@ -174,19 +184,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundLayer = childNode(withName: "backgroundLayer")
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
+       
         
         eggshellSource = childNode(withName: "eggshellSource") as! SKSpriteNode
         eggshellLabel = childNode(withName: "eggshellLabel") as! SKLabelNode
         highScoreLabel = childNode(withName: "//highScore") as! SKLabelNode
-//        highScoreLabel.alpha = 0
-//        eggIcon = childNode(withName: "eggIcon") as! SKSpriteNode
         totalEggshellLabel = childNode(withName: "//totalEggshellLabel") as! SKLabelNode
-//        eggIcon.alpha = 0
-//        totalEggshellLabel.alpha = 0
-        
+
        
         gameOverNode = childNode(withName: "gameOver")
         gameOverNode.alpha = 0
+        pauseScreen = childNode(withName: "pauseScreen")
+        pauseScreen.alpha = 0
+        resumeButton = childNode(withName: "//resumeButton") as! MSButtonNode
+        homeButton = childNode(withName: "//homeButton") as! MSButtonNode
+        
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
         //npc Souce Connection
@@ -198,10 +210,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leafSource = childNode(withName: "//leaf") as! SKSpriteNode
         
         
-        npcList = [watermelonSource, bunnySource, coneSource, mushroomSource, leafSource, fishSource]
+        npcList = [watermelonSource, bunnySource, coneSource, fishSource]
+        
         totalNpc = npcList.count
         
         physicsWorld.contactDelegate = self //set up physics
+        
+       
         
     //////Button Related Code below
         
@@ -248,6 +263,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // 4) Start game scene
             skView.presentScene(scene)
         }
+        
+        pauseButton.selectedHandler  = { [unowned self] in
+            
+            if self.gameState == .gameOver {return}
+            
+            self.pause = true
+            self.egg.isPaused = true
+            self.npcScrollLayer.isPaused = true
+            self.pauseScreen.alpha = 1
+            self.alpha = 0.5
+            
+        }
+        
+        resumeButton.selectedHandler = {
+            
+            self.pause = false
+            self.egg.isPaused = false
+            self.npcScrollLayer.isPaused = false
+            self.alpha = 1
+            self.pauseScreen.alpha = 0
+        }
+        
+        
+        homeButton.selectedHandler = {
+            
+            // 1) Grab reference to our SpriteKit view
+            guard let skView = self.view as SKView! else {
+                print("Could not get SKview")
+                return
+            }
+            
+            // 2) Load Game scene
+            guard let scene = MainMenu(fileNamed:"Main Menu") else {
+                print("Could not make MainMenu, check the name is spelled correctly")
+                return
+            }
+            
+            // 3) Ensure correct aspect mode
+            scene.scaleMode = .aspectFill
+            
+            //Show debug
+            skView.showsDrawCount = true
+            skView.showsFPS = true
+            
+            // 4) Start game scene
+            skView.presentScene(scene)
+            
+        }
+        
+        
         
     }//closing brackets for didMove function
     
@@ -329,9 +394,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if spawnTimer >= npcDensity {
-            
+            print(npcsOnScreen)
             //change max number to npcList.count for ALL sprites at once, change it to npcOnScreen for incremental increase of sprites
             let randomNpcIndex = randomInteger(min: 0, max: npcsOnScreen)
+            if randomNpcIndex >= 3 {
+                print("should spawn mushroom etc")
+            }
             
             let newEnemy = npcList[randomNpcIndex].copy() as! SKSpriteNode //newEnemy is the first child
             
@@ -415,6 +483,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // right(jumping)
             
             if self.gameState != .gameActive {return}
+            if self.pause {return}
             
             if self.playerOnGround {
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
@@ -428,6 +497,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //left(shooting)
             
             if self.gameState != .gameActive {return}
+            if self.pause {return}
             
             egg.run(SKAction(named: "shootYolk")!)
             
@@ -564,7 +634,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     shouldSpawnEggshell = true
                     eggshellSpawnPosition = box.position
                 }
-                
+                self.run(boxBreak)
                 box.removeFromParent()
             }
             
@@ -580,7 +650,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shouldSpawnEggshell = true
                 eggshellSpawnPosition = box.position
                 }
-                
+                self.run(boxBreak)
                 box.removeFromParent()
                 
             }
@@ -615,6 +685,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         addEggshell()
+        
+        egg.run(eggCrack)
         
         /* Show restart button */
         restartButton.state = .MSButtonNodeStateActive
@@ -739,6 +811,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if gameState != .gameActive { return }
         
+        if pause {return}
+        
         score += fixedDelta //adds 1 to score every second
         scoreLabel.text = "\(Int(score))" //updates scoreLabel
         eggshellLabel.text = String(eggshell)
@@ -784,6 +858,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if getEggshell {
             eggshell += 1
+            egg.run(collectedEggShell)
             getEggshell = false
         }
         

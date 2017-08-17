@@ -162,7 +162,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         jump = childNode(withName: "jump") as! SKLabelNode
         
-        
+         let buttonClickSound = SKAudioNode(fileNamed: "button2")
         physicsWorld.contactDelegate = self //set up physics
         
     //////Button Related Code below
@@ -172,7 +172,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         mainMenuButton.state = .MSButtonNodeStateHidden
         
         playAgainButton.selectedHandler = { [unowned self] in
-            
+            self.addChild(buttonClickSound)
             /* Grab reference to our SpriteKit view */
             let skView = self.view as SKView!
             
@@ -187,7 +187,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         }
         
         mainMenuButton.selectedHandler = { [unowned self] in
-            
+            self.addChild(buttonClickSound)
             // 1) Grab reference to our SpriteKit view
             guard let skView = self.view as SKView! else {
                 print("Could not get SKview")
@@ -460,6 +460,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         if gameState != .gameOver {return}
         
+        egg.run(eggCrack)
+        
         /* Show restart button */
         playAgainButton.state = .MSButtonNodeStateActive
         mainMenuButton.state = .MSButtonNodeStateActive
@@ -540,6 +542,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    //soundEffects
+    let eggCrack = SKAction(named: "eggCrack")!
     
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
     

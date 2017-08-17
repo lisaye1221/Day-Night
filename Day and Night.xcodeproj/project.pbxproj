@@ -19,6 +19,12 @@
 		42263A7B1F4374E300FD6858 /* button click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42263A7A1F4374E300FD6858 /* button click.mp3 */; };
 		42263A7D1F4380FF00FD6858 /* contact friend.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42263A7C1F4380FF00FD6858 /* contact friend.mp3 */; };
 		42263A811F4388A600FD6858 /* button click converted.caf in Resources */ = {isa = PBXBuildFile; fileRef = 42263A801F43852D00FD6858 /* button click converted.caf */; };
+		422674131F44909000BA7A19 /* cracking sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 422674121F44909000BA7A19 /* cracking sound.mp3 */; };
+		422674151F4492C400BA7A19 /* button.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 422674141F4492C400BA7A19 /* button.mp3 */; };
+		422674171F44953A00BA7A19 /* egg crack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 422674161F44953A00BA7A19 /* egg crack.mp3 */; };
+		422674191F4497A800BA7A19 /* box break.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 422674181F4497A800BA7A19 /* box break.mp3 */; };
+		4226741B1F449ABA00BA7A19 /* egg shell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4226741A1F449ABA00BA7A19 /* egg shell.mp3 */; };
+		4226741D1F449ABF00BA7A19 /* yolk splash.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4226741C1F449ABF00BA7A19 /* yolk splash.mp3 */; };
 		4227CE621F415A32006193EC /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4227CE611F415A32006193EC /* MainMenu.swift */; };
 		42299F1C1F3E01E6000D5E18 /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42299F1B1F3E01E6000D5E18 /* Tutorial.sks */; };
 		42299F1E1F3E2006000D5E18 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42299F1D1F3E2006000D5E18 /* Tutorial.swift */; };
@@ -31,7 +37,6 @@
 		422C87EF1F42B4A90053676B /* Particle3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422C87EE1F42B4A90053676B /* Particle3.sks */; };
 		42A179E71F4429FE003EC1DE /* gameOver.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42A179E61F4429FE003EC1DE /* gameOver.sks */; };
 		42A179E91F443E49003EC1DE /* eggshell.wav in Resources */ = {isa = PBXBuildFile; fileRef = 42A179E81F443E49003EC1DE /* eggshell.wav */; };
-		42A341FF1F44428B00172B85 /* shoot yolk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42A341FE1F44428B00172B85 /* shoot yolk.mp3 */; };
 		42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7759D1F26734200ECF8ED /* AppDelegate.swift */; };
 		42F775A01F26734200ECF8ED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F7759F1F26734200ECF8ED /* GameScene.sks */; };
 		42F775A21F26734200ECF8ED /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42F775A11F26734200ECF8ED /* Actions.sks */; };
@@ -57,6 +62,12 @@
 		42263A7A1F4374E300FD6858 /* button click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "button click.mp3"; sourceTree = "<group>"; };
 		42263A7C1F4380FF00FD6858 /* contact friend.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "contact friend.mp3"; sourceTree = "<group>"; };
 		42263A801F43852D00FD6858 /* button click converted.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "button click converted.caf"; sourceTree = "<group>"; };
+		422674121F44909000BA7A19 /* cracking sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "cracking sound.mp3"; sourceTree = "<group>"; };
+		422674141F4492C400BA7A19 /* button.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = button.mp3; sourceTree = "<group>"; };
+		422674161F44953A00BA7A19 /* egg crack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "egg crack.mp3"; sourceTree = "<group>"; };
+		422674181F4497A800BA7A19 /* box break.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "box break.mp3"; sourceTree = "<group>"; };
+		4226741A1F449ABA00BA7A19 /* egg shell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "egg shell.mp3"; sourceTree = "<group>"; };
+		4226741C1F449ABF00BA7A19 /* yolk splash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "yolk splash.mp3"; sourceTree = "<group>"; };
 		4227CE611F415A32006193EC /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		42299F1B1F3E01E6000D5E18 /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
 		42299F1D1F3E2006000D5E18 /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
@@ -69,7 +80,6 @@
 		422C87EE1F42B4A90053676B /* Particle3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Particle3.sks; sourceTree = "<group>"; };
 		42A179E61F4429FE003EC1DE /* gameOver.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = gameOver.sks; sourceTree = "<group>"; };
 		42A179E81F443E49003EC1DE /* eggshell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eggshell.wav; sourceTree = "<group>"; };
-		42A341FE1F44428B00172B85 /* shoot yolk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "shoot yolk.mp3"; sourceTree = "<group>"; };
 		42F7759A1F26734200ECF8ED /* Day and Night.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day and Night.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42F7759D1F26734200ECF8ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42F7759F1F26734200ECF8ED /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -111,7 +121,12 @@
 		42263A771F43500100FD6858 /* Sounds and Music */ = {
 			isa = PBXGroup;
 			children = (
-				42A341FE1F44428B00172B85 /* shoot yolk.mp3 */,
+				422674181F4497A800BA7A19 /* box break.mp3 */,
+				422674141F4492C400BA7A19 /* button.mp3 */,
+				4226741C1F449ABF00BA7A19 /* yolk splash.mp3 */,
+				4226741A1F449ABA00BA7A19 /* egg shell.mp3 */,
+				422674161F44953A00BA7A19 /* egg crack.mp3 */,
+				422674121F44909000BA7A19 /* cracking sound.mp3 */,
 				42A179E81F443E49003EC1DE /* eggshell.wav */,
 				42263A801F43852D00FD6858 /* button click converted.caf */,
 				42263A7C1F4380FF00FD6858 /* contact friend.mp3 */,
@@ -144,12 +159,12 @@
 				421936711F3A14210007B742 /* test.sks */,
 				42F7759D1F26734200ECF8ED /* AppDelegate.swift */,
 				42F7759F1F26734200ECF8ED /* GameScene.sks */,
-				42A179E61F4429FE003EC1DE /* gameOver.sks */,
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
 				42299F1B1F3E01E6000D5E18 /* Tutorial.sks */,
 				42299F1D1F3E2006000D5E18 /* Tutorial.swift */,
 				42299F1F1F3E3C65000D5E18 /* Main Menu.sks */,
 				4227CE611F415A32006193EC /* MainMenu.swift */,
+				42A179E61F4429FE003EC1DE /* gameOver.sks */,
 				4224ACFA1F2FC5EA0087ABF3 /* npcs */,
 				4224ACF81F2FC4FD0087ABF3 /* fire.sks */,
 				421B5DE21F2789CD00815223 /* egg.sks */,
@@ -235,24 +250,29 @@
 				42F775A91F26734200ECF8ED /* Main.storyboard in Resources */,
 				42F775A01F26734200ECF8ED /* GameScene.sks in Resources */,
 				42FB87F91F2F223B0045DB79 /* bunny.sks in Resources */,
+				4226741D1F449ABF00BA7A19 /* yolk splash.mp3 in Resources */,
 				422AAFD21F33C31400F7E988 /* fish.sks in Resources */,
 				422392681F34B8CB002BA141 /* mushroom.sks in Resources */,
 				42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */,
 				421936721F3A14210007B742 /* test.sks in Resources */,
 				42263A7B1F4374E300FD6858 /* button click.mp3 in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
+				422674151F4492C400BA7A19 /* button.mp3 in Resources */,
 				42263A761F434F0A00FD6858 /* main menu music.mp3 in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
 				42A179E91F443E49003EC1DE /* eggshell.wav in Resources */,
 				421B5DE31F2789CD00815223 /* egg.sks in Resources */,
 				4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */,
+				4226741B1F449ABA00BA7A19 /* egg shell.mp3 in Resources */,
 				422C87EF1F42B4A90053676B /* Particle3.sks in Resources */,
 				42263A7D1F4380FF00FD6858 /* contact friend.mp3 in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
-				42A341FF1F44428B00172B85 /* shoot yolk.mp3 in Resources */,
+				422674131F44909000BA7A19 /* cracking sound.mp3 in Resources */,
+				422674171F44953A00BA7A19 /* egg crack.mp3 in Resources */,
 				42A179E71F4429FE003EC1DE /* gameOver.sks in Resources */,
 				42F775A21F26734200ECF8ED /* Actions.sks in Resources */,
+				422674191F4497A800BA7A19 /* box break.mp3 in Resources */,
 				422392661F34B4DA002BA141 /* leaf.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
