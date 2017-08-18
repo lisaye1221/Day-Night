@@ -198,7 +198,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             let scene = Tutorial(fileNamed:"Tutorial") as Tutorial!
             
             /* Ensure correct aspect mode */
-            scene?.scaleMode = .aspectFill
+            scene?.scaleMode = .aspectFit
             
             /* Restart game scene */
             skView?.presentScene(scene)
@@ -224,11 +224,11 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             
             
             // 3) Ensure correct aspect mode
-            scene.scaleMode = .aspectFill
+            scene.scaleMode = .aspectFit
             
             //Show debug
-            skView.showsDrawCount = true
-            skView.showsFPS = true
+            skView.showsDrawCount = false
+            skView.showsFPS = false
             
             // 4) Start game scene
             skView.presentScene(scene)
@@ -293,11 +293,11 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 // 3) Ensure correct aspect mode
-                scene.scaleMode = .aspectFill
+                scene.scaleMode = .aspectFit
                 
                 //Show debug
-                skView.showsDrawCount = true
-                skView.showsFPS = true
+                skView.showsDrawCount = false
+                skView.showsFPS = false
                 
                 // 4) Start game scene
                 skView.presentScene(scene)
@@ -316,7 +316,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
                 let scene = Tutorial(fileNamed:"Tutorial") as Tutorial!
                 
                 /* Ensure correct aspect mode */
-                scene?.scaleMode = .aspectFill
+                scene?.scaleMode = .aspectFit
                 
                 /* Restart game scene */
                 skView?.presentScene(scene)

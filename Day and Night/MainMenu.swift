@@ -16,6 +16,10 @@ class MainMenu: SKScene {
     var tutorialButton: MSButtonNode!
     var highscoreButton: MSButtonNode!
     
+    var showCredits: MSButtonNode!
+    var creditsScreen: SKSpriteNode!
+    var closeButton: MSButtonNode!
+    
     override func didMove(to view: SKView) {
         //set up scene here
         
@@ -23,12 +27,35 @@ class MainMenu: SKScene {
         startButton = self.childNode(withName: "startButton") as! MSButtonNode
         tutorialButton = self.childNode(withName: "tutorialButton") as! MSButtonNode
         highscoreButton = self.childNode(withName: "highscoreButton") as! MSButtonNode
+        closeButton = childNode(withName: "closeButton") as! MSButtonNode
         let backgroundSound = SKAudioNode(fileNamed: "main menu music")
         self.addChild(backgroundSound)
+        
+        showCredits = childNode(withName: "showCredits") as! MSButtonNode
+        creditsScreen = childNode(withName: "creditsScreen") as! SKSpriteNode
+        creditsScreen.alpha = 0
+        closeButton.alpha = 0
         
        let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
         //Allow the button to run when tapped
+        
+        showCredits.selectedHandler = {
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
+                self.creditsScreen.alpha = 1
+                self.closeButton.alpha = 1
+            }
+        }
+        
+        closeButton.selectedHandler = {
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
+                self.creditsScreen.alpha = 0
+                self.closeButton.alpha = 0
+            }
+        }
+        
         startButton.selectedHandler = { [unowned self] in
             self.run(buttonClickSound)
             self.run(SKAction.wait(forDuration: 0.1)) {
@@ -45,6 +72,7 @@ class MainMenu: SKScene {
         }
         
     }
+
     
     
     func loadGame() {
@@ -62,11 +90,11 @@ class MainMenu: SKScene {
         }
         
         // 3) Ensure correct aspect mode
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         
         //Show debug
-        skView.showsDrawCount = true
-        skView.showsFPS = true
+        skView.showsDrawCount = false
+        skView.showsFPS = false
         
         // 4) Start game scene
         skView.presentScene(scene)
@@ -87,11 +115,11 @@ class MainMenu: SKScene {
         }
         
         // 3) Ensure correct aspect mode
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         
         //Show debug
-        skView.showsDrawCount = true
-        skView.showsFPS = true
+        skView.showsDrawCount = false
+        skView.showsFPS = false
         
         // 4) Start game scene
         skView.presentScene(scene)

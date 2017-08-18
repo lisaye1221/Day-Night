@@ -56,9 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if npcsOnScreen > totalNpc {
                 npcsOnScreen = totalNpc
             }
-            if dayCount == 4 {
-                 backgroundSound = SKAudioNode(fileNamed: "Brave World_fast")
-            }
+
         }
     }
     
@@ -286,11 +284,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             // 3) Ensure correct aspect mode
-            scene.scaleMode = .aspectFill
-            
+            scene.scaleMode = .aspectFit
             //Show debug
-            skView.showsDrawCount = true
-            skView.showsFPS = true
+            skView.showsDrawCount = false
+            skView.showsFPS = false
             
             // 4) Start game scene
             skView.presentScene(scene)
@@ -309,7 +306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let scene = GameScene(fileNamed:"GameScene") as GameScene!
             
             /* Ensure correct aspect mode */
-            scene?.scaleMode = .aspectFill
+            scene?.scaleMode = .aspectFit
             
             /* Restart game scene */
             skView?.presentScene(scene)
@@ -632,7 +629,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let box = contactB.node {
                 print("works")
                 
-                if randomInteger(min: 0, max: 99) < 90 {
+                if randomInteger(min: 0, max: 99) < 15 {
                     shouldSpawnEggshell = true
                     eggshellSpawnPosition = box.position
                 }
@@ -729,7 +726,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let scene = GameOver(fileNamed:"gameOverScene") as GameOver!
         
         /* Ensure correct aspect mode */
-        scene?.scaleMode = .aspectFill
+        scene?.scaleMode = .aspectFit
         
         /* Restart game scene */
         skView?.presentScene(scene)
@@ -753,10 +750,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         ground.run(SKAction.colorize(with: UIColor.black, colorBlendFactor: 0.5, duration: 0.3))
                     }
                     self.cloudScrollLayer.run(self.fadeOut)
-                     self.backgroundSound = SKAudioNode(fileNamed: "Brave World_night")
                 }
                 else {
-                    self.backgroundSound = SKAudioNode(fileNamed: "Brave World")
                     self.worldState = .day
                     //change ground color to normal
                     for ground in self.scrollLayer.children {
