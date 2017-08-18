@@ -20,6 +20,8 @@ enum WorldState {
 
 public var dayTime = true
 public var nightTime = false
+var currentScore = 0
+var currentEggshell = 0
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -121,6 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pauseScreen: SKNode!
     var resumeButton: MSButtonNode!
     var homeButton: MSButtonNode!
+    var restartButtonInPause: MSButtonNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -185,20 +188,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
        
-        
         eggshellSource = childNode(withName: "eggshellSource") as! SKSpriteNode
         eggshellLabel = childNode(withName: "eggshellLabel") as! SKLabelNode
         highScoreLabel = childNode(withName: "//highScore") as! SKLabelNode
         totalEggshellLabel = childNode(withName: "//totalEggshellLabel") as! SKLabelNode
 
-       
         gameOverNode = childNode(withName: "gameOver")
         gameOverNode.alpha = 0
         pauseScreen = childNode(withName: "pauseScreen")
         pauseScreen.alpha = 0
         resumeButton = childNode(withName: "//resumeButton") as! MSButtonNode
         homeButton = childNode(withName: "//homeButton") as! MSButtonNode
-        
+        restartButtonInPause = childNode(withName: "//restartButtonInPause") as! MSButtonNode
+
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
         //npc Souce Connection
@@ -209,10 +211,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mushroomSource = childNode(withName: "//mushroom") as! SKSpriteNode
         leafSource = childNode(withName: "//leaf") as! SKSpriteNode
         
-        
         npcList = [watermelonSource, bunnySource, coneSource, fishSource]
         
         totalNpc = npcList.count
+        
+        //Sound related stuff
+        let backgroundSound = SKAudioNode(fileNamed: "Brave World")
+        self.addChild(backgroundSound)
+        let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
         physicsWorld.contactDelegate = self //set up physics
         
@@ -226,6 +232,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         restartButton.selectedHandler = { [unowned self] in
             
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
+            
             /* Grab reference to our SpriteKit view */
             let skView = self.view as SKView!
             
@@ -237,9 +246,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             /* Restart game scene */
             skView?.presentScene(scene)
+            }
         }
         
         mainMenuButton.selectedHandler = { [unowned self] in
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
             
             // 1) Grab reference to our SpriteKit view
             guard let skView = self.view as SKView! else {
@@ -262,31 +275,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // 4) Start game scene
             skView.presentScene(scene)
+                
+            }
         }
         
         pauseButton.selectedHandler  = { [unowned self] in
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
             
             if self.gameState == .gameOver {return}
             
             self.pause = true
             self.egg.isPaused = true
             self.npcScrollLayer.isPaused = true
+            self.obstacleScrollLayer.isPaused = true
             self.pauseScreen.alpha = 1
             self.alpha = 0.5
-            
+            backgroundSound.isPaused = true
+            self.egg.physicsBody?.isDynamic = false
+            for npc in self.npcScrollLayer.children {
+                npc.physicsBody?.isDynamic = false
+            }
+            }
         }
         
         resumeButton.selectedHandler = {
             
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+            
             self.pause = false
             self.egg.isPaused = false
             self.npcScrollLayer.isPaused = false
+            self.obstacleScrollLayer.isPaused = false
             self.alpha = 1
             self.pauseScreen.alpha = 0
+            backgroundSound.isPaused = false
+            self.egg.physicsBody?.isDynamic = true
+            for npc in self.npcScrollLayer.children {
+                npc.physicsBody?.isDynamic = true
+            }
+            }
         }
         
         
         homeButton.selectedHandler = {
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
             
             // 1) Grab reference to our SpriteKit view
             guard let skView = self.view as SKView! else {
@@ -309,10 +346,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // 4) Start game scene
             skView.presentScene(scene)
-            
+            }
         }
         
-        
+        restartButtonInPause.selectedHandler = {
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+            
+            /* Grab reference to our SpriteKit view */
+            let skView = self.view as SKView!
+            
+            /* Load Game scene */
+            let scene = GameScene(fileNamed:"GameScene") as GameScene!
+            
+            /* Ensure correct aspect mode */
+            scene?.scaleMode = .aspectFill
+            
+            /* Restart game scene */
+            skView?.presentScene(scene)
+            }
+        }
         
     }//closing brackets for didMove function
     
@@ -683,7 +737,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Int(score) > highScore {
             saveHighScore()
         }
-        
+        currentScore = Int(score)
+        currentEggshell = eggshell
         addEggshell()
         
         egg.run(eggCrack)
@@ -710,14 +765,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         egg.run(SKAction(named: "eggDeath", duration: 0.2)!) {
-           self.egg.removeAllActions()
+            self.egg.removeAllActions()
         }
+        
+        self.loadGameOverScene()
         
         highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
         totalEggshellLabel.text = "\(UserDefaults().integer(forKey: "EGGSHELL"))"
         
-        gameOverNode.alpha = 1
+
+     //loadGameOverScene()
         
+    }
+    
+    func loadGameOverScene() {
+        
+        let fadeout = SKAction.fadeAlpha(to: 0, duration: 0.7)
+        self.run(fadeout) {
+        
+        /* Grab reference to our SpriteKit view */
+        let skView = self.view as SKView!
+        
+        /* Load Game scene */
+        let scene = GameOver(fileNamed:"gameOverScene") as GameOver!
+        
+        /* Ensure correct aspect mode */
+        scene?.scaleMode = .aspectFill
+        
+        /* Restart game scene */
+        skView?.presentScene(scene)
+        }
     }
     
     func switchWorld() {

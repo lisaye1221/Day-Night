@@ -26,18 +26,24 @@ class MainMenu: SKScene {
         let backgroundSound = SKAudioNode(fileNamed: "main menu music")
         self.addChild(backgroundSound)
         
-       let buttonClickSound = SKAudioNode(fileNamed: "button")
+       let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
         //Allow the button to run when tapped
         startButton.selectedHandler = { [unowned self] in
-            self.addChild(buttonClickSound)
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
             self.loadGame()
+            }
+            
         }
         
         tutorialButton.selectedHandler = { [unowned self] in
-            self.addChild(buttonClickSound)
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
             self.startTutorial()
+            }
         }
+        
     }
     
     
