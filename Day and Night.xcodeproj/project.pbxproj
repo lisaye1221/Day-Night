@@ -40,6 +40,9 @@
 		422C87EF1F42B4A90053676B /* Particle3.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422C87EE1F42B4A90053676B /* Particle3.sks */; };
 		422D114E1F45A9C900DCD5F8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422D114C1F45A9C900DCD5F8 /* Fabric.framework */; };
 		422D114F1F45A9C900DCD5F8 /* Answers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422D114D1F45A9C900DCD5F8 /* Answers.framework */; };
+		4233C7C01F472D3300EC1F1A /* Brave World_night.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */; };
+		4233C7C11F472D3300EC1F1A /* Brave World_fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */; };
+		4233C7C31F47310700EC1F1A /* Brave World.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7C21F47310700EC1F1A /* Brave World.mp3 */; };
 		428DBFEB1F46A7BA00213E63 /* Little Boy Music Box.wav in Resources */ = {isa = PBXBuildFile; fileRef = 428DBFEA1F46A7BA00213E63 /* Little Boy Music Box.wav */; };
 		42A179E91F443E49003EC1DE /* eggshell.wav in Resources */ = {isa = PBXBuildFile; fileRef = 42A179E81F443E49003EC1DE /* eggshell.wav */; };
 		42EE57D31F46B0B20043739B /* Partcle4.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42EE57D21F46B0B20043739B /* Partcle4.sks */; };
@@ -89,6 +92,9 @@
 		422C87EE1F42B4A90053676B /* Particle3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Particle3.sks; sourceTree = "<group>"; };
 		422D114C1F45A9C900DCD5F8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		422D114D1F45A9C900DCD5F8 /* Answers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Answers.framework; sourceTree = SOURCE_ROOT; };
+		4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World_night.mp3"; sourceTree = "<group>"; };
+		4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World_fast.mp3"; sourceTree = "<group>"; };
+		4233C7C21F47310700EC1F1A /* Brave World.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World.mp3"; sourceTree = "<group>"; };
 		428DBFEA1F46A7BA00213E63 /* Little Boy Music Box.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Little Boy Music Box.wav"; sourceTree = "<group>"; };
 		42A179E81F443E49003EC1DE /* eggshell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eggshell.wav; sourceTree = "<group>"; };
 		42EE57D21F46B0B20043739B /* Partcle4.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Partcle4.sks; sourceTree = "<group>"; };
@@ -136,6 +142,9 @@
 			isa = PBXGroup;
 			children = (
 				428DBFEA1F46A7BA00213E63 /* Little Boy Music Box.wav */,
+				4233C7C21F47310700EC1F1A /* Brave World.mp3 */,
+				4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */,
+				4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */,
 				421577251F461D810086168C /* Brave World.wav */,
 				422674181F4497A800BA7A19 /* box break.mp3 */,
 				422674141F4492C400BA7A19 /* button.mp3 */,
@@ -268,6 +277,7 @@
 			files = (
 				42263A811F4388A600FD6858 /* button click converted.caf in Resources */,
 				42299F1C1F3E01E6000D5E18 /* Tutorial.sks in Resources */,
+				4233C7C01F472D3300EC1F1A /* Brave World_night.mp3 in Resources */,
 				42F775A91F26734200ECF8ED /* Main.storyboard in Resources */,
 				42F775A01F26734200ECF8ED /* GameScene.sks in Resources */,
 				4229F6681F46A50F00D33236 /* gameOverScene.sks in Resources */,
@@ -278,10 +288,12 @@
 				42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */,
 				42EE57D31F46B0B20043739B /* Partcle4.sks in Resources */,
 				421936721F3A14210007B742 /* test.sks in Resources */,
+				4233C7C11F472D3300EC1F1A /* Brave World_fast.mp3 in Resources */,
 				42263A7B1F4374E300FD6858 /* button click.mp3 in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
 				422674151F4492C400BA7A19 /* button.mp3 in Resources */,
 				42263A761F434F0A00FD6858 /* main menu music.mp3 in Resources */,
+				4233C7C31F47310700EC1F1A /* Brave World.mp3 in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
 				42A179E91F443E49003EC1DE /* eggshell.wav in Resources */,

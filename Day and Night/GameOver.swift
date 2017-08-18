@@ -21,12 +21,12 @@ class GameOver: SKScene {
     
     var restartButton: MSButtonNode!
     var homeButton: MSButtonNode!
-    
-    var dayCountLabel: SKLabelNode!
+
     var highScoreLabel: SKLabelNode!
     var eggshellLabel: SKLabelNode!
     var totalEggshellLabel: SKLabelNode!
     var currentScoreLabel: SKLabelNode!
+    var dayLabel: SKLabelNode!
 
     let scrollSpeed: CGFloat = 100
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
@@ -45,11 +45,13 @@ class GameOver: SKScene {
         highScoreLabel = childNode(withName: "highScore") as! SKLabelNode
         totalEggshellLabel = childNode(withName: "totalEggshellLabel") as! SKLabelNode
         currentScoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+        dayLabel = childNode(withName: "dayLabel") as! SKLabelNode
         
         currentScoreLabel.text = String(currentScore)
         highScoreLabel.text = String(highScore)
         totalEggshellLabel.text = String(eggshellTotal)
         eggshellLabel.text = String(currentEggshell)
+        dayLabel.text = String(daySurvived)
         
         let floating = SKAction(named: "floating")!
         floatingEgg.run(floating)

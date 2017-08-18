@@ -22,6 +22,7 @@ public var dayTime = true
 public var nightTime = false
 var currentScore = 0
 var currentEggshell = 0
+var daySurvived = 0
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -55,8 +56,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if npcsOnScreen > totalNpc {
                 npcsOnScreen = totalNpc
             }
+            if dayCount == 4 {
+                 backgroundSound = SKAudioNode(fileNamed: "Brave World_fast")
+            }
         }
     }
+    
     var karmaBar: SKSpriteNode!
     var karmaValue: CGFloat = 1.0 {
         didSet{
@@ -97,6 +102,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var getEggshell = false
     var shouldSpawnEggshell = false
     var pause = false
+    var fastMusic = false
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
@@ -119,11 +125,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var backgroundLayer: SKNode!
     var heartSource: SKSpriteNode!
     var heartbreakSource: SKSpriteNode!
-    var gameOverNode: SKNode!
     var pauseScreen: SKNode!
     var resumeButton: MSButtonNode!
     var homeButton: MSButtonNode!
     var restartButtonInPause: MSButtonNode!
+    
+    var backgroundSound: SKAudioNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -152,14 +159,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
     //actions
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
     let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
-    
-    //temp
-    var highScoreLabel: SKLabelNode!
-    var eggIcon: SKSpriteNode!
-    var totalEggshellLabel: SKLabelNode!
+
 
     //soundEffects
     let eggCrack = SKAction(named: "eggCrack")!
@@ -173,8 +177,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         dayCountLabel = childNode(withName: "dayCountLabel") as! SKLabelNode
         
-        restartButton = childNode(withName: "//restartButton") as! MSButtonNode
-        mainMenuButton = childNode(withName: "//mainMenuButton") as! MSButtonNode
         pauseButton = childNode(withName: "pauseButton") as! MSButtonNode
         scrollLayer = childNode(withName: "scrollLayer")
         scrollLayerNight = childNode(withName: "scrollLayerNight")
@@ -187,14 +189,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundLayer = childNode(withName: "backgroundLayer")
         heartSource = childNode(withName: "heartSource") as! SKSpriteNode
         heartbreakSource = childNode(withName: "heartbreakSource") as! SKSpriteNode
-       
-        eggshellSource = childNode(withName: "eggshellSource") as! SKSpriteNode
         eggshellLabel = childNode(withName: "eggshellLabel") as! SKLabelNode
-        highScoreLabel = childNode(withName: "//highScore") as! SKLabelNode
-        totalEggshellLabel = childNode(withName: "//totalEggshellLabel") as! SKLabelNode
+        eggshellSource = childNode(withName: "eggshellSource") as! SKSpriteNode
 
-        gameOverNode = childNode(withName: "gameOver")
-        gameOverNode.alpha = 0
         pauseScreen = childNode(withName: "pauseScreen")
         pauseScreen.alpha = 0
         resumeButton = childNode(withName: "//resumeButton") as! MSButtonNode
@@ -216,8 +213,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         totalNpc = npcList.count
         
         //Sound related stuff
-        let backgroundSound = SKAudioNode(fileNamed: "Brave World")
-        self.addChild(backgroundSound)
+//        var backgroundSound = SKAudioNode(fileNamed: "Brave World")
+//        let backgroundSoundfast = SKAudioNode(fileNamed: "Brave World_fast")
+//        let backgroundSoundnight = SKAudioNode(fileNamed: "Brave World_night")
+//        self.addChild(backgroundSound)
+        
+        backgroundSound = childNode(withName: "backgroundSound") as! SKAudioNode
+        
         let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
         physicsWorld.contactDelegate = self //set up physics
@@ -225,59 +227,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        
         
     //////Button Related Code below
-        
-        /* Hide restart button */
-        restartButton.state = .MSButtonNodeStateHidden
-        mainMenuButton.state = .MSButtonNodeStateHidden
-        
-        restartButton.selectedHandler = { [unowned self] in
-            
-            self.run(buttonClickSound)
-            self.run(SKAction.wait(forDuration: 0.1)) {
-            
-            /* Grab reference to our SpriteKit view */
-            let skView = self.view as SKView!
-            
-            /* Load Game scene */
-            let scene = GameScene(fileNamed:"GameScene") as GameScene!
-            
-            /* Ensure correct aspect mode */
-            scene?.scaleMode = .aspectFill
-            
-            /* Restart game scene */
-            skView?.presentScene(scene)
-            }
-        }
-        
-        mainMenuButton.selectedHandler = { [unowned self] in
-            
-            self.run(buttonClickSound)
-            self.run(SKAction.wait(forDuration: 0.1)){
-            
-            // 1) Grab reference to our SpriteKit view
-            guard let skView = self.view as SKView! else {
-                print("Could not get SKview")
-                return
-            }
-            
-            // 2) Load Game scene
-            guard let scene = MainMenu(fileNamed:"Main Menu") else {
-                print("Could not make MainMenu, check the name is spelled correctly")
-                return
-            }
-            
-            // 3) Ensure correct aspect mode
-            scene.scaleMode = .aspectFill
-            
-            //Show debug
-            skView.showsDrawCount = true
-            skView.showsFPS = true
-            
-            // 4) Start game scene
-            skView.presentScene(scene)
-                
-            }
-        }
+
         
         pauseButton.selectedHandler  = { [unowned self] in
             
@@ -292,7 +242,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.obstacleScrollLayer.isPaused = true
             self.pauseScreen.alpha = 1
             self.alpha = 0.5
-            backgroundSound.isPaused = true
             self.egg.physicsBody?.isDynamic = false
             for npc in self.npcScrollLayer.children {
                 npc.physicsBody?.isDynamic = false
@@ -311,7 +260,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.obstacleScrollLayer.isPaused = false
             self.alpha = 1
             self.pauseScreen.alpha = 0
-            backgroundSound.isPaused = false
             self.egg.physicsBody?.isDynamic = true
             for npc in self.npcScrollLayer.children {
                 npc.physicsBody?.isDynamic = true
@@ -684,7 +632,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let box = contactB.node {
                 print("works")
                 
-                if randomInteger(min: 0, max: 99) < 15 {
+                if randomInteger(min: 0, max: 99) < 90 {
                     shouldSpawnEggshell = true
                     eggshellSpawnPosition = box.position
                 }
@@ -739,13 +687,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         currentScore = Int(score)
         currentEggshell = eggshell
+        daySurvived = dayCount
         addEggshell()
         
         egg.run(eggCrack)
-        
-        /* Show restart button */
-        restartButton.state = .MSButtonNodeStateActive
-        mainMenuButton.state = .MSButtonNodeStateActive
         
         
         //loops through EVERYTHING in the scene
@@ -769,12 +714,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         self.loadGameOverScene()
-        
-        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
-        totalEggshellLabel.text = "\(UserDefaults().integer(forKey: "EGGSHELL"))"
-        
-
-     //loadGameOverScene()
         
     }
     
@@ -814,8 +753,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         ground.run(SKAction.colorize(with: UIColor.black, colorBlendFactor: 0.5, duration: 0.3))
                     }
                     self.cloudScrollLayer.run(self.fadeOut)
+                     self.backgroundSound = SKAudioNode(fileNamed: "Brave World_night")
                 }
                 else {
+                    self.backgroundSound = SKAudioNode(fileNamed: "Brave World")
                     self.worldState = .day
                     //change ground color to normal
                     for ground in self.scrollLayer.children {

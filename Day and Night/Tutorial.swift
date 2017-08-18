@@ -65,6 +65,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var npcjump = false
     var shouldSwitch = false
     var halt = false
+    var pause = false
     var trigger2: SKSpriteNode!
 
     var npcScrollLayer: SKNode!
@@ -94,6 +95,12 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var textLayer: SKNode!
     var completedNoticeLabel: SKLabelNode!
     var jump:SKLabelNode!
+    
+    var pauseButton: MSButtonNode!
+    var pauseScreen: SKNode!
+    var resumeButton: MSButtonNode!
+    var homeButton: MSButtonNode!
+    var restartButtonInPause: MSButtonNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -152,6 +159,13 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         completedNoticeLabel = childNode(withName: "completedNoticeLabel") as! SKLabelNode
         trigger2 = childNode(withName: "trigger2") as! SKSpriteNode
         
+        pauseButton = childNode(withName: "pauseButton") as! MSButtonNode
+        pauseScreen = childNode(withName: "pauseScreen")
+        pauseScreen.alpha = 0
+        resumeButton = childNode(withName: "//resumeButton") as! MSButtonNode
+        homeButton = childNode(withName: "//homeButton") as! MSButtonNode
+        restartButtonInPause = childNode(withName: "//restartButtonInPause") as! MSButtonNode
+        
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
         heartScrollLayer = childNode(withName: "heartScrollLayer")
@@ -162,8 +176,9 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         jump = childNode(withName: "jump") as! SKLabelNode
         
-         let buttonClickSound = SKAudioNode(fileNamed: "button2")
         physicsWorld.contactDelegate = self //set up physics
+        
+        let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
     //////Button Related Code below
         
@@ -172,7 +187,10 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         mainMenuButton.state = .MSButtonNodeStateHidden
         
         playAgainButton.selectedHandler = { [unowned self] in
-            self.addChild(buttonClickSound)
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+            
             /* Grab reference to our SpriteKit view */
             let skView = self.view as SKView!
             
@@ -184,10 +202,14 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             
             /* Restart game scene */
             skView?.presentScene(scene)
+            }
         }
         
         mainMenuButton.selectedHandler = { [unowned self] in
-            self.addChild(buttonClickSound)
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+            
             // 1) Grab reference to our SpriteKit view
             guard let skView = self.view as SKView! else {
                 print("Could not get SKview")
@@ -198,7 +220,8 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             guard let scene = MainMenu(fileNamed:"Main Menu") else {
                 print("Could not make MainMenu, check the name is spelled correctly")
                 return
-            }
+                }
+            
             
             // 3) Ensure correct aspect mode
             scene.scaleMode = .aspectFill
@@ -209,7 +232,97 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             
             // 4) Start game scene
             skView.presentScene(scene)
+            }
         }
+        
+        
+        pauseButton.selectedHandler  = { [unowned self] in
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+                
+                if self.gameState == .gameOver {return}
+                
+                self.pause = true
+                self.egg.isPaused = true
+                self.npcScrollLayer.isPaused = true
+                self.obstacleScrollLayer.isPaused = true
+                self.pauseScreen.alpha = 1
+                self.alpha = 0.5
+                self.egg.physicsBody?.isDynamic = false
+                for npc in self.npcScrollLayer.children {
+                    npc.physicsBody?.isDynamic = false
+                }
+            }
+        }
+        
+        resumeButton.selectedHandler = {
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+                
+                self.pause = false
+                self.egg.isPaused = false
+                self.npcScrollLayer.isPaused = false
+                self.obstacleScrollLayer.isPaused = false
+                self.alpha = 1
+                self.pauseScreen.alpha = 0
+                self.egg.physicsBody?.isDynamic = true
+                for npc in self.npcScrollLayer.children {
+                    npc.physicsBody?.isDynamic = true
+                }
+            }
+        }
+        
+        
+        homeButton.selectedHandler = {
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+                
+                // 1) Grab reference to our SpriteKit view
+                guard let skView = self.view as SKView! else {
+                    print("Could not get SKview")
+                    return
+                }
+                
+                // 2) Load Game scene
+                guard let scene = MainMenu(fileNamed:"Main Menu") else {
+                    print("Could not make MainMenu, check the name is spelled correctly")
+                    return
+                }
+                
+                // 3) Ensure correct aspect mode
+                scene.scaleMode = .aspectFill
+                
+                //Show debug
+                skView.showsDrawCount = true
+                skView.showsFPS = true
+                
+                // 4) Start game scene
+                skView.presentScene(scene)
+            }
+        }
+        
+        restartButtonInPause.selectedHandler = {
+            
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+                
+                /* Grab reference to our SpriteKit view */
+                let skView = self.view as SKView!
+                
+                /* Load Game scene */
+                let scene = Tutorial(fileNamed:"Tutorial") as Tutorial!
+                
+                /* Ensure correct aspect mode */
+                scene?.scaleMode = .aspectFill
+                
+                /* Restart game scene */
+                skView?.presentScene(scene)
+            }
+        }
+
         
         completedNoticeLabel.alpha = 0
         egg.physicsBody?.contactTestBitMask = 59
@@ -553,8 +666,12 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         
         if halt {
             egg.removeAllActions()
+            gameState = .gameOver
             return
         }
+        
+        if pause {return}
+        
         completedNoticeLabel.position.x -= scrollSpeed * CGFloat(fixedDelta)
         heartScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         trigger2.position.x -= scrollSpeed * CGFloat(fixedDelta)
