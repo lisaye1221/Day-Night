@@ -51,9 +51,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //everytime day change(increase by 1), a new sprite comes in
     var dayCount: Int = 0 {
         didSet{
-            if dayCount % 2 == 0 {
+        //    if dayCount % 2 == 0 {
                 npcsOnScreen += 1
-            }
+          //  }
             if npcsOnScreen > totalNpc {
                 npcsOnScreen = totalNpc
             }
@@ -209,20 +209,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mushroomSource = childNode(withName: "//mushroom") as! SKSpriteNode
         leafSource = childNode(withName: "//leaf") as! SKSpriteNode
         
-        npcList = [watermelonSource, bunnySource, coneSource, fishSource]
+        npcList = [watermelonSource, bunnySource, coneSource, mushroomSource, leafSource, fishSource]
         
+        
+        
+        //Sound related stuff
         var backgroundSound = SKAudioNode(fileNamed: "Brave World")
         totalNpc = npcList.count
         
         if musicShouldPlay {
-        //Sound related stuff
 //        let backgroundSoundfast = SKAudioNode(fileNamed: "Brave World_fast")
 //        let backgroundSoundnight = SKAudioNode(fileNamed: "Brave World_night")
-       self.addChild(backgroundSound)
-            
+            self.addChild(backgroundSound)
             musicButton.texture = SKTexture(imageNamed: "music icon")
         }
-        
         if musicShouldPlay == false {
             musicButton.texture = SKTexture(imageNamed: "no music icon")
         }
@@ -428,9 +428,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if spawnTimer >= npcDensity {
-            print(npcsOnScreen)
             //change max number to npcList.count for ALL sprites at once, change it to npcOnScreen for incremental increase of sprites
             let randomNpcIndex = randomInteger(min: 0, max: npcsOnScreen)
+            
             if randomNpcIndex >= 3 {
                 print("should spawn mushroom etc")
             }
@@ -439,7 +439,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             npcScrollLayer.addChild(newEnemy) //adds new enemy
             
-            //            let eggPosition = self.egg.convert(self.egg.position, to: self)
+            //let eggPosition = self.egg.convert(self.egg.position, to: self)
             let randomPosition = CGPoint(x: 800 , y: 80)
             
             newEnemy.position = self.convert(randomPosition, to: npcScrollLayer)

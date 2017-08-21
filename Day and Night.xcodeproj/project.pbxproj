@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		421577241F45EA7B0086168C /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421577231F45EA7B0086168C /* GameOver.swift */; };
 		421577261F461D810086168C /* Brave World.wav in Resources */ = {isa = PBXBuildFile; fileRef = 421577251F461D810086168C /* Brave World.wav */; };
-		421936721F3A14210007B742 /* test.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421936711F3A14210007B742 /* test.sks */; };
 		421B5DE31F2789CD00815223 /* egg.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE21F2789CD00815223 /* egg.sks */; };
 		421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */ = {isa = PBXBuildFile; fileRef = 421B5DE41F27B4FE00815223 /* watermelon.sks */; };
 		422392661F34B4DA002BA141 /* leaf.sks in Resources */ = {isa = PBXBuildFile; fileRef = 422392651F34B4DA002BA141 /* leaf.sks */; };
@@ -61,7 +60,6 @@
 /* Begin PBXFileReference section */
 		421577231F45EA7B0086168C /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		421577251F461D810086168C /* Brave World.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Brave World.wav"; sourceTree = "<group>"; };
-		421936711F3A14210007B742 /* test.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = test.sks; sourceTree = "<group>"; };
 		421B5DE21F2789CD00815223 /* egg.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = egg.sks; path = ../egg.sks; sourceTree = "<group>"; };
 		421B5DE41F27B4FE00815223 /* watermelon.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = watermelon.sks; sourceTree = "<group>"; };
 		422392651F34B4DA002BA141 /* leaf.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = leaf.sks; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				42F775A11F26734200ECF8ED /* Actions.sks */,
-				421936711F3A14210007B742 /* test.sks */,
 				42F7759D1F26734200ECF8ED /* AppDelegate.swift */,
 				42F7759F1F26734200ECF8ED /* GameScene.sks */,
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
@@ -289,7 +286,6 @@
 				422392681F34B8CB002BA141 /* mushroom.sks in Resources */,
 				42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */,
 				42EE57D31F46B0B20043739B /* Partcle4.sks in Resources */,
-				421936721F3A14210007B742 /* test.sks in Resources */,
 				4233C7C11F472D3300EC1F1A /* Brave World_fast.mp3 in Resources */,
 				42263A7B1F4374E300FD6858 /* button click.mp3 in Resources */,
 				421B5DE51F27B4FE00815223 /* watermelon.sks in Resources */,
