@@ -101,6 +101,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
     var resumeButton: MSButtonNode!
     var homeButton: MSButtonNode!
     var restartButtonInPause: MSButtonNode!
+    var musicButton: MSButtonNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -165,6 +166,7 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         resumeButton = childNode(withName: "//resumeButton") as! MSButtonNode
         homeButton = childNode(withName: "//homeButton") as! MSButtonNode
         restartButtonInPause = childNode(withName: "//restartButtonInPause") as! MSButtonNode
+        musicButton = childNode(withName: "//musicButton") as! MSButtonNode
         
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
@@ -175,6 +177,19 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
         heartbreak2 = childNode(withName: "//heartbreak2") as! SKSpriteNode
         
         jump = childNode(withName: "jump") as! SKLabelNode
+        
+        
+        var backgroundSound = SKAudioNode(fileNamed: "Brave World")
+        
+        if musicShouldPlay {
+        self.addChild(backgroundSound)
+            
+            musicButton.texture = SKTexture(imageNamed: "music icon")
+        }
+        
+        if musicShouldPlay == false{
+        musicButton.texture = SKTexture(imageNamed: "no music icon")
+        }
         
         physicsWorld.contactDelegate = self //set up physics
         
@@ -323,6 +338,27 @@ class Tutorial: SKScene, SKPhysicsContactDelegate {
             }
         }
 
+        musicButton.selectedHandler = {
+            
+            if musicShouldPlay {
+                self.run(buttonClickSound)
+                self.run(SKAction.wait(forDuration: 0.1)) {
+                    backgroundSound.removeFromParent()
+                    self.musicButton.texture = SKTexture(imageNamed: "no music icon")
+                    musicShouldPlay = false
+                }
+            }
+            
+            if musicShouldPlay == false {
+                self.run(buttonClickSound)
+                self.run(SKAction.wait(forDuration: 0.1)) {
+                    self.addChild(backgroundSound)
+                    self.musicButton.texture = SKTexture(imageNamed: "music icon")
+                    musicShouldPlay = true
+                }
+            }
+            
+        }
         
         completedNoticeLabel.alpha = 0
         egg.physicsBody?.contactTestBitMask = 59

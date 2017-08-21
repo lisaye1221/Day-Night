@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //stored values
     var highScore = UserDefaults.standard.integer(forKey: "HIGHSCORE")
     var eggshellTotal = UserDefaults.standard.integer(forKey: "EGGSHELL")
+    var longestDayCount = UserDefaults.standard.integer(forKey: "LONGESTDAY")
     
     //time related variable
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
@@ -127,8 +128,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var resumeButton: MSButtonNode!
     var homeButton: MSButtonNode!
     var restartButtonInPause: MSButtonNode!
+    var musicButton: MSButtonNode!
     
-    var backgroundSound: SKAudioNode!
+    //var backgroundSound: SKAudioNode!
     
     //states
     var gameState: GameState = .gameActive
@@ -195,6 +197,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         resumeButton = childNode(withName: "//resumeButton") as! MSButtonNode
         homeButton = childNode(withName: "//homeButton") as! MSButtonNode
         restartButtonInPause = childNode(withName: "//restartButtonInPause") as! MSButtonNode
+        musicButton = childNode(withName: "//musicButton") as! MSButtonNode
 
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
@@ -208,15 +211,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         npcList = [watermelonSource, bunnySource, coneSource, fishSource]
         
+        var backgroundSound = SKAudioNode(fileNamed: "Brave World")
         totalNpc = npcList.count
         
+        if musicShouldPlay {
         //Sound related stuff
-//        var backgroundSound = SKAudioNode(fileNamed: "Brave World")
 //        let backgroundSoundfast = SKAudioNode(fileNamed: "Brave World_fast")
 //        let backgroundSoundnight = SKAudioNode(fileNamed: "Brave World_night")
-//        self.addChild(backgroundSound)
+       self.addChild(backgroundSound)
+            
+            musicButton.texture = SKTexture(imageNamed: "music icon")
+        }
         
-        backgroundSound = childNode(withName: "backgroundSound") as! SKAudioNode
+        if musicShouldPlay == false {
+            musicButton.texture = SKTexture(imageNamed: "no music icon")
+        }
+        
+        //backgroundSound = childNode(withName: "backgroundSound") as! SKAudioNode
         
         let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
@@ -312,6 +323,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             skView?.presentScene(scene)
             }
         }
+        
+        musicButton.selectedHandler = {
+            
+            if musicShouldPlay {
+                self.run(buttonClickSound)
+                self.run(SKAction.wait(forDuration: 0.1)) {
+                    backgroundSound.removeFromParent()
+                    self.musicButton.texture = SKTexture(imageNamed: "no music icon")
+                    musicShouldPlay = false
+                }
+            }
+            
+            if musicShouldPlay == false {
+                self.run(buttonClickSound)
+                self.run(SKAction.wait(forDuration: 0.1)) {
+                    self.addChild(backgroundSound)
+                    self.musicButton.texture = SKTexture(imageNamed: "music icon")
+                    musicShouldPlay = true
+                }
+            }
+            
+        }
+        
+        
         
     }//closing brackets for didMove function
     
@@ -682,6 +717,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Int(score) > highScore {
             saveHighScore()
         }
+        
+        if dayCount > longestDayCount {
+            saveLongestDay()
+        }
+        
         currentScore = Int(score)
         currentEggshell = eggshell
         daySurvived = dayCount
@@ -814,13 +854,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UserDefaults().set(eggshellTotal, forKey: "EGGSHELL")
     }
     
+    func saveLongestDay() {
+        UserDefaults().set(dayCount, forKey: "LONGESTDAY")
+    }
+    
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
     
     override func update(_ currentTime: TimeInterval) {
         
-        
-//        highScoreLabel.text = "\(UserDefaults().integer(forKey: "HIGHSCORE"))"
-//        totalEggshellLabel.text = "\(UserDefaults().integer(forKey: "EGGSHELL"))"
         
         if gameState != .gameActive { return }
         

@@ -9,12 +9,15 @@
 import SpriteKit
 import GameplayKit
 
+var musicShouldPlay = true
+
 class MainMenu: SKScene {
     
     //UI Connection
     var startButton: MSButtonNode!
     var tutorialButton: MSButtonNode!
     var highscoreButton: MSButtonNode!
+    var musicButton: MSButtonNode!
     
     var showCredits: MSButtonNode!
     var creditsScreen: SKSpriteNode!
@@ -28,8 +31,18 @@ class MainMenu: SKScene {
         tutorialButton = self.childNode(withName: "tutorialButton") as! MSButtonNode
         highscoreButton = self.childNode(withName: "highscoreButton") as! MSButtonNode
         closeButton = childNode(withName: "closeButton") as! MSButtonNode
-        let backgroundSound = SKAudioNode(fileNamed: "main menu music")
+        musicButton = childNode(withName: "musicButton") as! MSButtonNode
+        
+        let backgroundSound = SKAudioNode(fileNamed: "Little Boy Music Box")
+        
+        if musicShouldPlay {
         self.addChild(backgroundSound)
+        musicButton.texture = SKTexture(imageNamed: "music icon")
+        }
+        
+        if musicShouldPlay == false {
+            musicButton.texture = SKTexture(imageNamed: "no music icon")
+        }
         
         showCredits = childNode(withName: "showCredits") as! MSButtonNode
         creditsScreen = childNode(withName: "creditsScreen") as! SKSpriteNode
@@ -71,7 +84,30 @@ class MainMenu: SKScene {
             }
         }
         
+        musicButton.selectedHandler = {
+            
+            if musicShouldPlay {
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
+            backgroundSound.removeFromParent()
+            self.musicButton.texture = SKTexture(imageNamed: "no music icon")
+            musicShouldPlay = false
+            }
+            }
+            
+            if musicShouldPlay == false {
+                self.run(buttonClickSound)
+                self.run(SKAction.wait(forDuration: 0.1)) {
+                self.addChild(backgroundSound)
+                self.musicButton.texture = SKTexture(imageNamed: "music icon")
+                musicShouldPlay = true
+                }
+            }
+            
+        }
+        
     }
+    
 
     
     

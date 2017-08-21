@@ -15,6 +15,7 @@ class GameOver: SKScene {
     //stored values
     var highScore = UserDefaults.standard.integer(forKey: "HIGHSCORE")
     var eggshellTotal = UserDefaults.standard.integer(forKey: "EGGSHELL")
+    var longestDayCount = UserDefaults.standard.integer(forKey: "LONGESTDAY")
     
     var floatingEgg: SKSpriteNode!
     var scrollLayer: SKNode!
@@ -27,6 +28,7 @@ class GameOver: SKScene {
     var totalEggshellLabel: SKLabelNode!
     var currentScoreLabel: SKLabelNode!
     var dayLabel: SKLabelNode!
+    var longestDayLabel: SKLabelNode!
 
     let scrollSpeed: CGFloat = 100
     let fixedDelta: CFTimeInterval = 1.0 / 60.0
@@ -46,18 +48,23 @@ class GameOver: SKScene {
         totalEggshellLabel = childNode(withName: "totalEggshellLabel") as! SKLabelNode
         currentScoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         dayLabel = childNode(withName: "dayLabel") as! SKLabelNode
+        longestDayLabel = childNode(withName: "longestDayLabel") as! SKLabelNode
         
         currentScoreLabel.text = String(currentScore)
         highScoreLabel.text = String(highScore)
         totalEggshellLabel.text = String(eggshellTotal)
         eggshellLabel.text = String(currentEggshell)
         dayLabel.text = String(daySurvived)
+        longestDayLabel.text = String(longestDayCount)
         
         let floating = SKAction(named: "floating")!
         floatingEgg.run(floating)
         
         let backgroundSound = SKAudioNode(fileNamed: "Little Boy Music Box")
+        
+        if musicShouldPlay {
         self.addChild(backgroundSound)
+        }
 
         let buttonClickSound = SKAction.playSoundFileNamed("button", waitForCompletion: false)
         
