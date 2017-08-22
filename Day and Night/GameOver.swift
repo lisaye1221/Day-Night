@@ -53,8 +53,10 @@ class GameOver: SKScene {
         currentScoreLabel.text = String(currentScore)
         highScoreLabel.text = String(highScore)
         totalEggshellLabel.text = String(eggshellTotal)
+        totalEggshellLabel.fontName = "Wawati TC"
         eggshellLabel.text = String(currentEggshell)
         dayLabel.text = String(daySurvived)
+        dayLabel.fontName = "Wawati TC"
         longestDayLabel.text = String(longestDayCount)
         
         let floating = SKAction(named: "floating")!

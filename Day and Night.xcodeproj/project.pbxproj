@@ -40,6 +40,7 @@
 		422D114E1F45A9C900DCD5F8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422D114C1F45A9C900DCD5F8 /* Fabric.framework */; };
 		422D114F1F45A9C900DCD5F8 /* Answers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422D114D1F45A9C900DCD5F8 /* Answers.framework */; };
 		422E56161F4B7B7F00ECD994 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56151F4B7B7F00ECD994 /* GameKit.framework */; };
+		422E56181F4C176100ECD994 /* Wawati-TC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 422E56171F4C176100ECD994 /* Wawati-TC-Regular.otf */; };
 		4233C7C01F472D3300EC1F1A /* Brave World_night.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */; };
 		4233C7C11F472D3300EC1F1A /* Brave World_fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */; };
 		4233C7C31F47310700EC1F1A /* Brave World.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7C21F47310700EC1F1A /* Brave World.mp3 */; };
@@ -92,6 +93,7 @@
 		422D114C1F45A9C900DCD5F8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		422D114D1F45A9C900DCD5F8 /* Answers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Answers.framework; sourceTree = SOURCE_ROOT; };
 		422E56151F4B7B7F00ECD994 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		422E56171F4C176100ECD994 /* Wawati-TC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wawati-TC-Regular.otf"; sourceTree = "<group>"; };
 		4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World_night.mp3"; sourceTree = "<group>"; };
 		4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World_fast.mp3"; sourceTree = "<group>"; };
 		4233C7C21F47310700EC1F1A /* Brave World.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World.mp3"; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				4225825F1F27048F0066875B /* bullets.swift */,
 				42F775B71F2676EE00ECF8ED /* MSButtonNode.swift */,
 				4225825D1F26FDBF0066875B /* Helper Function.swift */,
+				422E56171F4C176100ECD994 /* Wawati-TC-Regular.otf */,
 				4229FFE81F29093500D90D8E /* CGFloat+Extensions.swift */,
 				42F775A51F26734200ECF8ED /* GameViewController.swift */,
 				42263A771F43500100FD6858 /* Sounds and Music */,
@@ -314,6 +317,7 @@
 				42A179E91F443E49003EC1DE /* eggshell.wav in Resources */,
 				421B5DE31F2789CD00815223 /* egg.sks in Resources */,
 				4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */,
+				422E56181F4C176100ECD994 /* Wawati-TC-Regular.otf in Resources */,
 				4226741B1F449ABA00BA7A19 /* egg shell.mp3 in Resources */,
 				422C87EF1F42B4A90053676B /* Particle3.sks in Resources */,
 				428DBFEB1F46A7BA00213E63 /* Little Boy Music Box.wav in Resources */,

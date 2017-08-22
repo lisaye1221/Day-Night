@@ -11,6 +11,8 @@ import GameplayKit
 
 var musicShouldPlay = true
 
+//name: Wawati TC
+
 class MainMenu: SKScene {
     
     //UI Connection
@@ -107,6 +109,8 @@ class MainMenu: SKScene {
             
         }
         
+
+        
     }
   
     
@@ -128,8 +132,8 @@ class MainMenu: SKScene {
         scene.scaleMode = .aspectFit
         
         //Show debug
-        skView.showsDrawCount = false
-        skView.showsFPS = false
+        skView.showsDrawCount = true
+        skView.showsFPS = true
         
         // 4) Start game scene
         skView.presentScene(scene)
