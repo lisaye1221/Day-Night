@@ -53,7 +53,7 @@ class MainMenu: SKScene {
         
         //Allow the button to run when tapped
         
-        showCredits.selectedHandler = {
+        showCredits.selectedHandler = { [unowned self] in
             self.run(buttonClickSound)
             self.run(SKAction.wait(forDuration: 0.1)) {
                 self.creditsScreen.alpha = 1
@@ -61,11 +61,12 @@ class MainMenu: SKScene {
             }
         }
         
-        closeButton.selectedHandler = {
+        closeButton.selectedHandler = { [unowned self] in
+
             self.run(buttonClickSound)
             self.run(SKAction.wait(forDuration: 0.1)) {
-                self.creditsScreen.alpha = 0
-                self.closeButton.alpha = 0
+            self.closeButton.alpha = 0
+            self.creditsScreen.alpha = 0
             }
         }
         
@@ -84,7 +85,7 @@ class MainMenu: SKScene {
             }
         }
         
-        musicButton.selectedHandler = {
+        musicButton.selectedHandler = { [unowned self] in
             
             if musicShouldPlay {
             self.run(buttonClickSound)
@@ -95,7 +96,7 @@ class MainMenu: SKScene {
             }
             }
             
-            if musicShouldPlay == false {
+            if musicShouldPlay == false { 
                 self.run(buttonClickSound)
                 self.run(SKAction.wait(forDuration: 0.1)) {
                 self.addChild(backgroundSound)
@@ -107,9 +108,7 @@ class MainMenu: SKScene {
         }
         
     }
-    
-
-    
+  
     
     func loadGame() {
         

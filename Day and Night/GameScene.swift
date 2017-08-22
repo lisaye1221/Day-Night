@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import GameKit
 
 
 enum GameState {
@@ -100,8 +101,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var npcjump = false
     var getEggshell = false
     var shouldSpawnEggshell = false
+    
     var pause = false
-    var fastMusic = false
+    var oneMoreLife = false
+    
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
@@ -144,17 +147,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     npc.physicsBody?.categoryBitMask = 8
                 }
             }
-            for childReference in npcsArray.children {
-                for childSKNode in childReference.children {
-                    for child in childSKNode.children {
-                        if child.physicsBody?.categoryBitMask == 8 {
-                            child.physicsBody?.categoryBitMask = 16
-                        }
-                        else if child.physicsBody?.categoryBitMask == 16 {
-                            child.physicsBody?.categoryBitMask = 8
-                        }
-                    }
-                }
+//            for childReference in npcsArray.children {
+//                for childSKNode in childReference.children {
+//                    for child in childSKNode.children {
+//                        if child.physicsBody?.categoryBitMask == 8 {
+//                            child.physicsBody?.categoryBitMask = 16
+//                        }
+//                        else if child.physicsBody?.categoryBitMask == 16 {
+//                            child.physicsBody?.categoryBitMask = 8
+//                        }
+//                    }
+//                }
+//            }
+            for npc in npcsArray.children {
+                if npc.physicsBody?.categoryBitMask == 8 {
+                                                npc.physicsBody?.categoryBitMask = 16
+                                            }
+                                            else if npc.physicsBody?.categoryBitMask == 16 {
+                                                npc.physicsBody?.categoryBitMask = 8
+                                            }
             }
         }
     }
@@ -169,6 +180,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let eggCrack = SKAction(named: "eggCrack")!
     let collectedEggShell = SKAction(named: "collectedEggShell")!
     let boxBreak = SKAction(named: "boxBreak")!
+    
+    
+    let backgroundSoundfast = SKAudioNode(fileNamed: "Brave World_fast")
+    let backgroundSoundnight = SKAudioNode(fileNamed: "Brave World_night")
+    
     //++++++++++++++++++++++++VARIABLES ABOVE++++++++++++++++++++++++++++++++
     
     override func didMove(to view: SKView) {
@@ -202,14 +218,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
         
         //npc Souce Connection
-        watermelonSource = childNode(withName: "//watermelon") as! SKSpriteNode
-        bunnySource = childNode(withName: "//bunny") as! SKSpriteNode
-        coneSource = childNode(withName: "//cone") as! SKSpriteNode
-        fishSource = childNode(withName: "//fish") as! SKSpriteNode
-        mushroomSource = childNode(withName: "//mushroom") as! SKSpriteNode
-        leafSource = childNode(withName: "//leaf") as! SKSpriteNode
+//        watermelonSource = childNode(withName: "//watermelon") as! SKSpriteNode
+//        bunnySource = childNode(withName: "//bunny") as! SKSpriteNode
+//        coneSource = childNode(withName: "//cone") as! SKSpriteNode
+//        fishSource = childNode(withName: "//fish") as! SKSpriteNode
         
-        npcList = [watermelonSource, bunnySource, coneSource, mushroomSource, leafSource, fishSource]
+        var npcListCopy: [SKSpriteNode] = []
+        
+        for npc in npcsArray.children as! [SKSpriteNode] {
+            npcListCopy.append(npc)
+        }
+        
+        npcList = npcListCopy
+        
+       // npcList = [watermelonSource, bunnySource, coneSource, fishSource]
         
         
         
@@ -218,8 +240,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         totalNpc = npcList.count
         
         if musicShouldPlay {
-//        let backgroundSoundfast = SKAudioNode(fileNamed: "Brave World_fast")
-//        let backgroundSoundnight = SKAudioNode(fileNamed: "Brave World_night")
             self.addChild(backgroundSound)
             musicButton.texture = SKTexture(imageNamed: "music icon")
         }
@@ -258,7 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        resumeButton.selectedHandler = {
+        resumeButton.selectedHandler = { [unowned self] in
             
             self.run(buttonClickSound)
             self.run(SKAction.wait(forDuration: 0.1)){
@@ -277,7 +297,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        homeButton.selectedHandler = {
+        homeButton.selectedHandler = { [unowned self] in
             
             self.run(buttonClickSound)
             self.run(SKAction.wait(forDuration: 0.1)){
@@ -305,7 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        restartButtonInPause.selectedHandler = {
+        restartButtonInPause.selectedHandler = { [unowned self] in
             
             self.run(buttonClickSound)
             self.run(SKAction.wait(forDuration: 0.1)){
@@ -324,7 +344,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        musicButton.selectedHandler = {
+        musicButton.selectedHandler = { [unowned self] in
             
             if musicShouldPlay {
                 self.run(buttonClickSound)
@@ -751,6 +771,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         self.loadGameOverScene()
+        
+    }
+    
+    func chanceForOneMoreLife() {
         
     }
     
