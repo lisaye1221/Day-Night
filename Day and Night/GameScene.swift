@@ -52,9 +52,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //everytime day change(increase by 1), a new sprite comes in
     var dayCount: Int = 0 {
         didSet{
-        //    if dayCount % 2 == 0 {
+            if dayCount % 2 == 0 {
                 npcsOnScreen += 1
-          //  }
+            }
             if npcsOnScreen > totalNpc {
                 npcsOnScreen = totalNpc
             }
@@ -113,6 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleSource: SKNode!
     
     var npcList: [SKSpriteNode]!
+    var obstacleList: [SKNode]!
     
     //graphics nodes
     var cloudScrollLayer: SKNode!
@@ -211,7 +212,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             npcListCopy.append(npc)
         }
         npcList = npcListCopy
-        
+        ////////creates the obstacle List
+        var obstacleListCopy: [SKNode] = []
+        for obstacle in obstacleArray.children {
+            obstacleListCopy.append(obstacle)
+        }
+        obstacleList = obstacleListCopy
         ////////Sound related stuff
         var backgroundSound = SKAudioNode(fileNamed: "Brave World")
         totalNpc = npcList.count
@@ -448,14 +454,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //scroll npcLayer so it moves across
         npcScrollLayer.position.x -= npcTravelSpeed * CGFloat(fixedDelta)
         npcScrollLayer.position.y = 0
-        
-//        for childReference in npcsArray.children {
-//            for childSKNode in childReference.children {
-//                for child in childSKNode.children {
-//                    npcList.append(child as! SKSpriteNode)
-//                }
-//            }
-//        }
 
         /* Loop through obstacle layer nodes*/
         for npc in npcScrollLayer.children {
@@ -515,12 +513,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             
-        }
-        
-        var obstacleList = [SKNode]()
-        
-        for obstacle in obstacleArray.children {
-            obstacleList.append(obstacle)
         }
         
         if obstacleSpawnTimer > obstacleDensity {
