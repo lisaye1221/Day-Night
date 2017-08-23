@@ -16,6 +16,9 @@
 		4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4224ACF81F2FC4FD0087ABF3 /* fire.sks */; };
 		4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825D1F26FDBF0066875B /* Helper Function.swift */; };
 		422582601F27048F0066875B /* bullets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4225825F1F27048F0066875B /* bullets.swift */; };
+		42260A761F4DC19B00F0A26E /* jump sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42260A751F4DC19B00F0A26E /* jump sound.mp3 */; };
+		42260A781F4DC1A600F0A26E /* rebirth sound effect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42260A771F4DC1A600F0A26E /* rebirth sound effect.mp3 */; };
+		42260A7A1F4DC1B300F0A26E /* alert.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42260A791F4DC1B300F0A26E /* alert.mp3 */; };
 		42263A761F434F0A00FD6858 /* main menu music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42263A751F434F0A00FD6858 /* main menu music.mp3 */; };
 		42263A7B1F4374E300FD6858 /* button click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42263A7A1F4374E300FD6858 /* button click.mp3 */; };
 		42263A7D1F4380FF00FD6858 /* contact friend.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 42263A7C1F4380FF00FD6858 /* contact friend.mp3 */; };
@@ -27,9 +30,6 @@
 		4226741B1F449ABA00BA7A19 /* egg shell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4226741A1F449ABA00BA7A19 /* egg shell.mp3 */; };
 		4226741D1F449ABF00BA7A19 /* yolk splash.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4226741C1F449ABF00BA7A19 /* yolk splash.mp3 */; };
 		4227CE621F415A32006193EC /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4227CE611F415A32006193EC /* MainMenu.swift */; };
-		4227F1DE1F4D2D60000C98EC /* jump sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4227F1DD1F4D2D60000C98EC /* jump sound.mp3 */; };
-		4227F1E01F4D2D64000C98EC /* rebirth sound effect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4227F1DF1F4D2D64000C98EC /* rebirth sound effect.mp3 */; };
-		4227F1E21F4D4398000C98EC /* alert.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4227F1E11F4D4398000C98EC /* alert.mp3 */; };
 		42299F1C1F3E01E6000D5E18 /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42299F1B1F3E01E6000D5E18 /* Tutorial.sks */; };
 		42299F1E1F3E2006000D5E18 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42299F1D1F3E2006000D5E18 /* Tutorial.swift */; };
 		42299F201F3E3C65000D5E18 /* Main Menu.sks in Resources */ = {isa = PBXBuildFile; fileRef = 42299F1F1F3E3C65000D5E18 /* Main Menu.sks */; };
@@ -72,6 +72,9 @@
 		4224ACF81F2FC4FD0087ABF3 /* fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = fire.sks; sourceTree = "<group>"; };
 		4225825D1F26FDBF0066875B /* Helper Function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Helper Function.swift"; sourceTree = "<group>"; };
 		4225825F1F27048F0066875B /* bullets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bullets.swift; sourceTree = "<group>"; };
+		42260A751F4DC19B00F0A26E /* jump sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "jump sound.mp3"; sourceTree = "<group>"; };
+		42260A771F4DC1A600F0A26E /* rebirth sound effect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "rebirth sound effect.mp3"; sourceTree = "<group>"; };
+		42260A791F4DC1B300F0A26E /* alert.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alert.mp3; sourceTree = "<group>"; };
 		42263A751F434F0A00FD6858 /* main menu music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "main menu music.mp3"; sourceTree = "<group>"; };
 		42263A7A1F4374E300FD6858 /* button click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "button click.mp3"; sourceTree = "<group>"; };
 		42263A7C1F4380FF00FD6858 /* contact friend.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "contact friend.mp3"; sourceTree = "<group>"; };
@@ -83,9 +86,6 @@
 		4226741A1F449ABA00BA7A19 /* egg shell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "egg shell.mp3"; sourceTree = "<group>"; };
 		4226741C1F449ABF00BA7A19 /* yolk splash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "yolk splash.mp3"; sourceTree = "<group>"; };
 		4227CE611F415A32006193EC /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
-		4227F1DD1F4D2D60000C98EC /* jump sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "jump sound.mp3"; path = "../../../../Desktop/jump sound.mp3"; sourceTree = "<group>"; };
-		4227F1DF1F4D2D64000C98EC /* rebirth sound effect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "rebirth sound effect.mp3"; path = "../../../../Desktop/rebirth sound effect.mp3"; sourceTree = "<group>"; };
-		4227F1E11F4D4398000C98EC /* alert.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = alert.mp3; path = ../../../../Desktop/alert.mp3; sourceTree = "<group>"; };
 		42299F1B1F3E01E6000D5E18 /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
 		42299F1D1F3E2006000D5E18 /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		42299F1F1F3E3C65000D5E18 /* Main Menu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "Main Menu.sks"; sourceTree = "<group>"; };
@@ -151,9 +151,9 @@
 		42263A771F43500100FD6858 /* Sounds and Music */ = {
 			isa = PBXGroup;
 			children = (
-				4227F1E11F4D4398000C98EC /* alert.mp3 */,
-				4227F1DF1F4D2D64000C98EC /* rebirth sound effect.mp3 */,
-				4227F1DD1F4D2D60000C98EC /* jump sound.mp3 */,
+				42260A791F4DC1B300F0A26E /* alert.mp3 */,
+				42260A771F4DC1A600F0A26E /* rebirth sound effect.mp3 */,
+				42260A751F4DC19B00F0A26E /* jump sound.mp3 */,
 				428DBFEA1F46A7BA00213E63 /* Little Boy Music Box.wav */,
 				4233C7C21F47310700EC1F1A /* Brave World.mp3 */,
 				4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */,
@@ -323,23 +323,23 @@
 				4233C7C31F47310700EC1F1A /* Brave World.mp3 in Resources */,
 				42F775AB1F26734200ECF8ED /* Assets.xcassets in Resources */,
 				422B0D741F2B80200084A781 /* Cone.sks in Resources */,
+				42260A7A1F4DC1B300F0A26E /* alert.mp3 in Resources */,
 				42A179E91F443E49003EC1DE /* eggshell.wav in Resources */,
 				421B5DE31F2789CD00815223 /* egg.sks in Resources */,
 				4224ACF91F2FC4FD0087ABF3 /* fire.sks in Resources */,
 				422E56181F4C176100ECD994 /* Wawati-TC-Regular.otf in Resources */,
 				4226741B1F449ABA00BA7A19 /* egg shell.mp3 in Resources */,
-				4227F1DE1F4D2D60000C98EC /* jump sound.mp3 in Resources */,
 				422C87EF1F42B4A90053676B /* Particle3.sks in Resources */,
 				428DBFEB1F46A7BA00213E63 /* Little Boy Music Box.wav in Resources */,
 				421577261F461D810086168C /* Brave World.wav in Resources */,
 				42263A7D1F4380FF00FD6858 /* contact friend.mp3 in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
 				422674131F44909000BA7A19 /* cracking sound.mp3 in Resources */,
+				42260A781F4DC1A600F0A26E /* rebirth sound effect.mp3 in Resources */,
 				422674171F44953A00BA7A19 /* egg crack.mp3 in Resources */,
-				4227F1E21F4D4398000C98EC /* alert.mp3 in Resources */,
 				42F775A21F26734200ECF8ED /* Actions.sks in Resources */,
-				4227F1E01F4D2D64000C98EC /* rebirth sound effect.mp3 in Resources */,
 				422674191F4497A800BA7A19 /* box break.mp3 in Resources */,
+				42260A761F4DC19B00F0A26E /* jump sound.mp3 in Resources */,
 				422392661F34B4DA002BA141 /* leaf.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,9 +8,9 @@
 
 import UIKit
 import SpriteKit
-import GameplayKit
+import GameKit
 
-class GameViewController: UIViewController{
+class GameViewController: UIViewController, GKGameCenterControllerDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +30,8 @@ class GameViewController: UIViewController{
             view.showsFPS = false
             view.showsNodeCount = false
         }
+        authenticateLocalPlayer()
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.showLeaderboard), name: NSNotification.Name(rawValue: "showLeaderboard"), object: nil)
     }
 
     override var shouldAutorotate: Bool {
@@ -51,6 +53,49 @@ class GameViewController: UIViewController{
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    func showLeader() {
+        let vc = self.view?.window?.rootViewController
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        vc?.present(gc, animated: true, completion: nil)
+    }
+    
+    func showLeaderboard() {
+        
+        // declare the Game Center viewController
+        var gcViewController: GKGameCenterViewController = GKGameCenterViewController()
+        gcViewController.gameCenterDelegate = self
+        
+        gcViewController.viewState = GKGameCenterViewControllerState.leaderboards
+        
+        // Remember to replace "Best Score" with your Leaderboard ID (which you have created in iTunes Connect)
+        gcViewController.leaderboardIdentifier = "grp.dayandnightscore"
+        // Finally present the Game Center ViewController
+        self.show(gcViewController, sender: self)
+        self.navigationController?.pushViewController(gcViewController, animated: true)
+        self.present(gcViewController, animated: true, completion: nil)
+    }
+    
+    func authenticateLocalPlayer(){
+        var localPlayer = GKLocalPlayer()
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            
+            if (viewController != nil && !localPlayer.isAuthenticated) {
+                let vc: UIViewController = self.view!.window!.rootViewController!
+                vc.present(viewController!, animated: true, completion: nil)
+            }
+            else {
+                print((localPlayer.isAuthenticated))
+            }
+        }
+    }
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController)
+    {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+        
     }
     
     

@@ -899,7 +899,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func saveHighScore() {
-        UserDefaults().set(score, forKey: "HIGHSCORE")
+        UserDefaults().set(Int(score), forKey: "HIGHSCORE")
+        saveHighscoreToGameCenter(gameScore: Int(score))
     }
     
     func addEggshell() {
@@ -910,6 +911,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func saveLongestDay() {
         UserDefaults().set(dayCount, forKey: "LONGESTDAY")
     }
+    
+
+    
+    func saveHighscoreToGameCenter(gameScore: Int) {
+        
+        print("Player has been authenticated.")
+        
+        if GKLocalPlayer.localPlayer().isAuthenticated {
+            
+            let scoreReporter = GKScore(leaderboardIdentifier: "grp.dayandnightscore")
+            scoreReporter.value = Int64(gameScore)
+            let scoreArray: [GKScore] = [scoreReporter]
+            
+            GKScore.report(scoreArray, withCompletionHandler: {error -> Void in
+                if error != nil {
+                    print("An error has occured: \(error)")
+                }
+            })
+        }
+    }
+    
     
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
     

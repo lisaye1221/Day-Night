@@ -8,17 +8,18 @@
 
 import SpriteKit
 import GameplayKit
+import GameKit
 
 var musicShouldPlay = true
 
 //name: Wawati TC
 
-class MainMenu: SKScene {
+class MainMenu: SKScene, GKGameCenterControllerDelegate {
     
     //UI Connection
     var startButton: MSButtonNode!
+    var highScoreButton: MSButtonNode!
     var tutorialButton: MSButtonNode!
-    var highscoreButton: MSButtonNode!
     var musicButton: MSButtonNode!
     
     var showCredits: MSButtonNode!
@@ -31,7 +32,7 @@ class MainMenu: SKScene {
         //UI connection
         startButton = self.childNode(withName: "startButton") as! MSButtonNode
         tutorialButton = self.childNode(withName: "tutorialButton") as! MSButtonNode
-        highscoreButton = self.childNode(withName: "highscoreButton") as! MSButtonNode
+        highScoreButton = self.childNode(withName: "highScoreButton") as! MSButtonNode
         closeButton = childNode(withName: "closeButton") as! MSButtonNode
         musicButton = childNode(withName: "musicButton") as! MSButtonNode
         
@@ -60,7 +61,8 @@ class MainMenu: SKScene {
             self.run(SKAction.wait(forDuration: 0.1)) {
                 self.creditsScreen.alpha = 1
                 self.closeButton.alpha = 1
-            }
+              
+        }
         }
         
         closeButton.selectedHandler = { [unowned self] in
@@ -107,6 +109,13 @@ class MainMenu: SKScene {
                 }
             }
             
+        }
+        
+        highScoreButton.selectedHandler = { [unowned self] in
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)) {
+             self.showLeader()
+            }
         }
     
         
@@ -164,12 +173,18 @@ class MainMenu: SKScene {
         
     }
     
-    func highScore() {
-        
+    //shows leaderboard screen
+    func showLeader() {
+        let viewControllerVar = self.view?.window?.rootViewController
+        let gKGCViewController = GKGameCenterViewController()
+        gKGCViewController.gameCenterDelegate = self
+        viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
+    }
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
     
-    
-    
-    
 }//CLOSING BRACKETS FOR THE CLASS DON'T TOUCH
+
+
