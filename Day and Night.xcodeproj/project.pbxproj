@@ -41,6 +41,38 @@
 		422D114F1F45A9C900DCD5F8 /* Answers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422D114D1F45A9C900DCD5F8 /* Answers.framework */; };
 		422E56161F4B7B7F00ECD994 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56151F4B7B7F00ECD994 /* GameKit.framework */; };
 		422E56181F4C176100ECD994 /* Wawati-TC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 422E56171F4C176100ECD994 /* Wawati-TC-Regular.otf */; };
+		422E561D1F4CB43E00ECD994 /* TapjoyResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 422E561B1F4CB43E00ECD994 /* TapjoyResources.bundle */; };
+		422E561E1F4CB43E00ECD994 /* Tapjoy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E561C1F4CB43E00ECD994 /* Tapjoy.framework */; };
+		422E56201F4CB47B00ECD994 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E561F1F4CB47B00ECD994 /* AdSupport.framework */; };
+		422E56221F4CB48200ECD994 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56211F4CB48200ECD994 /* CFNetwork.framework */; };
+		422E56241F4CB4A300ECD994 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56231F4CB4A300ECD994 /* CoreData.framework */; };
+		422E56261F4CB4B300ECD994 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56251F4CB4B300ECD994 /* CoreGraphics.framework */; };
+		422E56281F4CB4C300ECD994 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56271F4CB4C300ECD994 /* CoreLocation.framework */; };
+		422E562D1F4CB4E400ECD994 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56291F4CB4E400ECD994 /* CoreMotion.framework */; };
+		422E562E1F4CB4E400ECD994 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E562A1F4CB4E400ECD994 /* CoreTelephony.framework */; };
+		422E562F1F4CB4E400ECD994 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E562B1F4CB4E400ECD994 /* Foundation.framework */; };
+		422E56301F4CB4E400ECD994 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E562C1F4CB4E400ECD994 /* ImageIO.framework */; };
+		422E56401F4CB55C00ECD994 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56311F4CB55C00ECD994 /* libc++.tbd */; };
+		422E56411F4CB55C00ECD994 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56321F4CB55C00ECD994 /* libsqlite3.0.tbd */; };
+		422E56421F4CB55C00ECD994 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56331F4CB55C00ECD994 /* libxml2.tbd */; };
+		422E56431F4CB55C00ECD994 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56341F4CB55C00ECD994 /* libz.tbd */; };
+		422E56441F4CB55C00ECD994 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56351F4CB55C00ECD994 /* MapKit.framework */; };
+		422E56451F4CB55C00ECD994 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56361F4CB55C00ECD994 /* MediaPlayer.framework */; };
+		422E56461F4CB55C00ECD994 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56371F4CB55C00ECD994 /* MessageUI.framework */; };
+		422E56471F4CB55C00ECD994 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56381F4CB55C00ECD994 /* MobileCoreServices.framework */; };
+		422E56481F4CB55C00ECD994 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56391F4CB55C00ECD994 /* PassKit.framework */; };
+		422E56491F4CB55C00ECD994 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E563A1F4CB55C00ECD994 /* QuartzCore.framework */; };
+		422E564A1F4CB55C00ECD994 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E563B1F4CB55C00ECD994 /* Security.framework */; };
+		422E564B1F4CB55C00ECD994 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E563C1F4CB55C00ECD994 /* StoreKit.framework */; };
+		422E564C1F4CB55C00ECD994 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E563D1F4CB55C00ECD994 /* SystemConfiguration.framework */; };
+		422E564D1F4CB55C00ECD994 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E563E1F4CB55C00ECD994 /* UIKit.framework */; };
+		422E564E1F4CB55C00ECD994 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E563F1F4CB55C00ECD994 /* WebKit.framework */; };
+		422E56511F4CB64C00ECD994 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E564F1F4CB64C00ECD994 /* EventKit.framework */; };
+		422E56521F4CB64C00ECD994 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56501F4CB64C00ECD994 /* EventKitUI.framework */; };
+		422E56541F4CB66B00ECD994 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56531F4CB66B00ECD994 /* Twitter.framework */; };
+		422E56561F4CB6B700ECD994 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422E56551F4CB6B700ECD994 /* Social.framework */; };
+		422E56621F4CC78300ECD994 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422E56611F4CC78300ECD994 /* test.swift */; };
+		422E56671F4CCA9F00ECD994 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 422E56661F4CCA9F00ECD994 /* test.m */; };
 		4233C7C01F472D3300EC1F1A /* Brave World_night.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */; };
 		4233C7C11F472D3300EC1F1A /* Brave World_fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */; };
 		4233C7C31F47310700EC1F1A /* Brave World.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4233C7C21F47310700EC1F1A /* Brave World.mp3 */; };
@@ -94,6 +126,40 @@
 		422D114D1F45A9C900DCD5F8 /* Answers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Answers.framework; sourceTree = SOURCE_ROOT; };
 		422E56151F4B7B7F00ECD994 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		422E56171F4C176100ECD994 /* Wawati-TC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wawati-TC-Regular.otf"; sourceTree = "<group>"; };
+		422E561B1F4CB43E00ECD994 /* TapjoyResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TapjoyResources.bundle; sourceTree = "<group>"; };
+		422E561C1F4CB43E00ECD994 /* Tapjoy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Tapjoy.framework; sourceTree = "<group>"; };
+		422E561F1F4CB47B00ECD994 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		422E56211F4CB48200ECD994 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		422E56231F4CB4A300ECD994 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		422E56251F4CB4B300ECD994 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		422E56271F4CB4C300ECD994 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		422E56291F4CB4E400ECD994 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		422E562A1F4CB4E400ECD994 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		422E562B1F4CB4E400ECD994 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		422E562C1F4CB4E400ECD994 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		422E56311F4CB55C00ECD994 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		422E56321F4CB55C00ECD994 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		422E56331F4CB55C00ECD994 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		422E56341F4CB55C00ECD994 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		422E56351F4CB55C00ECD994 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		422E56361F4CB55C00ECD994 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		422E56371F4CB55C00ECD994 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		422E56381F4CB55C00ECD994 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		422E56391F4CB55C00ECD994 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
+		422E563A1F4CB55C00ECD994 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		422E563B1F4CB55C00ECD994 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		422E563C1F4CB55C00ECD994 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		422E563D1F4CB55C00ECD994 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		422E563E1F4CB55C00ECD994 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		422E563F1F4CB55C00ECD994 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		422E564F1F4CB64C00ECD994 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		422E56501F4CB64C00ECD994 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		422E56531F4CB66B00ECD994 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		422E56551F4CB6B700ECD994 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		422E56591F4CBAB500ECD994 /* DayandNight-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DayandNight-Bridging-Header.h"; sourceTree = "<group>"; };
+		422E56611F4CC78300ECD994 /* test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+		422E56651F4CCA9E00ECD994 /* Day and Night-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Day and Night-Bridging-Header.h"; sourceTree = "<group>"; };
+		422E56661F4CCA9F00ECD994 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
 		4233C7BE1F472D3300EC1F1A /* Brave World_night.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World_night.mp3"; sourceTree = "<group>"; };
 		4233C7BF1F472D3300EC1F1A /* Brave World_fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World_fast.mp3"; sourceTree = "<group>"; };
 		4233C7C21F47310700EC1F1A /* Brave World.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Brave World.mp3"; sourceTree = "<group>"; };
@@ -120,9 +186,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				422E56411F4CB55C00ECD994 /* libsqlite3.0.tbd in Frameworks */,
+				422E56561F4CB6B700ECD994 /* Social.framework in Frameworks */,
+				422E56541F4CB66B00ECD994 /* Twitter.framework in Frameworks */,
+				422E56511F4CB64C00ECD994 /* EventKit.framework in Frameworks */,
+				422E56521F4CB64C00ECD994 /* EventKitUI.framework in Frameworks */,
+				422E56451F4CB55C00ECD994 /* MediaPlayer.framework in Frameworks */,
+				422E56461F4CB55C00ECD994 /* MessageUI.framework in Frameworks */,
+				422E56401F4CB55C00ECD994 /* libc++.tbd in Frameworks */,
+				422E56421F4CB55C00ECD994 /* libxml2.tbd in Frameworks */,
+				422E56431F4CB55C00ECD994 /* libz.tbd in Frameworks */,
+				422E56441F4CB55C00ECD994 /* MapKit.framework in Frameworks */,
+				422E56471F4CB55C00ECD994 /* MobileCoreServices.framework in Frameworks */,
+				422E56481F4CB55C00ECD994 /* PassKit.framework in Frameworks */,
+				422E56491F4CB55C00ECD994 /* QuartzCore.framework in Frameworks */,
+				422E564A1F4CB55C00ECD994 /* Security.framework in Frameworks */,
+				422E564B1F4CB55C00ECD994 /* StoreKit.framework in Frameworks */,
+				422E564C1F4CB55C00ECD994 /* SystemConfiguration.framework in Frameworks */,
+				422E564D1F4CB55C00ECD994 /* UIKit.framework in Frameworks */,
+				422E564E1F4CB55C00ECD994 /* WebKit.framework in Frameworks */,
+				422E562D1F4CB4E400ECD994 /* CoreMotion.framework in Frameworks */,
+				422E562E1F4CB4E400ECD994 /* CoreTelephony.framework in Frameworks */,
+				422E562F1F4CB4E400ECD994 /* Foundation.framework in Frameworks */,
+				422E56301F4CB4E400ECD994 /* ImageIO.framework in Frameworks */,
+				422E56281F4CB4C300ECD994 /* CoreLocation.framework in Frameworks */,
+				422E56261F4CB4B300ECD994 /* CoreGraphics.framework in Frameworks */,
+				422E56241F4CB4A300ECD994 /* CoreData.framework in Frameworks */,
+				422E56221F4CB48200ECD994 /* CFNetwork.framework in Frameworks */,
+				422E56201F4CB47B00ECD994 /* AdSupport.framework in Frameworks */,
 				422E56161F4B7B7F00ECD994 /* GameKit.framework in Frameworks */,
 				422D114F1F45A9C900DCD5F8 /* Answers.framework in Frameworks */,
 				422D114E1F45A9C900DCD5F8 /* Fabric.framework in Frameworks */,
+				422E561E1F4CB43E00ECD994 /* Tapjoy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,17 +264,65 @@
 		422E56141F4B7B7F00ECD994 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				422E56551F4CB6B700ECD994 /* Social.framework */,
+				422E56531F4CB66B00ECD994 /* Twitter.framework */,
+				422E564F1F4CB64C00ECD994 /* EventKit.framework */,
+				422E56501F4CB64C00ECD994 /* EventKitUI.framework */,
+				422E56311F4CB55C00ECD994 /* libc++.tbd */,
+				422E56321F4CB55C00ECD994 /* libsqlite3.0.tbd */,
+				422E56331F4CB55C00ECD994 /* libxml2.tbd */,
+				422E56341F4CB55C00ECD994 /* libz.tbd */,
+				422E56351F4CB55C00ECD994 /* MapKit.framework */,
+				422E56361F4CB55C00ECD994 /* MediaPlayer.framework */,
+				422E56371F4CB55C00ECD994 /* MessageUI.framework */,
+				422E56381F4CB55C00ECD994 /* MobileCoreServices.framework */,
+				422E56391F4CB55C00ECD994 /* PassKit.framework */,
+				422E563A1F4CB55C00ECD994 /* QuartzCore.framework */,
+				422E563B1F4CB55C00ECD994 /* Security.framework */,
+				422E563C1F4CB55C00ECD994 /* StoreKit.framework */,
+				422E563D1F4CB55C00ECD994 /* SystemConfiguration.framework */,
+				422E563E1F4CB55C00ECD994 /* UIKit.framework */,
+				422E563F1F4CB55C00ECD994 /* WebKit.framework */,
+				422E56291F4CB4E400ECD994 /* CoreMotion.framework */,
+				422E562A1F4CB4E400ECD994 /* CoreTelephony.framework */,
+				422E562B1F4CB4E400ECD994 /* Foundation.framework */,
+				422E562C1F4CB4E400ECD994 /* ImageIO.framework */,
+				422E56271F4CB4C300ECD994 /* CoreLocation.framework */,
+				422E56251F4CB4B300ECD994 /* CoreGraphics.framework */,
+				422E56231F4CB4A300ECD994 /* CoreData.framework */,
+				422E56211F4CB48200ECD994 /* CFNetwork.framework */,
+				422E561F1F4CB47B00ECD994 /* AdSupport.framework */,
 				422E56151F4B7B7F00ECD994 /* GameKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		422E56191F4CB43E00ECD994 /* Tapjoy.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				422E561A1F4CB43E00ECD994 /* Resources */,
+				422E561C1F4CB43E00ECD994 /* Tapjoy.framework */,
+			);
+			path = Tapjoy.embeddedframework;
+			sourceTree = "<group>";
+		};
+		422E561A1F4CB43E00ECD994 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				422E561B1F4CB43E00ECD994 /* TapjoyResources.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		42F775911F26734200ECF8ED = {
 			isa = PBXGroup;
 			children = (
+				422E56661F4CCA9F00ECD994 /* test.m */,
+				422E56611F4CC78300ECD994 /* test.swift */,
 				42F7759C1F26734200ECF8ED /* Day and Night */,
 				42F7759B1F26734200ECF8ED /* Products */,
 				422E56141F4B7B7F00ECD994 /* Frameworks */,
+				422E56651F4CCA9E00ECD994 /* Day and Night-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,6 +339,7 @@
 			children = (
 				42F775A11F26734200ECF8ED /* Actions.sks */,
 				42F7759D1F26734200ECF8ED /* AppDelegate.swift */,
+				422E56591F4CBAB500ECD994 /* DayandNight-Bridging-Header.h */,
 				42F7759F1F26734200ECF8ED /* GameScene.sks */,
 				42F775A31F26734200ECF8ED /* GameScene.swift */,
 				42299F1B1F3E01E6000D5E18 /* Tutorial.sks */,
@@ -224,6 +368,7 @@
 				42F775AF1F26734200ECF8ED /* Info.plist */,
 				422D114C1F45A9C900DCD5F8 /* Fabric.framework */,
 				422D114D1F45A9C900DCD5F8 /* Answers.framework */,
+				422E56191F4CB43E00ECD994 /* Tapjoy.embeddedframework */,
 			);
 			path = "Day and Night";
 			sourceTree = "<group>";
@@ -262,6 +407,7 @@
 					42F775991F26734200ECF8ED = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 76828F7S6J;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -322,6 +468,7 @@
 				422C87EF1F42B4A90053676B /* Particle3.sks in Resources */,
 				428DBFEB1F46A7BA00213E63 /* Little Boy Music Box.wav in Resources */,
 				421577261F461D810086168C /* Brave World.wav in Resources */,
+				422E561D1F4CB43E00ECD994 /* TapjoyResources.bundle in Resources */,
 				42263A7D1F4380FF00FD6858 /* contact friend.mp3 in Resources */,
 				42F775AE1F26734200ECF8ED /* LaunchScreen.storyboard in Resources */,
 				422674131F44909000BA7A19 /* cracking sound.mp3 in Resources */,
@@ -358,9 +505,11 @@
 				4227CE621F415A32006193EC /* MainMenu.swift in Sources */,
 				42F775A41F26734200ECF8ED /* GameScene.swift in Sources */,
 				42F775A61F26734200ECF8ED /* GameViewController.swift in Sources */,
+				422E56621F4CC78300ECD994 /* test.swift in Sources */,
 				421577241F45EA7B0086168C /* GameOver.swift in Sources */,
 				4229FFE91F29093500D90D8E /* CGFloat+Extensions.swift in Sources */,
 				42F7759E1F26734200ECF8ED /* AppDelegate.swift in Sources */,
+				422E56671F4CCA9F00ECD994 /* test.m in Sources */,
 				422B8B1D1F34C94300CB1819 /* DayEnemy.swift in Sources */,
 				422582601F27048F0066875B /* bullets.swift in Sources */,
 				4225825E1F26FDBF0066875B /* Helper Function.swift in Sources */,
@@ -489,16 +638,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEVELOPMENT_TEAM = 76828F7S6J;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Day\\ and\\ Night/Tapjoy.embeddedframework",
 				);
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Day and Night/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				NEW_SETTING = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Ye-Lisa.Day-and-Night";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day and Night-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -507,16 +665,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEVELOPMENT_TEAM = 76828F7S6J;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Day\\ and\\ Night/Tapjoy.embeddedframework",
 				);
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Day and Night/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				NEW_SETTING = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "Ye-Lisa.Day-and-Night";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day and Night-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
