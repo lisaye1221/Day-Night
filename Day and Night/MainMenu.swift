@@ -108,8 +108,7 @@ class MainMenu: SKScene {
             }
             
         }
-        
-
+    
         
     }
   
@@ -132,8 +131,8 @@ class MainMenu: SKScene {
         scene.scaleMode = .aspectFit
         
         //Show debug
-        skView.showsDrawCount = true
-        skView.showsFPS = true
+        skView.showsDrawCount = false
+        skView.showsFPS = false
         
         // 4) Start game scene
         skView.presentScene(scene)
