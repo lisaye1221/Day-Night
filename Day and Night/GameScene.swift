@@ -93,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var eggshell = 0
     var eggshellSpawnPosition: CGPoint!
     
-    //booleans for game management
+    //booleans for game management, all of these ensure a certain action isn't repeated
     var playerOnGround: Bool = true //a variable that checks if player is on the ground
     var bulletHitEnemy = false
     var bulletHitFriend = false
@@ -103,22 +103,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shouldSpawnEggshell = false
     
     var pause = false
-    var oneMoreLife = false
-    
+    var rebirth = false
+    var shouldGetAnotherChance = true
     
     var npcsArray: SKNode!
     var npcScrollLayer: SKNode!
     var obstacleScrollLayer: SKNode!
     var obstacleArray: SKNode!
     var obstacleSource: SKNode!
-    
-    //npc Sources
-    var watermelonSource: SKSpriteNode!
-    var bunnySource: SKSpriteNode!
-    var coneSource: SKSpriteNode!
-    var fishSource: SKSpriteNode!
-    var mushroomSource: SKSpriteNode!
-    var leafSource: SKSpriteNode!
     
     var npcList: [SKSpriteNode]!
     
@@ -127,11 +119,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var backgroundLayer: SKNode!
     var heartSource: SKSpriteNode!
     var heartbreakSource: SKSpriteNode!
+    //pause Screen
     var pauseScreen: SKNode!
     var resumeButton: MSButtonNode!
     var homeButton: MSButtonNode!
     var restartButtonInPause: MSButtonNode!
     var musicButton: MSButtonNode!
+    //rebirth Screen
+    var rebirthScreen: SKNode!
+    var eggshellRebirthButton: MSButtonNode!
+    var noButton: MSButtonNode!
+    var totalEggshellLabel: SKLabelNode!
     
     //var backgroundSound: SKAudioNode!
     
@@ -147,18 +145,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     npc.physicsBody?.categoryBitMask = 8
                 }
             }
-//            for childReference in npcsArray.children {
-//                for childSKNode in childReference.children {
-//                    for child in childSKNode.children {
-//                        if child.physicsBody?.categoryBitMask == 8 {
-//                            child.physicsBody?.categoryBitMask = 16
-//                        }
-//                        else if child.physicsBody?.categoryBitMask == 16 {
-//                            child.physicsBody?.categoryBitMask = 8
-//                        }
-//                    }
-//                }
-//            }
             for npc in npcsArray.children {
                 if npc.physicsBody?.categoryBitMask == 8 {
                                                 npc.physicsBody?.categoryBitMask = 16
@@ -169,19 +155,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
-    
     //actions
     let fadeOut = SKAction.fadeAlpha(to: 0, duration: 0.1)
     let fadeIn = SKAction.fadeAlpha(to: 1, duration: 0.7)
 
-
-    //soundEffects
+    //soundEffects and music
     let eggCrack = SKAction(named: "eggCrack")!
     let collectedEggShell = SKAction(named: "collectedEggShell")!
     let boxBreak = SKAction(named: "boxBreak")!
-    
-    
     let backgroundSoundfast = SKAudioNode(fileNamed: "Brave World_fast")
     let backgroundSoundnight = SKAudioNode(fileNamed: "Brave World_night")
     
@@ -214,28 +195,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         homeButton = childNode(withName: "//homeButton") as! MSButtonNode
         restartButtonInPause = childNode(withName: "//restartButtonInPause") as! MSButtonNode
         musicButton = childNode(withName: "//musicButton") as! MSButtonNode
+        
+        rebirthScreen = childNode(withName: "rebirthScreen")
+        eggshellRebirthButton = childNode(withName: "//eggshellRebirthButton") as! MSButtonNode
+        noButton = childNode(withName: "//noButton") as! MSButtonNode
+        totalEggshellLabel = childNode(withName: "//totalEggshellLabel") as! SKLabelNode
+        totalEggshellLabel.text = String(eggshellTotal)
+        rebirthScreen.alpha = 0
 
         karmaBar = childNode(withName: "karmaBar") as! SKSpriteNode
-        
-        //npc Souce Connection
-//        watermelonSource = childNode(withName: "//watermelon") as! SKSpriteNode
-//        bunnySource = childNode(withName: "//bunny") as! SKSpriteNode
-//        coneSource = childNode(withName: "//cone") as! SKSpriteNode
-//        fishSource = childNode(withName: "//fish") as! SKSpriteNode
-        
+
+        ////////creates the npc List
         var npcListCopy: [SKSpriteNode] = []
-        
         for npc in npcsArray.children as! [SKSpriteNode] {
             npcListCopy.append(npc)
         }
-        
         npcList = npcListCopy
         
-       // npcList = [watermelonSource, bunnySource, coneSource, fishSource]
-        
-        
-        
-        //Sound related stuff
+        ////////Sound related stuff
         var backgroundSound = SKAudioNode(fileNamed: "Brave World")
         totalNpc = npcList.count
         
@@ -364,6 +341,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             
+        }
+        
+        eggshellRebirthButton.selectedHandler = { [unowned self] in
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+                if self.eggshellTotal < 20 {
+                    self.run(SKAction(named: "alertSound")!)
+                    self.totalEggshellLabel.run(SKAction.colorize(with: UIColor.red, colorBlendFactor: 0.7, duration: 0.18)) {
+                        self.totalEggshellLabel.run(SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.1))
+                    }
+                    return
+                }
+                self.rebirthScreen.alpha = 0
+                self.egg.isPaused = false
+                self.backgroundLayer.alpha = 1
+                self.scrollLayer.alpha = 1
+                self.npcScrollLayer.alpha = 1
+                self.cloudScrollLayer.alpha = 1
+                self.pause = false
+                self.npcScrollLayer.isPaused = false
+                self.obstacleScrollLayer.isPaused = false
+                self.egg.physicsBody?.isDynamic = true
+                for npc in self.npcScrollLayer.children {
+                    npc.physicsBody?.isDynamic = true
+                }
+                self.egg.physicsBody?.affectedByGravity = false
+                self.egg.size.width = 31.2
+                self.egg.size.height = 45.6
+                self.egg.run(SKAction(named: "eggRebirth")!){
+                  self.egg.physicsBody?.affectedByGravity = true
+                    self.npcScrollLayer.removeAllChildren()
+                    self.obstacleScrollLayer.removeAllChildren()
+                    self.gameState = .gameActive
+                    self.eggshellTotal -= 20
+                    UserDefaults().set(self.eggshellTotal, forKey: "EGGSHELL")
+
+                }
+                
+            }
+        }
+        
+        noButton.selectedHandler = {[unowned self] in
+            self.run(buttonClickSound)
+            self.run(SKAction.wait(forDuration: 0.1)){
+                self.rebirth = false
+                self.gameOver()
+            }
         }
         
         
@@ -539,10 +563,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.gameState != .gameActive {return}
             if self.pause {return}
             
+            
             if self.playerOnGround {
+                
+                egg.run(SKAction(named: "jumpSound")!)
                 self.egg.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 23))//apply vertical impulse as jumping
-                
-                
                 self.npcjump = true
                 self.playerOnGround = false //deactivate this button until contact sets this to true
             }
@@ -608,7 +633,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if gameState != .gameActive { return }
             
-            gameOver()
+            eggDeath()
         }
         
         
@@ -626,7 +651,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if gameState != .gameActive { return }
             
-            gameOver()
+            eggDeath()
         }
         
         //when bullet hits an obstacle
@@ -726,55 +751,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }//closing brackets for didBegin function
     
+    //fake game over, if no rebirth, then game ends
+    func eggDeath() {
+        
+        egg.run(eggCrack)
+        egg.run(SKAction(named: "eggDeath", duration: 0.2)!) {
+            self.egg.isPaused = true
+        }
+        if shouldGetAnotherChance {
+            chanceForOneMoreLife()
+            shouldGetAnotherChance = false
+            addEggshell()
+            totalEggshellLabel.text = String(eggshellTotal)
+        }
+        else {
+            rebirth = false
+            gameOver()
+        }
+        //to stop the functions
+        gameState = .gameOver
+    }
     
     func gameOver() {
         
+        if rebirth == false {
         /* Change game state to game over */
         gameState = .gameOver
-        
         if gameState != .gameOver {return}
         
         if Int(score) > highScore {
             saveHighScore()
         }
-        
         if dayCount > longestDayCount {
             saveLongestDay()
         }
-        
         currentScore = Int(score)
         currentEggshell = eggshell
         daySurvived = dayCount
         addEggshell()
-        
-        egg.run(eggCrack)
-        
-        
-        //loops through EVERYTHING in the scene
-//        enumerateChildNodes(withName: "//*", using:
-//            { (node, stop) -> Void in
-//                if let spriteNode = node as? SKSpriteNode {
-//                    spriteNode.removeAllActions()
-//                    spriteNode.physicsBody?.velocity.dx = 0
-//                }
-//        })
-        
         for npc in npcScrollLayer.children as! [SKSpriteNode] {
             if let spriteNode = npc as? SKSpriteNode {
                 spriteNode.removeAllActions()
                 spriteNode.physicsBody?.velocity.dx = 0
             }
         }
-        
-        egg.run(SKAction(named: "eggDeath", duration: 0.2)!) {
-            self.egg.removeAllActions()
-        }
-        
         self.loadGameOverScene()
-        
+    }
     }
     
     func chanceForOneMoreLife() {
+        rebirthScreen.alpha = 1
+        backgroundLayer.alpha = 0.6
+        scrollLayer.alpha = 0.6
+        npcScrollLayer.alpha = 0.6
+        cloudScrollLayer.alpha = 0.6
+        self.pause = true
+        self.npcScrollLayer.isPaused = true
+        self.obstacleScrollLayer.isPaused = true
+        self.egg.physicsBody?.isDynamic = false
+        for npc in self.npcScrollLayer.children {
+            npc.physicsBody?.isDynamic = false
+        }
         
     }
     
@@ -951,7 +988,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //ends game if karmaValue is 0
         if karmaValue == 0 {
-            gameOver()
+            eggDeath()
         }
         
         //makes npc jumps at a random height if player jumps
