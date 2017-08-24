@@ -919,11 +919,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("Player has been authenticated.")
         
         if GKLocalPlayer.localPlayer().isAuthenticated {
-            
+            print("works")
             let scoreReporter = GKScore(leaderboardIdentifier: "grp.dayandnightscore")
             scoreReporter.value = Int64(gameScore)
             let scoreArray: [GKScore] = [scoreReporter]
-            
+            print(scoreArray)
             GKScore.report(scoreArray, withCompletionHandler: {error -> Void in
                 if error != nil {
                     print("An error has occured: \(error)")
