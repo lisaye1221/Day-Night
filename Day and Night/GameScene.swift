@@ -369,6 +369,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.npcScrollLayer.isPaused = false
                 self.obstacleScrollLayer.isPaused = false
                 self.egg.physicsBody?.isDynamic = true
+                self.karmaValue = 0.5
                 for npc in self.npcScrollLayer.children {
                     npc.physicsBody?.isDynamic = true
                 }
@@ -701,7 +702,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let box = contactB.node {
                 print("works")
                 
-                if randomInteger(min: 0, max: 99) < 15 {
+                if randomInteger(min: 0, max: 100) < 20 {
                     shouldSpawnEggshell = true
                     eggshellSpawnPosition = box.position
                 }
@@ -717,7 +718,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let box = contactA.node {
                 print("works")
                 
-                if randomInteger(min: 0, max: 99) < 15 {
+                if randomInteger(min: 0, max: 100) < 20 {
                 shouldSpawnEggshell = true
                 eggshellSpawnPosition = box.position
                 }
@@ -899,7 +900,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func saveHighScore() {
-        UserDefaults().set(score, forKey: "HIGHSCORE")
+        UserDefaults().set(Int(score), forKey: "HIGHSCORE")
+        saveHighscoreToGameCenter(gameScore: Int(score))
     }
     
     func addEggshell() {
@@ -910,6 +912,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func saveLongestDay() {
         UserDefaults().set(dayCount, forKey: "LONGESTDAY")
     }
+    
+
+    
+    func saveHighscoreToGameCenter(gameScore: Int) {
+        
+        print("Player has been authenticated.")
+        
+        if GKLocalPlayer.localPlayer().isAuthenticated {
+            print("works")
+            let scoreReporter = GKScore(leaderboardIdentifier: "grp.dayandnightscore")
+            scoreReporter.value = Int64(gameScore)
+            let scoreArray: [GKScore] = [scoreReporter]
+            print(scoreArray)
+            GKScore.report(scoreArray, withCompletionHandler: {error -> Void in
+                if error != nil {
+                    print("An error has occured: \(error)")
+                }
+            })
+        }
+    }
+    
     
 /////////////////////////UPDATE FUNCTION BELOW//////////////////////////////////
     
