@@ -369,6 +369,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.npcScrollLayer.isPaused = false
                 self.obstacleScrollLayer.isPaused = false
                 self.egg.physicsBody?.isDynamic = true
+                self.karmaValue = 0.5
                 for npc in self.npcScrollLayer.children {
                     npc.physicsBody?.isDynamic = true
                 }
@@ -701,7 +702,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let box = contactB.node {
                 print("works")
                 
-                if randomInteger(min: 0, max: 99) < 15 {
+                if randomInteger(min: 0, max: 100) < 20 {
                     shouldSpawnEggshell = true
                     eggshellSpawnPosition = box.position
                 }
@@ -717,7 +718,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let box = contactA.node {
                 print("works")
                 
-                if randomInteger(min: 0, max: 99) < 15 {
+                if randomInteger(min: 0, max: 100) < 20 {
                 shouldSpawnEggshell = true
                 eggshellSpawnPosition = box.position
                 }
