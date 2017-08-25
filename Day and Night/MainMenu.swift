@@ -140,8 +140,8 @@ class MainMenu: SKScene, GKGameCenterControllerDelegate {
         scene.scaleMode = .aspectFit
         
         //Show debug
-        skView.showsDrawCount = true
-        skView.showsFPS = true
+        skView.showsDrawCount = false
+        skView.showsFPS = false
         
         // 4) Start game scene
         skView.presentScene(scene)
@@ -170,7 +170,6 @@ class MainMenu: SKScene, GKGameCenterControllerDelegate {
         
         // 4) Start game scene
         skView.presentScene(scene)
-        
     }
     
     //shows leaderboard screen

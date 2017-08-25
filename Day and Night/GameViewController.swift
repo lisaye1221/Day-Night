@@ -31,7 +31,6 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate{
             view.showsNodeCount = false
         }
         authenticateLocalPlayer()
-        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.showLeaderboard), name: NSNotification.Name(rawValue: "showLeaderboard"), object: nil)
     }
 
     override var shouldAutorotate: Bool {
